@@ -56,11 +56,9 @@
 
                                 <hr>
 
-                                <div class="text-center">
-                                    <a class="small" href="{{ route('login') }}">
-                                        {{ __('Already have an account? Login!') }}
+                                    <a class="btn btn-primary btn-user btn-block" href="{{ route('home') }}">
+                                        {{ __('Back to Dashboard') }}
                                     </a>
-                                </div>
                             </div>
                         </div>
                     </div>
