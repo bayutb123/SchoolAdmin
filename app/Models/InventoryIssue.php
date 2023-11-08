@@ -9,6 +9,8 @@ class InventoryIssue extends Model
 {
     use HasFactory;
 
+    protected $table = 'inventoryissues';
+
     protected $fillable = [
         'issue_group_id',
         'author_id',

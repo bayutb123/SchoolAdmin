@@ -9,6 +9,8 @@ class InventoryRequest extends Model
 {
     use HasFactory;
 
+    protected $table = 'inventoryrequests';
+
     protected $fillable = [
         'request_group_id',
         'author_id',
