@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('inventoryrequests', function (Blueprint $table) {
             $table->id();
-            $table->string('inventory_group_id');
+            $table->string('request_group_id');
             $table->unsignedBigInteger('author_id');
             $table->unsignedBigInteger('room_id');
             $table->string('description');
