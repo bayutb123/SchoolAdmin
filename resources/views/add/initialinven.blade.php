@@ -7,9 +7,17 @@
     <div class="row justify-content-center">
 
         <div class="col-lg-12">
-
+            @if (session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>Notice</strong>
+                {{ session('success') }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        @endif
             <div class="card shadow mb-4">
-
+                
                 <form class="m-4" action="{{ route('inventory.store') }}" method="post">
                     @csrf
                     <input type="hidden" class="form-control" name="last_author_id" value="{{ Auth::user()->id }}"
@@ -18,10 +26,11 @@
                         <div class="form-group col">
                             <label for="room_id">Ruangan</label>
                             <select class="form-control" name="room_id" id="room">
-                                <option selected>Choose...</option>
-                                <option value=1>One</option>
-                                <option value=2>Two</option>
-                                <option value=3>Three</option>
+                                <option selected value="null">Choose...</option>
+                                @foreach ($widget['rooms'] as $room)
+                                    <option value="{{ $room->id }}">{{ $room->name }}
+                                    </option>
+                                @endforeach
                             </select>
                             <small id="room_id" class="form-text text-muted">Help text</small>
                         </div>
