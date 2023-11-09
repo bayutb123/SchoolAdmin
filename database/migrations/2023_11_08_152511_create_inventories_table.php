@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('category');
             $table->string('name');
             $table->string('description');
-            $table->integer('quantity');
+            $table->decimal('quantity', 5, 2);
             $table->string('quantity_unit');
             $table->string('status');
             $table->unsignedBigInteger('last_author_id');

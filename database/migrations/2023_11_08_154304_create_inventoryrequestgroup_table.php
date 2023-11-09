@@ -16,10 +16,10 @@ return new class extends Migration
             $table->integer('inventory_group_id');
             $table->string('name');
             $table->string('category');
-            $table->integer('quantity');
+            $table->decimal('quantity', 5, 2);
             $table->string('quantity_unit')->nullabe();
-            $table->integer('price');
-            $table->integer('total');
+            $table->decimal('price' ,10 ,2);
+            $table->decimal('total' ,15 ,2);
             $table->string('status');
             $table->date('purchased_at')->nullabe();
             $table->string('note')->nullabe();
