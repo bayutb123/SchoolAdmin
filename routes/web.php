@@ -31,6 +31,11 @@ Route::get('/inventory', 'InventoryController@index')->name('inventory');
 Route::get('/inventory/add', 'InventoryController@create')->name('inventory.create');
 Route::post('/inventory/add', 'InventoryController@store')->name('inventory.store');
 
+Route::get('/room', 'RoomController@index')->name('room');
+Route::get('/room/add', 'RoomController@create')->name('room.create');
+Route::post('/room/add', 'RoomController@store')->name('room.store');
+
+
 Route::get('/about', function () {
     return view('about');
 })->name('about');
