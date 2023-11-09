@@ -12,7 +12,6 @@ class InventoryIssue extends Model
     protected $table = 'inventoryissues';
 
     protected $fillable = [
-        'issue_group_id',
         'author_id',
         'room_id',
         'description',

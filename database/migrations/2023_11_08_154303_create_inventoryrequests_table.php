@@ -13,11 +13,10 @@ return new class extends Migration
     {
         Schema::create('inventoryrequests', function (Blueprint $table) {
             $table->id();
-            $table->string('request_group_id');
             $table->unsignedBigInteger('author_id');
             $table->unsignedBigInteger('room_id');
             $table->string('description');
-            $table->string('status');
+            $table->string('status')->defaylt('pending');
             $table->date('requested_at');
             $table->timestamps();
             $table->softDeletes();

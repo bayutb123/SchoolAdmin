@@ -12,7 +12,6 @@ class InventoryRequest extends Model
     protected $table = 'inventoryrequests';
 
     protected $fillable = [
-        'request_group_id',
         'author_id',
         'room_id',
         'description',

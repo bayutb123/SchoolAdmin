@@ -21,6 +21,7 @@
     <!-- Styles -->
     <link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet">
 
+
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta2/dist/css/bootstrap-select.min.css">
@@ -75,6 +76,14 @@
                 <a class="nav-link" href="{{ route('inventory') }}">
                     <i class="fas fa-fw fa-list-ul"></i>
                     <span>{{ __('Daftar Fasilitas') }}</span>
+                </a>
+            </li>
+
+            <!-- Nav Item - Daftar Laporan -->
+            <li class="nav-item {{ Nav::isRoute('issue') }}">
+                <a class="nav-link" href="{{ route('issue') }}">
+                    <i class="fas fa-fw fa-list-ul"></i>
+                    <span>{{ __('Daftar Laporan') }}</span>
                 </a>
             </li>
 

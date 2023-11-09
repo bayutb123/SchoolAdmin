@@ -13,12 +13,11 @@ return new class extends Migration
     {
         Schema::create('inventoryissues', function (Blueprint $table) {
             $table->id();
-            $table->integer('issue_group_id');
             $table->unsignedBigInteger('author_id');
             $table->unsignedBigInteger('room_id');
             $table->string('description');
-            $table->string('status');
-            $table->date('issued_at');
+            $table->string('status')->default('pending');
+            $table->date('issued_at')->default(Carbon\Carbon::now('Asia/Jakarta'));
             $table->timestamps();
             $table->softDeletes();
 
