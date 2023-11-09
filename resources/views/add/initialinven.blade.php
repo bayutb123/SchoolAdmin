@@ -57,7 +57,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="quantity">Jumlah</label>
-                                <input type="number" class="form-control" name="quantity" id="quantity"
+                                <input type="number" step="0.01" class="form-control" name="quantity" id="quantity"
                                     aria-describedby="quantity" placeholder="">
                                 <small id="quantity" class="form-text text-muted">Help text</small>
                             </div>

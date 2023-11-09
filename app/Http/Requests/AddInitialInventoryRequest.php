@@ -25,7 +25,7 @@ class AddInitialInventoryRequest extends FormRequest
             'room_id' => 'required|integer',
             'category' => 'required|string',
             'name' => 'required|string',
-            'quantity' => 'required|integer',
+            'quantity' => 'required|numeric',
             'quantity_unit' => 'required|string',
             'description' => 'required|string',
             'status' => 'required|string',
