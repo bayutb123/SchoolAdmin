@@ -11,7 +11,16 @@ class Inventory extends Model
 
     protected $table = 'inventories';
 
-    protected $fillable = ['inventory_group_id', 'name', 'category', 'quantity', 'quantity_unit', 'price', 'total', 'status', 'purchased_at', 'note'];
+    protected $fillable = [
+        'room_id', 
+        'category', 
+        'name', 
+        'description', 
+        'quantity', 
+        'quantity_unit', 
+        'status', 
+        'last_author_id'
+    ];
 
     protected $hidden = ['created_at', 'updated_at', 'deleted_at'];
 
