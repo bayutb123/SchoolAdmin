@@ -26,7 +26,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        
+        $room = \App\Models\Room::all();
+        $inventory = \App\Models\Inventory::all();
         
         $user = Auth()->user();
 
@@ -45,7 +46,9 @@ class HomeController extends Controller
 
         $widget = [
             'percentageIssues' => $percentageIssues,
-            'percentageRequests' => $percentageRequests
+            'percentageRequests' => $percentageRequests,
+            'room' => $room,
+            'inventory' => $inventory,
         ];
 
         return view('home', compact('widget'));
