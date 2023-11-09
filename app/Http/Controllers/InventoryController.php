@@ -21,8 +21,11 @@ class InventoryController extends Controller
 
     public function create()
     {
-        $userid = auth()->user()->id;
-        return view('add.initialinven' , compact('userid'));
+        $rooms = \App\Models\Room::all();
+        $widget = [
+            'rooms' => $rooms
+        ];
+        return view('add.initialinven' , compact('widget'));
     }
 
     public function store(AddInitialInventoryRequest $request) {
@@ -42,6 +45,6 @@ class InventoryController extends Controller
                 ]
             );
         }
-        return redirect()->route('inventory.index')->withSuccess('Inventory added successfully.');
+        return redirect()->route('inventory.create')->withSuccess('Inventory added successfully.');
     }
 }
