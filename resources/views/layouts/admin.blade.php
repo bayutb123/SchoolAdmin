@@ -51,6 +51,30 @@
 
         <!-- Heading -->
         <div class="sidebar-heading">
+            {{ __('Manajemen') }}
+        </div>
+
+        <!-- Nav Item - Daftar Ruangan -->
+        <li class="nav-item {{ Nav::isRoute('room') }}">
+            <a class="nav-link" href="{{ route('room') }}">
+                <i class="fas fa-fw fa-list-ul"></i>
+                <span>{{ __('Daftar Ruangan') }}</span>
+            </a>
+        </li>
+
+        <!-- Nav Item - Daftar Fasilitas -->
+        <li class="nav-item {{ Nav::isRoute('inventory') }}">
+            <a class="nav-link" href="{{ route('inventory') }}">
+                <i class="fas fa-fw fa-list-ul"></i>
+                <span>{{ __('Daftar Fasilitas') }}</span>
+            </a>
+        </li>
+
+        <!-- Divider -->
+        <hr class="sidebar-divider">
+
+        <!-- Heading -->
+        <div class="sidebar-heading">
             {{ __('Settings') }}
         </div>
 
@@ -322,6 +346,8 @@
         </div>
     </div>
 </div>
+
+@stack('scripts')
 
 <!-- Scripts -->
 <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>

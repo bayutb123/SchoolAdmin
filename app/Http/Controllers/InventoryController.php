@@ -15,8 +15,29 @@ class InventoryController extends Controller
 
     public function index()
     {
+        $inventory = \App\Models\Inventory::all();
+
+        foreach ($inventory as $it) {
+            $room = \App\Models\Room::where('id', $it->room_id)->first();
+            $it->room = $room->name;
+            if ($it->status == 'A') {
+                $it->status = '<span class="badge badge-success">Baik</span>';
+            } else if ($it->status == 'B') {
+                $it->status = '<span class="badge badge-warning">Kurang</span>';
+            } else if ($it->status == 'C') {
+                $it->status = '<span class="badge badge-danger">Tidak Layak</span>';
+            } else {
+                $it->status = '<span class="badge badge-secondary">Tidak diketahui</span>';
+            }
+            $user = \App\Models\User::where('id', $it->last_author_id)->first();
+            $it->last_author_id = $user->name;
+        }
+
+        $widget = [
+            'inventory' => $inventory,
+        ];
         
-        return view('inventory');
+        return view('inventory', compact('widget'));
     }
 
     public function create()

@@ -17,6 +17,16 @@
                 </div>
             @endif
 
+            @if (session('error'))
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Notice!</strong>
+                    {{ session('error') }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            @endif
+
             <div class="card shadow mb-4">
 
                 <form class="m-4" action="{{ route('room.store') }}" method="post">
@@ -24,7 +34,7 @@
                     <div class="form-row">
                         <div class="form-group col">
                             <label for="name">Nama</label>
-                            <input type="text" class="form-control" name="name" id="name" aria-describedby="name"
+                            <input type="text" class="form-control" required name="name" id="name" aria-describedby="name"
                                 placeholder="">
                             <small id="name" class="form-text text-muted">Help text</small>
                         </div>
@@ -55,7 +65,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="size">Ukuran Ruangan</label>
-                                <input type="number" step="0.01" class="form-control" name="size" id="size"
+                                <input type="number" required step="0.01" class="form-control" name="size" id="size"
                                     aria-describedby="size" placeholder="">
                                 <small id="size" class="form-text text-muted">Help text</small>
                             </div>
