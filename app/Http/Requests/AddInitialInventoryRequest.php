@@ -27,7 +27,7 @@ class AddInitialInventoryRequest extends FormRequest
             'name' => 'required|string',
             'quantity' => 'required|numeric',
             'quantity_unit' => 'required|string',
-            'description' => 'required|string',
+            'description' => 'string|nullable',
             'status' => 'required|string',
             'last_author_id' => 'required|string',
         ];

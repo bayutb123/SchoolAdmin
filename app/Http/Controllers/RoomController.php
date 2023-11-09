@@ -17,6 +17,29 @@ class RoomController extends Controller
     {
         $rooms = \App\Models\Room::all();
 
+        foreach ($rooms as $room) {
+            if ($room->floor == 1) {
+                $room->floor = 'Lantai Dasar';
+            } else if ($room->floor == 2) {
+                $room->floor = 'Lantai 2';
+            } else if ($room->floor == 3) {
+                $room->floor = 'Lantai 3';
+            } else if ($room->floor == 4) {
+                $room->floor = 'Lantai 4';
+            } else {
+                $room->floor = 'Ruang Terbuka Sekolah';
+            }
+            if ($room->status == "A") {
+                $room->status = '<span class="badge badge-success">Baik</span>';
+            } else if ($room->status == "B") {
+                $room->status = '<span class="badge badge-warning">Kurang</span>';
+            } else if ($room->status == "C") {
+                $room->status = '<span class="badge badge-danger">Tidak Layak</span>';
+            } else {
+                $room->status = '<span class="badge badge-secondary">Tidak diketahui</span>';
+            }
+        }
+
         $widget = [
             'rooms' => $rooms,
         ];
@@ -46,6 +69,7 @@ class RoomController extends Controller
                     'floor' => $request->floor,
                     'size' => $request->size,
                     'size_unit' => $request->size_unit,
+                    'last_author_id' => $request->last_author_id,
                 ]
             );
         }

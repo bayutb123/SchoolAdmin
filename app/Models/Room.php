@@ -11,7 +11,7 @@ class Room extends Model
 
     protected $table = 'rooms';
 
-    protected $fillable = ['type', 'name', 'floor', 'size', 'size_unit'];
+    protected $fillable = ['type', 'name', 'floor', 'size', 'size_unit', 'status', 'last_author_id'];
 
     protected $hidden = ['created_at', 'updated_at', 'deleted_at'];
     

@@ -2,7 +2,7 @@
 
 @section('main-content')
     <!-- Page Heading -->
-    <h1 class="h3 mb-4 text-gray-800">{{ __('Tambah Ruangan') }}</h1>
+    <h1 class="h3 mb-4 text-gray-800">{{ __('Buat Pendataan Lingkungan') }}</h1>
 
     <div class="row justify-content-center">
 
@@ -31,6 +31,8 @@
 
                 <form class="m-4" action="{{ route('room.store') }}" method="post">
                     @csrf
+                    <input type="hidden" class="form-control" name="last_author_id" value="{{ Auth::user()->id }}"
+                        id="last_author_id" aria-describedby="last_author_id" placeholder="">
                     <div class="form-row">
                         <div class="form-group col">
                             <label for="name">Nama</label>
@@ -39,12 +41,13 @@
                             <small id="name" class="form-text text-muted">Help text</small>
                         </div>
                         <div class="form-group col">
-                            <label for="floor">Lantai</label>
+                            <label for="floor">Lokasi</label>
                             <select class="form-control" name="floor" id="inlineFormCustomSelect">
                                 <option value=1>Lt. Dasar</option>
                                 <option value=2>Lt. 2</option>
                                 <option value=3>Lt. 3</option>
                                 <option value=4>Lt. 4</option>
+                                <option value=5>Ruang Terbuka Sekolah</option>
                             </select>
                             <small id="floor" class="form-text text-muted">Help text</small>
                         </div>
@@ -54,10 +57,10 @@
                             <div class="form-group">
                                 <label for="type">Kategori</label>
                                 <select class="form-control" name="type" id="inlineFormCustomSelect">
-                                    <option value="class">Kelas</option>
-                                    <option value="admin">Administrasi</option>
-                                    <option value="general">Umum</option>
-                                    <option value="other">Lainnya</option>
+                                    <option value="Kelas">Kelas</option>
+                                    <option value="Administrasi">Administrasi</option>
+                                    <option value="Umum">Umum</option>
+                                    <option value="Lainnya">Lainnya</option>
                                 </select>
                                 <small id="type" class="form-text text-muted">Help text</small>
                             </div>

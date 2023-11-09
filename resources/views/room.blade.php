@@ -2,7 +2,7 @@
 
 @section('main-content')
     <!-- Page Heading -->
-    <h1 class="h3 text-gray-800">{{ __('Daftar Ruangan') }} <span
+    <h1 class="h3 text-gray-800">{{ __('Daftar Lingkungan') }} <span
             class="badge badge-secondary">{{ $widget['rooms']->count() }}</span></h1>
 
     @if (session('success'))
@@ -33,6 +33,7 @@
                     <th>Nama</th>
                     <th>Tipe</th>
                     <th>Lokasi</th>
+                    <th>Kondisi</th>
                     <th>Ukuran Ruangan</th>
                     <th>Satuan Ukuran</th>
                 </tr>
@@ -43,6 +44,7 @@
                         <td>{{ $room->name }}</td>
                         <td>{{ $room->type }}</td>
                         <td>{{ $room->floor }}</td>
+                        <td>{!! $room->status !!}</td>
                         <td>{{ $room->size }}</td>
                         <td>{{ $room->size_unit }}</td>
                     </tr>

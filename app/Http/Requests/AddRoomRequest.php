@@ -22,6 +22,7 @@ class AddRoomRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'last_author_id' => 'required|integer',
             'name' => 'required|string',
             'floor' => 'required|integer',
             'type' => 'required|string',

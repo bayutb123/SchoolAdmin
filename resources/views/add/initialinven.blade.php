@@ -8,27 +8,28 @@
 
         <div class="col-lg-12">
             @if (session('success'))
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <strong>Notice</strong>
-                {{ session('success') }}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-        @endif
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <strong>Notice</strong>
+                    {{ session('success') }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            @endif
             <div class="card shadow mb-4">
-                
+
                 <form class="m-4" action="{{ route('inventory.store') }}" method="post">
                     @csrf
                     <input type="hidden" class="form-control" name="last_author_id" value="{{ Auth::user()->id }}"
                         id="last_author_id" aria-describedby="last_author_id" placeholder="">
                     <div class="form-row">
                         <div class="form-group col">
-                            <label for="room_id">Ruangan</label>
-                            <select class="form-control" name="room_id" id="room">
+                            <label for="room_id">Lokasi</label>
+                            <select class="selectpicker w-100" data-live-search="true" name="room_id" id="room">
                                 <option selected value="null">Choose...</option>
                                 @foreach ($widget['rooms'] as $room)
-                                    <option value="{{ $room->id }}">{{ $room->name }}
+                                    <option data-tokens="{{ $room->name }}" value="{{ $room->id }}">
+                                        {{ $room->name }}
                                     </option>
                                 @endforeach
                             </select>
@@ -38,9 +39,10 @@
                             <label for="category">Kategori</label>
                             <select class="form-control" name="category" id="inlineFormCustomSelect">
                                 <option selected>Choose...</option>
-                                <option value=1>One</option>
-                                <option value=2>Two</option>
-                                <option value=3>Three</option>
+                                <option value="Fasilitas Utama Pendidikan">
+                                    Fasilitas Utama Pendidikan</option>
+                                <option value="Fasilitas Pendukung">Fasilitas Pendukung</option>
+                                <option value=3>Lainnya</option>
                             </select>
                             <small id="category" class="form-text text-muted">Help text</small>
                         </div>
@@ -101,12 +103,16 @@
                     </div>
 
                     <button type="submit" class="btn btn-primary">Submit</button>
-
+                    
                 </form>
-
             </div>
-
         </div>
+
+        {{-- <select class="selectpicker" multiple data-live-search="true">
+            <option>Mustard</option>
+            <option>Ketchup</option>
+            <option>Relish</option>
+          </select> --}}
 
     </div>
 @endsection
