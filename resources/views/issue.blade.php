@@ -43,7 +43,11 @@
                         <td>{{ $issue->author_id }}</td>
                         <td>{{ $issue->room_id }}</td>
                         <td>{{ $issue->description }}</td>
-                        <td>{!! $issue->status !!}</td>
+                        <td>
+                                <span class="badge badge-{{ $issue->statusColor }} p-2">{{
+                                    $issue->statusName
+                                }}</span>
+                            </td>
                         <td>{{ $issue->updated_at }}</td>
                         <td>
                             @if ($issue->isApproved)

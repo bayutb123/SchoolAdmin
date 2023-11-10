@@ -18,6 +18,7 @@ class IssueController extends Controller
     public function index()
     {
         $issues = \App\Models\InventoryIssue::all();
+        $status = \App\Models\Status::where('type', 'issue')->get();
 
         foreach ($issues as $issue) {
             $author = \App\Models\User::where('id', $issue->author_id)->first();
@@ -25,16 +26,8 @@ class IssueController extends Controller
             $room = \App\Models\Room::where('id', $issue->room_id)->first();
             $issue->room_id = $room->name;
 
-            if ($issue->status == 'Dalam Perbaikan') {
-                $issue->status = '<span class="badge badge-warning p-2">' . $issue->status . '</span>';
-                $issue->isApproved = true;
-            } else if ($issue->status == 'Selesai') {
-                $issue->status = '<span class="badge badge-success p-2">' . $issue->status . '</span>';
-                $issue->isApproved = true;
-            } else {
-                $issue->status = '<span class="badge badge-secondary p-2">' . $issue->status . '</span>';
-                $issue->isApproved = false;
-            }
+            $issue->statusName = $status->where('id', $issue->status)->first()->name;
+            $issue->statusColor = $status->where('id', $issue->status)->first()->color;
         }
 
         $widget = [
@@ -61,11 +54,12 @@ class IssueController extends Controller
     public function store(InventoryIssueRequest $request) {
         $validated = $request->validated();
         $inventories = $validated['inventories'];
+        $status  = \App\Models\Status::where('type', 'issue')->get();
         
         foreach ($inventories as $inventory) {
             // PROSES GANTI STATUS INVENTORY
             $inventory = \App\Models\Inventory::where('id', $inventory)->first();
-            $inventory->status = 'Dalam Perbaikan';
+            $inventory->status = $status->where('name', 'Dalam Perbaikan')->first()->id;
             $inventory->last_author_id = Auth :: user()->id;
             $inventory->save();
         }
@@ -76,6 +70,7 @@ class IssueController extends Controller
                 'room_id' => $validated['room_id'],
                 'description' => $validated['description'],
                 'issued_at' => Carbon :: now('Asia/Jakarta') ,
+                'status' => $status->where('name', 'Pending')->first()->id,
             ]
         );
         

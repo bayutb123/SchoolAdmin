@@ -18,11 +18,13 @@
             @endif
             <div class="card shadow mb-4">
 
-                <form class="m-4" action="{{ route('inventory.update', ['id' => $widget['inventory']->id]) }}"
-                    method="post">
+                <form class="m-4" action="{{ route('inventory.update')}}" method="POST">
+                    @method('PUT')
+                    
                     @csrf
                     <input type="hidden" class="form-control" name="last_author_id" value="{{ Auth::user()->id }}"
                         id="last_author_id" aria-describedby="last_author_id" placeholder="">
+                    <input type="hidden" name="inventory_id" value="{{ $widget['inventory']->id }}">
                     <div class="form-row">
                         <div class="form-group col">
                             <label for="room_id">Lokasi</label>
@@ -101,12 +103,12 @@
                             @if ($widget['inventory']->status == 'Dalam Perbaikan')
                                 <option selected value="Dalam Perbaikan">Dalam Perbaikan</option>
                             @else
-                                @foreach (['Baik', 'Kurang', 'Tidak Layak'] as $status)
+                                @foreach ($widget['status'] as $status)
                                     <option
-                                        @if ($widget['inventory']->status == $status) {
+                                        @if ($widget['inventory']->status == $status->id) {
                                             selected
                                         } @endif
-                                        value={{ $status }}>{{ $status }}</option>
+                                        value="{{ $status->id }}">{{ $status->name }}</option>
                                 @endforeach
                             @endif
                         </select>
