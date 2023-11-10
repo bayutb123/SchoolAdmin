@@ -78,6 +78,8 @@ class IssueController extends Controller
                 'issued_at' => Carbon :: now('Asia/Jakarta') ,
             ]
         );
-        dd($validated);
+        
+        // redirect to index 
+        return redirect()->route('issue')->withSuccess('Issue added successfully.');
     }
 }
