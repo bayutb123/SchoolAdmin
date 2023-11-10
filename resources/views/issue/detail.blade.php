@@ -77,8 +77,8 @@
 
                     <div class="form-group">
                         <label for="description">Deskripsi</label>
-                        <textarea type="text" class="form-control" name="description" id="description" aria-describedby="description"
-                            placeholder=""></textarea>
+                        <textarea readonly type="text" class="form-control" name="description" id="description" aria-describedby="description"
+                            placeholder="">{{ $widget['issue']->description }}</textarea>
                         <small id="description" class="form-text text-muted">Help text</small>
                     </div>
                     <div class="form-group">
@@ -86,10 +86,16 @@
                         <input type="text" class="form-control" name="author" value="{{ $widget['issue']->author }}"
                             id="author" disabled aria-describedby="author" placeholder="">
                         <small id="author_id"
-                            class="form-text text-muted">{{ Carbon\Carbon::now('Asia/Jakarta')->toRfc850String() }}</small>
+                            class="form-text text-muted">{{ $widget['issue']->created_at->toRfc850String() }}</small>
                     </div>
-                    <button type="submit" class="btn btn-primary">Setujui</button>
-
+                    
+                    @if ( Auth::user()->role_id  == 1 )
+                        <button type="submit" class="btn btn-primary">Setujui</button>
+                    @endif
+                    
+                    @if ( $widget['issue']->status > 5 && Auth::user()->role_id  == 2 )
+                        <span class="badge badge-{{ $widget['issue']->statusColor }} p-2">{{ $widget['issue']->statusName }}</span>    
+                    @endif
                 </form>
             </div>
         </div>

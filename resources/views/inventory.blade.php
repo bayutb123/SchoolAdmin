@@ -51,7 +51,7 @@
                         <td>{{ $inventory->last_author_id }}</td>
                         <td>
                             @if ($inventory->isIssued)
-                                <a href=""
+                                <a href="{{ route('issue.detail', ['id' => $inventory->issue_id]) }}"
                                     class="btn btn-primary btn-sm w-100">Lihat laporan</a>
                             @else 
                                 <a href="{{ route('inventory.edit', ['id' => $inventory->id]) }}"
