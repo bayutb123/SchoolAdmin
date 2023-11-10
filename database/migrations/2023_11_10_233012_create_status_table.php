@@ -41,15 +41,30 @@ return new class extends Migration
                 'color' => 'secondary',
             ],
             [
-                'type' => 'issue',
+                'type' => 'inventory',
                 'name' => 'Dalam Perbaikan',
                 'color' => 'secondary',
             ],
             [
                 'type' => 'issue',
-                'name' => 'Pending',
+                'name' => 'Pengajuan Perbaikan',
                 'color' => 'secondary',
             ],
+            [
+                'type' => 'issue',
+                'name' => 'Disetuji',
+                'color' => 'primary',
+            ],
+            [
+                'type' => 'issue',
+                'name' => 'Ditolak',
+                'color' => 'danger',
+            ],
+            [
+                'type' => 'issue',
+                'name' => 'Selesai',
+                'color' => 'success',
+            ]
         ];
 
         DB::table('status')->insert($status);

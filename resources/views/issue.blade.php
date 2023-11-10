@@ -50,9 +50,9 @@
                             </td>
                         <td>{{ $issue->updated_at }}</td>
                         <td>
-                            @if ($issue->isApproved)
+                            @if ($issue->isApproved || Auth::user()->role_id == 1)
                             {{-- {{ route('issue.show', $issue->id) }} --}}
-                                <a href=""
+                                <a href=" {{ route('issue.detail', $issue->id) }} "
                                     class="btn btn-primary btn-sm w-100">Lihat laporan</a>
                             @else
                             {{-- {{ route('issue.edit', $issue->id) }} --}}
