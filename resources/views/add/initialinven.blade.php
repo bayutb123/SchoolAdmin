@@ -88,9 +88,9 @@
                     <div class="form-group">
                         <label for="status">Kondisi</label>
                         <select class="form-control" name="status" id="inlineFormCustomSelect">
-                            <option value="A">Baik</option>
-                            <option value="B">Kurang</option>
-                            <option value="C">Tidak layak</option>
+                            <option value="Baik">Baik</option>
+                            <option value="Kurang">Kurang</option>
+                            <option value="Tidak layak">Tidak layak</option>
                         </select>
                         <small id="status" class="form-text text-muted">Help text</small>
                     </div>

@@ -13,7 +13,10 @@ return new class extends Migration
     {
         // make description nullable
         Schema::table('inventories', function (Blueprint $table) {
+            $table->unsignedBigInteger('issue_id')->nullable()->after('id');
             $table->string('description')->nullable()->change();
+            
+            $table->foreign('issue_id')->references('id')->on('inventoryissues')->onDelete('cascade');
         });
     }
 

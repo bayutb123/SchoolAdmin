@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('author_id');
             $table->unsignedBigInteger('room_id');
             $table->string('description');
-            $table->string('status')->default('pending');
+            $table->string('status')->default('Pending');
             $table->date('issued_at')->default(Carbon\Carbon::now('Asia/Jakarta'));
             $table->timestamps();
             $table->softDeletes();

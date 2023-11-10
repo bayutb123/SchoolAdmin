@@ -30,13 +30,13 @@ class RoomController extends Controller
                 $room->floor = 'Ruang Terbuka Sekolah';
             }
             if ($room->status == "A") {
-                $room->status = '<span class="badge badge-success">Baik</span>';
+                $room->status = '<span class="badge badge-success p-2">Baik</span>';
             } else if ($room->status == "B") {
-                $room->status = '<span class="badge badge-warning">Kurang</span>';
+                $room->status = '<span class="badge badge-warning p-2">Kurang</span>';
             } else if ($room->status == "C") {
-                $room->status = '<span class="badge badge-danger">Tidak Layak</span>';
+                $room->status = '<span class="badge badge-danger p-2">Tidak Layak</span>';
             } else {
-                $room->status = '<span class="badge badge-secondary">Tidak diketahui</span>';
+                $room->status = '<span class="badge badge-secondary p-2">Tidak diketahui</span>';
             }
         }
 

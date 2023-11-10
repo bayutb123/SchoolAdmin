@@ -29,29 +29,35 @@
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th>Nama</th>
+                    <th>Pelapor</th>
                     <th>Lokasi</th>
-                    <th>Kategori</th>
                     <th>Deskripsi</th>
-                    <th>Jumlah</th>
-                    <th>Satuan</th>
                     <th>Kondisi</th>
                     <th>Terakhir Diubah</th>
+                    <th>Aksi</th>
                 </tr>
             </thead>
             <tbody id="myTable">
-                {{-- @foreach ($widget['inventory'] as $inventory)
+                @foreach ($widget['issues'] as $issue)
                     <tr>
-                        <td>{{ $inventory->name }}</td>
-                        <td>{{ $inventory->room }}</td>
-                        <td>{{ $inventory->category }}</td>
-                        <td>{{ $inventory->description }}</td>
-                        <td>{{ $inventory->quantity }}</td>
-                        <td>{{ $inventory->quantity_unit }}</td>
-                        <td>{!! $inventory->status !!}</td>
-                        <td>{{ $inventory->last_author_id }}</td>
+                        <td>{{ $issue->author_id }}</td>
+                        <td>{{ $issue->room_id }}</td>
+                        <td>{{ $issue->description }}</td>
+                        <td>{!! $issue->status !!}</td>
+                        <td>{{ $issue->updated_at }}</td>
+                        <td>
+                            @if ($issue->isApproved)
+                            {{-- {{ route('issue.show', $issue->id) }} --}}
+                                <a href=""
+                                    class="btn btn-primary btn-sm w-100">Lihat laporan</a>
+                            @else
+                            {{-- {{ route('issue.edit', $issue->id) }} --}}
+                                <a href=""
+                                    class="btn btn-primary btn-sm w-100">Edit</a>
+                            @endif
+                        </td>
                     </tr>
-                @endforeach --}}
+                @endforeach
             </tbody>
         </table>
 

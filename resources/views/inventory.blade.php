@@ -32,11 +32,10 @@
                     <th>Nama</th>
                     <th>Lokasi</th>
                     <th>Kategori</th>
-                    <th>Deskripsi</th>
                     <th>Jumlah</th>
-                    <th>Satuan</th>
                     <th>Kondisi</th>
                     <th>Terakhir Diubah</th>
+                    <th>Aksi</th>
                 </tr>
             </thead>
             <tbody id="myTable">
@@ -45,11 +44,18 @@
                         <td>{{ $inventory->name }}</td>
                         <td>{{ $inventory->room }}</td>
                         <td>{{ $inventory->category }}</td>
-                        <td>{{ $inventory->description }}</td>
-                        <td>{{ $inventory->quantity }}</td>
-                        <td>{{ $inventory->quantity_unit }}</td>
+                        <td>{{ $inventory->quantity }} {{ $inventory->quantity_unit }}</td>
                         <td>{!! $inventory->status !!}</td>
                         <td>{{ $inventory->last_author_id }}</td>
+                        <td>
+                            @if ($inventory->isIssued)
+                                <a href=""
+                                    class="btn btn-primary btn-sm w-100">Lihat laporan</a>
+                            @else 
+                                <a href=""
+                                    class="btn btn-primary btn-sm w-100">Edit</a>
+                            @endif
+                        </td>
                     </tr>
                 @endforeach
             </tbody>
