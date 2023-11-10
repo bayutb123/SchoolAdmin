@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('inventoryrequestgroup', function (Blueprint $table) {
             $table->id();
-            $table->integer('inventory_group_id');
+            $table->unsignedBigInteger('inventory_group_id');
             $table->string('name');
             $table->string('category');
             $table->decimal('quantity', 5, 2);
@@ -25,6 +25,8 @@ return new class extends Migration
             $table->string('note')->nullabe();
             $table->timestamps();
             $table->softDeletes();
+
+            $table->foreign('inventory_group_id')->references('id')->on('inventoryrequests')->onDelete('cascade');
 
         });
     }

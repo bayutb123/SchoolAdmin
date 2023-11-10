@@ -5,22 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class InventoryIssue extends Model
+class Role extends Model
 {
     use HasFactory;
 
-    protected $table = 'inventoryissues';
-
+    protected $table = 'roles';
     protected $fillable = [
-        'author_id',
-        'room_id',
+        'name',
         'description',
-        'status',
-        'issued_at'
     ];
     protected $hidden = ['created_at', 'updated_at', 'deleted_at'];
-
-    protected $casts = [
-        'issued_at' => 'date',
-    ];
+    
 }

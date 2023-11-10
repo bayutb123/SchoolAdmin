@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('inventoryissuegroup', function (Blueprint $table) {
             $table->id();
-            $table->integer('inventory_group_id');
+            $table->unsignedBigInteger('inventory_group_id');
             $table->unsignedBigInteger('inventory_id');
             $table->string('description');
             $table->string('solution');
@@ -23,6 +23,7 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
 
+            $table->foreign('inventory_group_id')->references('id')->on('inventoryissues')->onDelete('cascade');
             $table->foreign('inventory_id')->references('id')->on('inventories')->onDelete('cascade');
         });
     }

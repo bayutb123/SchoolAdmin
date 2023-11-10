@@ -35,6 +35,10 @@ Route::get('/room', 'RoomController@index')->name('room');
 Route::get('/room/add', 'RoomController@create')->name('room.create');
 Route::post('/room/add', 'RoomController@store')->name('room.store');
 
+Route::get('/issue', 'IssueController@index')->name('issue');
+Route::get('/issue/add', 'IssueController@create')->name('issue.create');
+Route::post('/issue/add', 'IssueController@store')->name('issue.store');
+
 
 Route::get('/about', function () {
     return view('about');

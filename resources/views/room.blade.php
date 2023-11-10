@@ -35,7 +35,7 @@
                     <th>Lokasi</th>
                     <th>Kondisi</th>
                     <th>Ukuran Ruangan</th>
-                    <th>Satuan Ukuran</th>
+                    <th>Aksi</th>
                 </tr>
             </thead>
             <tbody id="myTable">
@@ -45,8 +45,10 @@
                         <td>{{ $room->type }}</td>
                         <td>{{ $room->floor }}</td>
                         <td>{!! $room->status !!}</td>
-                        <td>{{ $room->size }}</td>
-                        <td>{{ $room->size_unit }}</td>
+                        <td>{{ $room->size }} {{ $room->size_unit }}<sup>2</sup></td>
+                        <td>
+                            <a href="" class="btn btn-primary btn-sm w-100">Edit</a>
+                        </td>
                     </tr>
                 @endforeach
             </tbody>

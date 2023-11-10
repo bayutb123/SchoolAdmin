@@ -20,15 +20,17 @@ class InventoryController extends Controller
         foreach ($inventory as $it) {
             $room = \App\Models\Room::where('id', $it->room_id)->first();
             $it->room = $room->name;
-            if ($it->status == 'A') {
-                $it->status = '<span class="badge badge-success">Baik</span>';
-            } else if ($it->status == 'B') {
-                $it->status = '<span class="badge badge-warning">Kurang</span>';
-            } else if ($it->status == 'C') {
-                $it->status = '<span class="badge badge-danger">Tidak Layak</span>';
+            if ($it->status == 'Baik') {
+                $it->status = '<span class="badge badge-success p-2">' . $it->status . '</span>';
+            } else if ($it->status == 'Kurang') {
+                $it->status = '<span class="badge badge-warning p-2">' . $it->status . '</span>';
+            } else if ($it->status == 'Tidak layak') {
+                $it->status = '<span class="badge badge-danger p-2">' . $it->status . '</span>';
             } else {
-                $it->status = '<span class="badge badge-secondary">Tidak diketahui</span>';
+                $it->status = '<span class="badge badge-secondary p-2">' . $it->status . '</span>';
+                $it->isIssued = true;
             }
+            
             $user = \App\Models\User::where('id', $it->last_author_id)->first();
             $it->last_author_id = $user->name;
         }
