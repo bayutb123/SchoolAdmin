@@ -70,4 +70,20 @@ class InventoryController extends Controller
         }
         return redirect()->route('inventory.create')->withSuccess('Inventory added successfully.');
     }
+
+    public function edit($id)
+    {
+        $inventory = Inventory::where('id', $id)->first();
+        // get all category from all inventory
+        $category = Inventory::select('category')->distinct()->get();
+        $status = Inventory::select('status')->distinct()->get();
+        $rooms = \App\Models\Room::all();
+        $widget = [
+            'inventory' => $inventory,
+            'rooms' => $rooms,
+            'category' => $category,
+            'status' => $status,
+        ];
+        return view('edit.initialinven', compact('widget'));
+    }
 }

@@ -30,6 +30,9 @@ Route::get('/requests/add', 'RequestController@create')->name('request.create');
 Route::get('/inventory', 'InventoryController@index')->name('inventory');
 Route::get('/inventory/add', 'InventoryController@create')->name('inventory.create');
 Route::post('/inventory/add', 'InventoryController@store')->name('inventory.store');
+Route::get('/inventory/{id}/edit', 'InventoryController@edit')->name('inventory.edit');
+Route::put('/inventory/{id}/edit', 'InventoryController@update')->name('inventory.update');
+
 
 Route::get('/room', 'RoomController@index')->name('room');
 Route::get('/room/add', 'RoomController@create')->name('room.create');
