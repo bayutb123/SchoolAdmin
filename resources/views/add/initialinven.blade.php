@@ -73,7 +73,7 @@
                                     <option value="meter">meter</option>
                                     <option value="kg">kg</option>
                                     <option value="liter">liter</option>
-                                    <option value="other">lainnya</option>
+                                    <option value="lainnya">lainnya</option>
                                 </select>
                                 <small id="quantity_unit" class="form-text text-muted">Help text</small>
                             </div>

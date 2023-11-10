@@ -59,7 +59,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="name">Nama</label>
-                                <input disabled type="text" value="{{ $widget['inventory']->name }}" class="form-control"
+                                <input type="text" value="{{ $widget['inventory']->name }}" class="form-control"
                                     name="name" id="name" aria-describedby="name" placeholder="">
                                 <small id="name" class="form-text text-muted">Help text</small>
                             </div>
@@ -76,14 +76,10 @@
                         <div class="col md-2">
                             <div class="form-group">
                                 <label for="quantity_unit">Satuan</label>
-                                <select class="form-control" name="quantity_unit" id="inlineFormCustomSelect">
-                                    @foreach (['pcs', 'set', 'meter', 'kg', 'liter', 'other'] as $unit)
+                                <select class="form-control" disabled name="quantity_unit" id="inlineFormCustomSelect">
                                         <option
-                                            @if ($widget['inventory']->quantity_unit == $unit) {
-                                                selected
-                                            } @endif
-                                            value=$unit>{{ $unit }}</option>
-                                    @endforeach
+                                            selected
+                                            value={{ $widget['inventory']->quantity_unit }}>{{ $widget['inventory']->quantity_unit }}</option>
 
                                 </select>
                                 <small id="quantity_unit" class="form-text text-muted">Help text</small>

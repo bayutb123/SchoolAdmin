@@ -91,7 +91,8 @@ class InventoryController extends Controller
     public function update(Request $request)
     {
         $validated = $request->validate([
-            'inventory_id' => 'required', // 'inventory_id' is the name of the input field in the form, not the column name in the database table.
+            'inventory_id' => 'required',
+            'name' => 'required',
             'room_id' => 'required',
             'category' => 'required',
             'description' => 'nullable',
@@ -103,6 +104,7 @@ class InventoryController extends Controller
         if ($validated) {
             $inventory = Inventory::where('id', $validated['inventory_id'])->update(
                 [
+                    'name' => $request->name,
                     'room_id' => $request->room_id,
                     'category' => $request->category,
                     'description' => $request->description,
