@@ -42,8 +42,8 @@
                                     <option @if (in_array($inventory->id, $widget['inventories']->pluck('id')->toArray())) 
                                         selected
                                     @endif data-tokens="{{ $inventory->name }}" value="{{ $inventory->id }}">
-                                        {{ $inventory->name }} - <span
-                                            style="font-weight: 100">{{ $inventory->room_id }}</span>
+                                    [{{ $inventory->roomName }}] - {{ $inventory->name }}
+                                            ({{ $inventory->statusName }})
                                     </option>
                                 @endforeach
                             </select>

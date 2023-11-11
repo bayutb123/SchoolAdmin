@@ -43,11 +43,12 @@ class IssueController extends Controller
 
     public function create()
     {
-        $inventories  = \App\Models\Inventory::all();
-        $inventories = $inventories->where('status', '<', '4');
+        $inventories  = \App\Models\Inventory::all()->where('issue_id', null);
+        $status = \App\Models\Status::where('type', 'inventory')->get();
         $rooms = \App\Models\Room::all();
         foreach ($inventories as $inventory) {
             $inventory->room_id = $rooms->where('id', $inventory->room_id)->first()->name;
+            $inventory->statusName = $status->where('id', $inventory->status)->first()->name;
         }
         $widget = [
             'inventories' => $inventories,
@@ -131,6 +132,12 @@ class IssueController extends Controller
         foreach ($inventories as $inventory) {
             $inventory->room_name = $rooms->where('id', $inventory->room_id)->first()->name;
             $inventory->condition = $status->where('id', $inventory->status)->first()->name;
+        }
+
+        foreach ($allInventories as $it) {
+            $it->roomName = $rooms->where('id', $it->room_id)->first()->name;
+            $it->statusName = $status->where('id', $it->status)->first()->name;
+            $it->statusColor = $status->where('id', $it->status)->first()->color;
         }
 
         $status = \App\Models\Status::where('type', 'issue')->get();
