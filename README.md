@@ -1,2 +1,4 @@
 # SchoolAdmin
  
+Seeder
+- StatusSeeder
