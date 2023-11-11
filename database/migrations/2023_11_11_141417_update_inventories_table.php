@@ -11,12 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // make description nullable
+        // add issue_status_id column to issues table
         Schema::table('inventories', function (Blueprint $table) {
-            $table->unsignedBigInteger('issue_id')->nullable()->after('id');
-            $table->string('description')->nullable()->change();
-            
-            $table->foreign('issue_id')->references('id')->on('inventoryissues');
+            $table->unsignedBigInteger('issue_status')->nullable()->after('issue_id');
+
+            $table->foreign('issue_status')->references('id')->on('status');
         });
     }
 
@@ -25,9 +24,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        // make description not nullable
+        // drop issue_status_id column from issues table
         Schema::table('inventories', function (Blueprint $table) {
-            $table->string('description')->nullable(false)->change();
+            $table->dropColumn('issue_status');
         });
     }
 };

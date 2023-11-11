@@ -42,7 +42,7 @@
                                 <option value="Fasilitas Utama Pendidikan">
                                     Fasilitas Utama Pendidikan</option>
                                 <option value="Fasilitas Pendukung">Fasilitas Pendukung</option>
-                                <option value=3>Lainnya</option>
+                                <option value="Lainnya">Lainnya</option>
                             </select>
                             <small id="category" class="form-text text-muted">Help text</small>
                         </div>
@@ -73,7 +73,7 @@
                                     <option value="meter">meter</option>
                                     <option value="kg">kg</option>
                                     <option value="liter">liter</option>
-                                    <option value="other">lainnya</option>
+                                    <option value="lainnya">lainnya</option>
                                 </select>
                                 <small id="quantity_unit" class="form-text text-muted">Help text</small>
                             </div>
@@ -88,9 +88,11 @@
                     <div class="form-group">
                         <label for="status">Kondisi</label>
                         <select class="form-control" name="status" id="inlineFormCustomSelect">
-                            <option value="Baik">Baik</option>
-                            <option value="Kurang">Kurang</option>
-                            <option value="Tidak layak">Tidak layak</option>
+                            @foreach ($widget['status'] as $status)
+                                <option value="{{ $status->id }}" @if ($status->id == 5)
+                                    disabled
+                                @endif>{{ $status->name }}</option>
+                            @endforeach
                         </select>
                         <small id="status" class="form-text text-muted">Help text</small>
                     </div>

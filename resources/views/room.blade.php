@@ -47,7 +47,9 @@
                         <td>{!! $room->status !!}</td>
                         <td>{{ $room->size }} {{ $room->size_unit }}<sup>2</sup></td>
                         <td>
-                            <a href="" class="btn btn-primary btn-sm w-100">Edit</a>
+                            <a href="
+                                {{ route('room.edit', ['id' => $room->id]) }}
+                            " class="btn btn-primary btn-sm w-100">Edit</a>
                         </td>
                     </tr>
                 @endforeach

@@ -16,19 +16,18 @@ class InventoryController extends Controller
     public function index()
     {
         $inventory = \App\Models\Inventory::all();
-
+        $status = \App\Models\Status::all();
         foreach ($inventory as $it) {
             $room = \App\Models\Room::where('id', $it->room_id)->first();
+            
             $it->room = $room->name;
-            if ($it->status == 'Baik') {
-                $it->status = '<span class="badge badge-success p-2">' . $it->status . '</span>';
-            } else if ($it->status == 'Kurang') {
-                $it->status = '<span class="badge badge-warning p-2">' . $it->status . '</span>';
-            } else if ($it->status == 'Tidak layak') {
-                $it->status = '<span class="badge badge-danger p-2">' . $it->status . '</span>';
-            } else {
-                $it->status = '<span class="badge badge-secondary p-2">' . $it->status . '</span>';
+            $it->statusName = $status->where('id', $it->status)->first()->name;
+            $it->statusColor = $status->where('id', $it->status)->first()->color;
+
+            if ($it->issue_status == 5 || $it->issue_status == 6) {
                 $it->isIssued = true;
+                $it->issueStatusName = $status->where('id', $it->issue_status)->first()->name;
+                $it->issueStatusColor = $status->where('id', $it->issue_status)->first()->color;
             }
             
             $user = \App\Models\User::where('id', $it->last_author_id)->first();
@@ -45,10 +44,14 @@ class InventoryController extends Controller
     public function create()
     {
         $rooms = \App\Models\Room::all();
+        $category = Inventory::select('category')->distinct()->get();
+        $status = \App\Models\Status ::where('type', 'inventory')->get();
         $widget = [
-            'rooms' => $rooms
+            'rooms' => $rooms,
+            'status' => $status,
+            'category' => $category,
         ];
-        return view('add.initialinven' , compact('widget'));
+        return view('inven.add' , compact('widget'));
     }
 
     public function store(AddInitialInventoryRequest $request) {
@@ -69,5 +72,50 @@ class InventoryController extends Controller
             );
         }
         return redirect()->route('inventory.create')->withSuccess('Inventory added successfully.');
+    }
+
+    public function edit($id)
+    {
+        $inventory = Inventory::where('id', $id)->first();
+        // get all category from all inventory
+        $category = Inventory::select('category')->distinct()->get();
+        $status = \App\Models\Status::where('type', 'inventory')->get();
+        $rooms = \App\Models\Room::all();
+        $widget = [
+            'inventory' => $inventory,
+            'rooms' => $rooms,
+            'category' => $category,
+            'status' => $status,
+        ];
+        return view('inven.edit', compact('widget'));
+    }
+
+    public function update(Request $request)
+    {
+        $validated = $request->validate([
+            'inventory_id' => 'required',
+            'name' => 'required',
+            'room_id' => 'required',
+            'category' => 'required',
+            'description' => 'nullable',
+            'quantity' => 'required',
+            'status' => 'required',
+            'last_author_id' => 'required',
+        ]);
+
+        if ($validated) {
+            $inventory = Inventory::where('id', $validated['inventory_id'])->update(
+                [
+                    'name' => $request->name,
+                    'room_id' => $request->room_id,
+                    'category' => $request->category,
+                    'description' => $request->description,
+                    'quantity' => $request->quantity,
+                    'status' => $request->status,
+                    'last_author_id' => $request->last_author_id,
+                ]
+            );
+        }
+        return redirect()->route('inventory')->withSuccess('Inventory updated successfully.');
     }
 }

@@ -49,7 +49,7 @@ class RoomController extends Controller
 
     public function create()
     {
-        return view('add.room');
+        return view('room.add');
     }
 
     public function store(AddRoomRequest $request) {
@@ -74,5 +74,33 @@ class RoomController extends Controller
             );
         }
         return redirect()->route('room.create')->withSuccess('Room added successfully.');
+    }
+
+    public function edit($id)
+    {
+        $room = Room::where('id', $id)->first();
+        $widget = [
+            'room' => $room,
+        ];
+        return view('room.edit', compact('widget'));
+    }
+
+    public function update(AddRoomRequest $request)
+    {
+        $validated = $request->validated();
+        $room_id = $request->room_id;
+
+        $room = Room::where('id', $room_id)->first();
+
+        if ($validated) {
+            $room->type = $request->type;
+            $room->name = $request->name;
+            $room->floor = $request->floor;
+            $room->size = $request->size;
+            $room->size_unit = $request->size_unit;
+            $room->last_author_id = $request->last_author_id;
+            $room->save();
+        }
+        return redirect()->route('room')->withSuccess('Room updated successfully.');
     }
 }
