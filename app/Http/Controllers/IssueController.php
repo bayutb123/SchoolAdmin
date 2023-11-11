@@ -228,7 +228,9 @@ class IssueController extends Controller
             'status' => $status,
         ];
 
+        $fileName = 'issue-' . $issue->room_name . '-' . $issue->statusName . '.pdf';
+
         $pdf = PDF::loadView('issue.pdf', compact('widget'));
-        return $pdf->download('issue.pdf');
+        return $pdf->download(str_replace(' ', '', $fileName));
     } 
 }
