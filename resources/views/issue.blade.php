@@ -55,8 +55,7 @@
                                 <a href=" {{ route('issue.detail', $issue->id) }} "
                                     class="btn btn-primary btn-sm w-100">Lihat laporan</a>
                             @else
-                            {{-- {{ route('issue.edit', $issue->id) }} --}}
-                                <a href=""
+                                <a href="{{ route('issue.edit', $issue->id) }}"
                                     class="btn btn-primary btn-sm w-100">Edit</a>
                             @endif
                         </td>

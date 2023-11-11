@@ -24,8 +24,10 @@ class InventoryController extends Controller
             $it->statusName = $status->where('id', $it->status)->first()->name;
             $it->statusColor = $status->where('id', $it->status)->first()->color;
 
-            if ($it->status == 5 || $it->status == 6) {
+            if ($it->issue_status == 5 || $it->issue_status == 6) {
                 $it->isIssued = true;
+                $it->issueStatusName = $status->where('id', $it->issue_status)->first()->name;
+                $it->issueStatusColor = $status->where('id', $it->issue_status)->first()->color;
             }
             
             $user = \App\Models\User::where('id', $it->last_author_id)->first();
@@ -49,7 +51,7 @@ class InventoryController extends Controller
             'status' => $status,
             'category' => $category,
         ];
-        return view('add.initialinven' , compact('widget'));
+        return view('inven.add' , compact('widget'));
     }
 
     public function store(AddInitialInventoryRequest $request) {
@@ -85,7 +87,7 @@ class InventoryController extends Controller
             'category' => $category,
             'status' => $status,
         ];
-        return view('edit.initialinven', compact('widget'));
+        return view('inven.edit', compact('widget'));
     }
 
     public function update(Request $request)

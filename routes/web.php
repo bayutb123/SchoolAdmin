@@ -35,6 +35,7 @@ Route::get('/issue', 'IssueController@index')->name('issue');
 Route::get('/issue/add', 'IssueController@create')->name('issue.create');
 Route::post('/issue/add', 'IssueController@store')->name('issue.store');
 Route::get('/issue/{id}/edit', 'IssueController@edit')->name('issue.edit');
+Route::put('/issue/edit/remove', 'IssueController@removeInven')->name('issue.remove');
 Route::put('/issue/edit', 'IssueController@update')->name('issue.update');
 Route::get('/issue/{id}/detail', 'IssueController@detail')->name('issue.detail');
 Route::put('/issue/detail', 'IssueController@approve')->name('issue.approve');

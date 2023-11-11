@@ -19,55 +19,7 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        $status = [
-            [
-                'type' => 'inventory',
-                'name' => 'Baik',
-                'color' => 'success',
-            ],
-            [
-                'type' => 'inventory',
-                'name' => 'Kurang',
-                'color' => 'warning',
-            ],
-            [
-                'type' => 'inventory',
-                'name' => 'Tidak layak',
-                'color' => 'danger',
-            ],
-            [
-                'type' => 'inventory',
-                'name' => 'Tidak diketahui',
-                'color' => 'secondary',
-            ],
-            [
-                'type' => 'inventory',
-                'name' => 'Dalam Perbaikan',
-                'color' => 'secondary',
-            ],
-            [
-                'type' => 'issue',
-                'name' => 'Pengajuan Perbaikan',
-                'color' => 'secondary',
-            ],
-            [
-                'type' => 'issue',
-                'name' => 'Disetuji',
-                'color' => 'primary',
-            ],
-            [
-                'type' => 'issue',
-                'name' => 'Ditolak',
-                'color' => 'danger',
-            ],
-            [
-                'type' => 'issue',
-                'name' => 'Selesai',
-                'color' => 'success',
-            ]
-        ];
-
-        DB::table('status')->insert($status);
+        
 
     }
 

@@ -20,8 +20,10 @@
 
                 <form class="m-4" action="{{ route('issue.update') }}" method="post">
                     @csrf
+                    @method('PUT')
                     <input type="hidden" class="form-control" name="author_id" value="{{ Auth::user()->id }}"
                         id="author_id" aria-describedby="author_id" placeholder="">
+                    <input type="hidden" name="issue_id" value="{{ $widget['issue']->id }}">
 
                     <div class="form-row">
                         <div class="form-group col-2">
@@ -32,59 +34,37 @@
                             </select>
                             <small id="room_id" class="form-text text-muted">Help text</small>
                         </div>
-
+                        <div class="form-group col-10">
+                            <label for="category">Fasilitas</label>
+                            <select required class="selectpicker w-100" data-live-search="true" multiple name="inventories[]"
+                                id="inlineFormCustomSelect">
+                                @foreach ($widget['allInventories'] as $inventory)
+                                    <option @if (in_array($inventory->id, $widget['inventories']->pluck('id')->toArray())) 
+                                        selected
+                                    @endif data-tokens="{{ $inventory->name }}" value="{{ $inventory->id }}">
+                                        {{ $inventory->name }} - <span
+                                            style="font-weight: 100">{{ $inventory->room_id }}</span>
+                                    </option>
+                                @endforeach
+                            </select>
+                            <small id="category" class="form-text text-muted">Help text</small>
+                        </div>
                     </div>
 
-                    {{-- Create table with inventory inside --}}
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>Nama</th>
-                                <th>Lokasi</th>
-                                <th>Kategori</th>
-                                <th>Jumlah</th>
-                                <th>Kondisi</th>
-                                <th>Terakhir Diubah</th>
-                            </tr>
-                        </thead>
-                        <tbody id="myTable">
-                            @foreach ($widget['inventories'] as $inventory)
-                                <tr>
-                                    <td>
-                                        {{ $inventory->name }}
-                                    </td>
-                                    <td>
-                                        {{ $inventory->room_name }}
-                                    </td>
-                                    <td>
-                                        {{ $inventory->category }}
-                                    </td>
-                                    <td>
-                                        {{ $inventory->quantity }}
-                                    </td>
-                                    <td>
-                                        {{ $inventory->condition }}
-                                    </td>
-                                    <td>
-                                        {{ $inventory->updated_at }}
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                    
 
                     <div class="form-group">
                         <label for="description">Deskripsi</label>
                         <textarea type="text" class="form-control" name="description" id="description" aria-describedby="description"
-                            placeholder=""></textarea>
+                            placeholder="">{{ $widget['issue']->description }}</textarea>
                         <small id="description" class="form-text text-muted">Help text</small>
                     </div>
                     <div class="form-group">
                         <label for="author">Author</label>
-                        <input type="text" class="form-control" name="author" value="{{ Auth::user()->fullName }}"
+                        <input type="text" class="form-control" name="author" value="{{ $widget['issue']->author }}"
                             id="author" disabled aria-describedby="author" placeholder="">
                         <small id="author_id"
-                            class="form-text text-muted">{{ Carbon\Carbon::now('Asia/Jakarta')->toRfc850String() }}</small>
+                            class="form-text text-muted">{{ $widget['issue']->created_at->toRfc850String() }}</small>
                     </div>
                     <button type="submit" class="btn btn-primary">Submit</button>
 

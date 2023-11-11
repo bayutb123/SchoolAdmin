@@ -11,6 +11,7 @@ class Status extends Model
 
     protected $table = 'status';
     protected $fillable = [
+        'type',
         'name',
         'color',
     ];

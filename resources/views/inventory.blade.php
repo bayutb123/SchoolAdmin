@@ -45,15 +45,20 @@
                         <td>{{ $inventory->room }}</td>
                         <td>{{ $inventory->category }}</td>
                         <td>{{ $inventory->quantity }} {{ $inventory->quantity_unit }}</td>
-                        <td><span class="badge badge-{{ $inventory->statusColor }} p-2">{{
-                            $inventory->statusName
-                        }}</span></td>
+                        <td><span
+                                class="badge badge-{{ $inventory->statusColor }} p-2">{{ $inventory->statusName }}</span>
+                            @if ($inventory->isIssued)
+                            <span class="badge badge-{{ $inventory->issueStatusColor }} p-2">{{
+                                $inventory->issueStatusName
+                            }}</span>
+                            @endif
+                        </td>
                         <td>{{ $inventory->last_author_id }}</td>
                         <td>
                             @if ($inventory->isIssued)
                                 <a href="{{ route('issue.detail', ['id' => $inventory->issue_id]) }}"
                                     class="btn btn-primary btn-sm w-100">Lihat laporan</a>
-                            @else 
+                            @else
                                 <a href="{{ route('inventory.edit', ['id' => $inventory->id]) }}"
                                     class="btn btn-primary btn-sm w-100">Edit</a>
                             @endif

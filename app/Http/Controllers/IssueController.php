@@ -71,7 +71,7 @@ class IssueController extends Controller
             // PROSES GANTI STATUS INVENTORY
             $inventory = \App\Models\Inventory::where('id', $inventory)->first();
             $inventory->issue_id = $issue->id;
-            $inventory->status = $status->where('name', 'Pengajuan Perbaikan')->first()->id;
+            $inventory->issue_status = $status->where('name', 'Pengajuan Perbaikan')->first()->id;
             $inventory->last_author_id = Auth :: user()->id;
             $inventory->save();
         }
@@ -109,20 +109,66 @@ class IssueController extends Controller
         return view('issue.detail', compact('widget'));
     }
 
+    public function edit($id) {
+        $issue = \App\Models\InventoryIssue::where('id', $id)->first();
+        $rooms = \App\Models\Room::all();
+        $status = \App\Models\Status::all();
+        $issue->room_name = $rooms->where('id', $issue->room_id)->first()->name;
+        // author
+        $issue->author = \App\Models\User::where('id', $issue->author_id)->first()->name;
+
+        $allInventories = \App\Models\Inventory::where('issue_id', null)->get();
+        $inventories = \App\Models\Inventory::where('issue_id', $id)->get();
+
+        // add inventory to allInventories
+        $allInventories = $allInventories->merge($inventories);
+
+        foreach ($inventories as $inventory) {
+            $inventory->room_name = $rooms->where('id', $inventory->room_id)->first()->name;
+            $inventory->condition = $status->where('id', $inventory->status)->first()->name;
+        }
+
+        $status = \App\Models\Status::where('type', 'issue')->get();
+        $issue->statusName = $status->where('id', $issue->status)->first()->name;
+        $issue->statusColor = $status->where('id', $issue->status)->first()->color;
+
+        
+        $widget = [
+            'issue' => $issue,
+            'inventories' => $inventories,
+            'rooms' => $rooms,
+            'status' => $status,
+            'allInventories' => $allInventories,
+        ];
+        return view('issue.edit', compact('widget'));
+    }
+
     public function update(Request $request) {
         $validated = $request->validate([
-            'id' => 'required',
+            'issue_id' => 'required',
             'room_id' => 'required',
-            'inventories' => 'array',
+            'inventories' => 'array|required',
             'description' => 'required',
         ]);
 
         if ($validated) {
-            $initialinven = \App\Models\Inventory::where('issue_id', $validated['id'])-get();
-            foreach ($initialinven as $inventory) {
-                $inventory->status = null;
+            $status = \App\Models\Status::where('type', 'issue')->get();
+            $initialinven = \App\Models\Inventory::where('issue_id', $validated['issue_id'])->get();
+            foreach ($initialinven as $initial) {
+                $initial->issue_id = null;
+                $initial->issue_status = null;
+                $initial->save();
             }
-            $issue = \App\Models\InventoryIssue::where('id', $validated['id'])->first();
+
+            $inventories = $validated['inventories'];
+            foreach ($inventories as $inventory) {
+                $inventory = \App\Models\Inventory::where('id', $inventory)->first();
+                $inventory->issue_id =  $validated['issue_id'];
+                $inventory->issue_status = 5;
+                $inventory->save();
+            }
+
+            $issue = \App\Models\InventoryIssue::where('id', $validated['issue_id'])->first();
             $issue->room_id = $validated['room_id'];
             $issue->description = $validated['description'];
             $issue->save();
