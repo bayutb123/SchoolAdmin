@@ -12,6 +12,8 @@ class Inventory extends Model
     protected $table = 'inventories';
 
     protected $fillable = [
+        'request_id',
+        'request_status',
         'issue_id',
         'issue_status',
         'room_id', 

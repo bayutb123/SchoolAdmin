@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Inventory;
 use App\Http\Requests\AddInitialInventoryRequest;
+use App\Http\Requests\InventoryRequestRequest;
 
 class InventoryController extends Controller
 {
@@ -117,5 +118,39 @@ class InventoryController extends Controller
             );
         }
         return redirect()->route('inventory')->withSuccess('Inventory updated successfully.');
+    }
+
+    public function request() {
+        $rooms = \App\Models\Room::all();
+        $status = \App\Models\Status::where('name', 'Rencana Pembelian')->get();
+
+        $widget = [
+            'rooms' => $rooms,
+            'status' => $status,
+        ];
+
+        return view('inven.request' , compact('widget'));
+    }
+
+    public function requestStore(InventoryRequestRequest $request) {
+        
+        $validated = $request->validated();
+
+        if ($validated) {
+            $inventory = Inventory::create(
+                [
+                    'room_id' => $request->room_id,
+                    'category' => $request->category,
+                    'name' => $request->name,
+                    'description' => $request->description,
+                    'price' => $request->price,
+                    'quantity' => $request->quantity,
+                    'quantity_unit' => $request->quantity_unit,
+                    'status' => $request->status,
+                    'last_author_id' => $request->last_author_id,
+                ]
+            );
+        }
+        return redirect()->route('inventory.request')->withSuccess('Request added successfully.');
     }
 }

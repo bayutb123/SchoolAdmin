@@ -43,8 +43,9 @@ class IssueController extends Controller
 
     public function create()
     {
-        $inventories  = \App\Models\Inventory::all()->where('issue_id', null);
-        $status = \App\Models\Status::where('type', 'inventory')->get();
+        // get all inventories where issue_id is null and request_id is null
+        $inventories = \App\Models\Inventory::where('issue_id', null)->where('status', '<', 10)->get();
+        $status = \App\Models\Status::all();
         $rooms = \App\Models\Room::all();
         foreach ($inventories as $inventory) {
             $inventory->room_id = $rooms->where('id', $inventory->room_id)->first()->name;

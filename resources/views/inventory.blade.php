@@ -22,7 +22,10 @@
 
     <div class="col-lg-12 mb-4">
         <div class="text-right">
-            <a href="{{ route('inventory.create') }}" class="btn btn-primary mb-2 pull-right">Tambah Fasilitas</a>
+            <div class="row-lg-6">
+                <a href="{{ route('inventory.create') }}" class="btn btn-primary mb-2 pull-right">Tambah Fasilitas</a>
+                <a href="{{ route('inventory.request') }}" class="btn btn-primary mb-2 pull-right">Tambah Permintaan Fasilitas</a>
+            </div>
         </div>
         <input class="form-control" id="myInput" type="text" placeholder="Search..">
         <br>
