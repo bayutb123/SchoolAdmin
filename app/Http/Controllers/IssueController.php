@@ -124,7 +124,7 @@ class IssueController extends Controller
         // author
         $issue->author = \App\Models\User::where('id', $issue->author_id)->first()->name;
 
-        $allInventories = \App\Models\Inventory::where('issue_id', null)->get();
+        $allInventories = \App\Models\Inventory::where('issue_id', null)->where('status', '<', 10)->get();
         $inventories = \App\Models\Inventory::where('issue_id', $id)->get();
 
         // add inventory to allInventories

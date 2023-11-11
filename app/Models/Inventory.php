@@ -20,6 +20,7 @@ class Inventory extends Model
         'category', 
         'name', 
         'description', 
+        'price',
         'quantity', 
         'quantity_unit', 
         'status', 

@@ -24,7 +24,8 @@
         <div class="text-right">
             <div class="row-lg-6">
                 <a href="{{ route('inventory.create') }}" class="btn btn-primary mb-2 pull-right">Tambah Fasilitas</a>
-                <a href="{{ route('inventory.request') }}" class="btn btn-primary mb-2 pull-right">Tambah Permintaan Fasilitas</a>
+                <a href="{{ route('inventory.request') }}" class="btn btn-primary mb-2 pull-right">Tambah Permintaan
+                    Fasilitas</a>
             </div>
         </div>
         <input class="form-control" id="myInput" type="text" placeholder="Search..">
@@ -51,9 +52,8 @@
                         <td><span
                                 class="badge badge-{{ $inventory->statusColor }} p-2">{{ $inventory->statusName }}</span>
                             @if ($inventory->isIssued)
-                            <span class="badge badge-{{ $inventory->issueStatusColor }} p-2">{{
-                                $inventory->issueStatusName
-                            }}</span>
+                                <span
+                                    class="badge badge-{{ $inventory->issueStatusColor }} p-2">{{ $inventory->issueStatusName }}</span>
                             @endif
                         </td>
                         <td>{{ $inventory->last_author_id }}</td>
@@ -61,6 +61,12 @@
                             @if ($inventory->isIssued)
                                 <a href="{{ route('issue.detail', ['id' => $inventory->issue_id]) }}"
                                     class="btn btn-primary btn-sm w-100">Lihat laporan</a>
+                            @elseif ($inventory->isRequested)
+                                {{-- {{ route('inventory.request.detail', ['id' => $inventory->request_id]) }} --}}
+                                <a href="" class="btn btn-primary btn-sm w-100">Lihat permintaan</a>
+                            @elseif ($inventory->status == 10)
+                                <a href="{{ route('inventory.request.edit', ['id' => $inventory->id]) }} "
+                                    class="btn btn-primary btn-sm w-100">Edit</a>
                             @else
                                 <a href="{{ route('inventory.edit', ['id' => $inventory->id]) }}"
                                     class="btn btn-primary btn-sm w-100">Edit</a>
