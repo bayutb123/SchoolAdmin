@@ -1,11 +1,25 @@
-@extends('layouts.admin')
+<!DOCTYPE html>
+<html lang="en">
 
-@section('main-content')
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+        integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+
+    <!-- Fonts -->
+    <link href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+    <title>Document</title>
+</head>
+
+<body>
     <!-- Page Heading -->
     <h1 class="h3 mb-4 text-gray-800">{{ __('Detail Laporan Fasilitas') }}</h1>
-
     <div class="row justify-content-center">
-
         <div class="col-lg-12">
             @if (session('success'))
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -17,11 +31,11 @@
                 </div>
             @endif
             <div class="card shadow mb-4">
-                
 
                 <form class="m-4" action="{{ route('issue.approve') }}" method="post">
-                    @if ( $widget['issue']->status > 5 && Auth::user()->role_id  == 2 )
-                        <span class="badge badge-{{ $widget['issue']->statusColor }} mb-2 p-2">{{ $widget['issue']->statusName }}</span>    
+                    @if ($widget['issue']->status > 5 && Auth::user()->role_id == 2)
+                        <span
+                            class="badge badge-{{ $widget['issue']->statusColor }} my-2 p-2">{{ $widget['issue']->statusName }}</span>
                     @endif
                     @method('PUT')
                     @csrf
@@ -29,16 +43,11 @@
                         id="author_id" aria-describedby="author_id" placeholder=""> --}}
 
                     <input type="hidden" name="issue_id" value="{{ $widget['issue']->id }}">
-                    <div class="form-row">
-                        <div class="form-group col-2">
-                            <label for="room_id">Lokasi</label>
-                            <select class="selectpicker w-100" data-live-search="true" name="room_id" id="room">
-                                <option selected value="{{ $widget['issue']->room_id }}">{{ $widget['issue']->room_name }}
-                                </option>
-                            </select>
-                            <small id="room_id" class="form-text text-muted">Help text</small>
-                        </div>
 
+                    <div class="form-group">
+                        Ruangan <span style="font-weight: bold">{{ $widget['issue']->room_name }}</span>
+                        <small id="author_id"
+                            class="form-text text-muted">{{ $widget['issue']->created_at->toRfc850String() }}</small>
                     </div>
 
                     {{-- Create table with inventory inside --}}
@@ -50,7 +59,6 @@
                                 <th>Kategori</th>
                                 <th>Jumlah</th>
                                 <th>Kondisi</th>
-                                <th>Terakhir Diubah</th>
                             </tr>
                         </thead>
                         <tbody id="myTable">
@@ -71,38 +79,33 @@
                                     <td>
                                         {{ $inventory->condition }}
                                     </td>
-                                    <td>
-                                        {{ $inventory->updated_at }}
-                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
 
-                    <div class="form-group">
                         <label for="description">Deskripsi</label>
-                        <textarea readonly type="text" class="form-control" name="description" id="description" aria-describedby="description"
-                            placeholder="">{{ $widget['issue']->description }}</textarea>
-                        <small id="description" class="form-text text-muted">Help text</small>
+                        <textarea class="form-input" type="text" name="description" id="description" aria-describedby="description" placeholder="">{{ $widget['issue']->description }}</textarea>
+
+                    <div class="input-group mt-3">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon3">Author :
+                                    {{ $widget['issue']->author }}</span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="author">Author</label>
-                        <input type="text" class="form-control" name="author" value="{{ $widget['issue']->author }}"
-                            id="author" disabled aria-describedby="author" placeholder="">
-                        <small id="author_id"
-                            class="form-text text-muted">{{ $widget['issue']->created_at->toRfc850String() }}</small>
-                    </div>
-                    
-                    @if ( Auth::user()->role_id  == 1 )
+
+                    @if (Auth::user()->role_id == 1)
                         <button type="submit" class="btn btn-primary">Setujui</button>
                     @endif
-                    
-                    <a href="{{ route("issue.print", $widget['issue']->id) }}" class="btn btn-primary">
-                        <i class="fas fa-print"></i>
-                    </a>
+
+
                 </form>
             </div>
         </div>
-
     </div>
-@endsection
+
+</body>
+
+</html>

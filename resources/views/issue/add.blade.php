@@ -42,8 +42,8 @@
                                 id="inlineFormCustomSelect">
                                 @foreach ($widget['inventories'] as $inventory)
                                     <option data-tokens="{{ $inventory->name }}" value="{{ $inventory->id }}">
-                                        {{ $inventory->name }} - <span
-                                            style="font-weight: 100">{{ $inventory->room_id }}</span>
+                                        [{{ $inventory->room_id }}] - {{ $inventory->name }}
+                                            ({{ $inventory->statusName }})
                                     </option>
                                 @endforeach
                             </select>

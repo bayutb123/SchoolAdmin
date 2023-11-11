@@ -42,6 +42,7 @@ Route::get('/issue/add', 'IssueController@create')->name('issue.create');
 Route::post('/issue/add', 'IssueController@store')->name('issue.store');
 Route::get('/issue/{id}/edit', 'IssueController@edit')->name('issue.edit');
 Route::put('/issue/edit', 'IssueController@update')->name('issue.update');
+Route::get('/issue/{id}/print', 'IssueController@print')->name('issue.print');
 
 // approve issue
 Route::get('/issue/{id}/detail', 'IssueController@detail')->name('issue.detail');
