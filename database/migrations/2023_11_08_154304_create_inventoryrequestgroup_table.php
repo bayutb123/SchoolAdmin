@@ -13,21 +13,20 @@ return new class extends Migration
     {
         Schema::create('inventoryrequestgroup', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('inventory_group_id');
-            $table->string('name');
+            $table->unsignedBigInteger('room_id');
             $table->string('category');
+            $table->string('name');
+            $table->string('description')->nullabe();
+            $table->decimal('price' ,10 ,2);
             $table->decimal('quantity', 5, 2);
             $table->string('quantity_unit')->nullabe();
-            $table->decimal('price' ,10 ,2);
-            $table->decimal('total' ,15 ,2);
             $table->string('status');
-            $table->date('purchased_at')->nullabe();
-            $table->string('note')->nullabe();
+            $table->unsignedBigInteger('last_author_id');
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('inventory_group_id')->references('id')->on('inventoryrequests')->onDelete('cascade');
-
+            $table->foreign('last_author_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('room_id')->references('id')->on('rooms')->onDelete('cascade');
         });
     }
 

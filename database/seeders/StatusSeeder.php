@@ -58,7 +58,47 @@ class StatusSeeder extends Seeder
                 'type' => 'issue',
                 'name' => 'Selesai',
                 'color' => 'success',
-            ]
+            ],
+            [
+                'type' => 'request',
+                'name' => 'Rencana Pembelian',
+                'color' => 'secondary',
+            ],
+            [
+                'type' => 'request',
+                'name' => 'Pengajuan Pembelian',
+                'color' => 'secondary',
+            ],
+            [
+                'type' => 'request',
+                'name' => 'Disetujui',
+                'color' => 'primary',
+            ],
+            [
+                'type' => 'request',
+                'name' => 'Ditolak',
+                'color' => 'danger',
+            ],
+            [
+                'type' => 'request',
+                'name' => 'Dalam Proses',
+                'color' => 'warning',
+            ],
+            [
+                'type' => 'request',
+                'name' => 'Dalam Pengiriman',
+                'color' => 'warning',
+            ],
+            [
+                'type' => 'request',
+                'name' => 'Diterima',
+                'color' => 'success',
+            ],
+            [
+                'type' => 'request',
+                'name' => 'Selesai',
+                'color' => 'success',
+            ],
         ];
 
         foreach ($status as $key => $value) {

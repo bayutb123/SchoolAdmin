@@ -18,7 +18,7 @@ class IssueController extends Controller
 
     public function index()
     {
-        $issues = \App\Models\InventoryIssue::all();
+        $issues = \App\Models\InventoryIssue::all()->reverse();
         $status = \App\Models\Status::where('type', 'issue')->get();
 
         foreach ($issues as $issue) {
@@ -43,8 +43,9 @@ class IssueController extends Controller
 
     public function create()
     {
-        $inventories  = \App\Models\Inventory::all()->where('issue_id', null);
-        $status = \App\Models\Status::where('type', 'inventory')->get();
+        // get all inventories where issue_id is null and request_id is null
+        $inventories = \App\Models\Inventory::where('issue_id', null)->where('status', '<', 10)->get();
+        $status = \App\Models\Status::all();
         $rooms = \App\Models\Room::all();
         foreach ($inventories as $inventory) {
             $inventory->room_id = $rooms->where('id', $inventory->room_id)->first()->name;
@@ -123,7 +124,7 @@ class IssueController extends Controller
         // author
         $issue->author = \App\Models\User::where('id', $issue->author_id)->first()->name;
 
-        $allInventories = \App\Models\Inventory::where('issue_id', null)->get();
+        $allInventories = \App\Models\Inventory::where('issue_id', null)->where('status', '<', 10)->get();
         $inventories = \App\Models\Inventory::where('issue_id', $id)->get();
 
         // add inventory to allInventories
@@ -227,7 +228,9 @@ class IssueController extends Controller
             'status' => $status,
         ];
 
+        $fileName = 'issue-' . $issue->room_name . '-' . $issue->statusName . '.pdf';
+
         $pdf = PDF::loadView('issue.pdf', compact('widget'));
-        return $pdf->download('issue.pdf');
+        return $pdf->download(str_replace(' ', '', $fileName));
     } 
 }
