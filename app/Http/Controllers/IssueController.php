@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\InventoryIssueRequest;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use PDF;
 
 
 class IssueController extends Controller
@@ -192,4 +193,34 @@ class IssueController extends Controller
         }
         return redirect()->route('issue')->withSuccess('Issue approved successfully.');
     }
+
+    public function print($id) {
+        $issue = \App\Models\InventoryIssue::where('id', $id)->first();
+        $rooms = \App\Models\Room::all();
+        $status = \App\Models\Status::all();
+        $issue->room_name = $rooms->where('id', $issue->room_id)->first()->name;
+        // author
+        $issue->author = \App\Models\User::where('id', $issue->author_id)->first()->name;
+
+        $inventories = \App\Models\Inventory::where('issue_id', $id)->get();
+
+        foreach ($inventories as $inventory) {
+            $inventory->room_name = $rooms->where('id', $inventory->room_id)->first()->name;
+            $inventory->condition = $status->where('id', $inventory->status)->first()->name;
+        }
+
+        $status = \App\Models\Status::where('type', 'issue')->get();
+        $issue->statusName = $status->where('id', $issue->status)->first()->name;
+        $issue->statusColor = $status->where('id', $issue->status)->first()->color;
+        
+        $widget = [
+            'issue' => $issue,
+            'inventories' => $inventories,
+            'rooms' => $rooms,
+            'status' => $status,
+        ];
+
+        $pdf = PDF::loadView('issue.pdf', compact('widget'));
+        return $pdf->download('issue.pdf');
+    } 
 }
