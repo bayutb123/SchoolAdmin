@@ -16,7 +16,7 @@ class InventoryController extends Controller
 
     public function index()
     {
-        $inventory = \App\Models\Inventory::all();
+        $inventory = \App\Models\Inventory::all()->reverse();
         $status = \App\Models\Status::all();
         foreach ($inventory as $it) {
             $room = \App\Models\Room::where('id', $it->room_id)->first();

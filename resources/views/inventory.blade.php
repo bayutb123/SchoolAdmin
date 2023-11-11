@@ -39,7 +39,7 @@
                     <th>Jumlah</th>
                     <th>Kondisi</th>
                     <th>Terakhir Diubah</th>
-                    <th>Aksi</th>
+                    <th width=10%>Aksi</th>
                 </tr>
             </thead>
             <tbody id="myTable">

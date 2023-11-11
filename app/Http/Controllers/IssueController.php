@@ -18,7 +18,7 @@ class IssueController extends Controller
 
     public function index()
     {
-        $issues = \App\Models\InventoryIssue::all();
+        $issues = \App\Models\InventoryIssue::all()->reverse();
         $status = \App\Models\Status::where('type', 'issue')->get();
 
         foreach ($issues as $issue) {

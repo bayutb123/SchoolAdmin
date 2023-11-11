@@ -33,9 +33,9 @@
                     <th>Nama</th>
                     <th>Tipe</th>
                     <th>Lokasi</th>
-                    <th>Kondisi</th>
+                    <th>Jumlah Fasilitas</th>
                     <th>Ukuran Ruangan</th>
-                    <th>Aksi</th>
+                    <th width=10%>Aksi</th>
                 </tr>
             </thead>
             <tbody id="myTable">
@@ -44,7 +44,7 @@
                         <td>{{ $room->name }}</td>
                         <td>{{ $room->type }}</td>
                         <td>{{ $room->floor }}</td>
-                        <td>{!! $room->status !!}</td>
+                        <td>{{ $room->total }}</td>
                         <td>{{ $room->size }} {{ $room->size_unit }}<sup>2</sup></td>
                         <td>
                             <a href="

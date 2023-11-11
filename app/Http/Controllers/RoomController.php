@@ -15,7 +15,14 @@ class RoomController extends Controller
 
     public function index()
     {
-        $rooms = \App\Models\Room::all();
+        $rooms = \App\Models\Room::all()->reverse();
+
+        // get total inventory of each room
+        foreach ($rooms as $room) {
+            $room->total = \App\Models\Inventory::where('room_id', $room->id)
+            ->where('status', '<', 10)
+            ->count();
+        }
 
         foreach ($rooms as $room) {
             if ($room->floor == 1) {
