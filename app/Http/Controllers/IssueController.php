@@ -26,6 +26,10 @@ class IssueController extends Controller
             $room = \App\Models\Room::where('id', $issue->room_id)->first();
             $issue->room_id = $room->name;
 
+            if ($issue->status > 6) {
+                $issue->isApproved = true;
+            }
+
             $issue->statusName = $status->where('id', $issue->status)->first()->name;
             $issue->statusColor = $status->where('id', $issue->status)->first()->color;
         }
@@ -185,12 +189,6 @@ class IssueController extends Controller
             $issue = \App\Models\InventoryIssue::where('id', $validated['issue_id'])->first();
             $issue->status = 7; // status disetujui
             $issue->save();
-
-            $inventories = \App\Models\Inventory::where('issue_id', $validated['issue_id'])->get();
-            foreach ($inventories as $inventory) {  
-                $inventory->status = 5; // status baik
-                $inventory->save();
-            }
         }
         return redirect()->route('issue')->withSuccess('Issue approved successfully.');
     }
