@@ -17,11 +17,12 @@
                 </div>
             @endif
             <div class="card shadow mb-4">
-                
+
 
                 <form class="m-4" id="approve-form" action="{{ route('issue.approve') }}" method="post">
-                    @if ( $widget['issue']->status > 5 && Auth::user()->role_id  == 2 )
-                        <span class="badge badge-{{ $widget['issue']->statusColor }} mb-2 p-2">{{ $widget['issue']->statusName }}</span>    
+                    @if ($widget['issue']->status > 5 && Auth::user()->role_id == 2)
+                        <span
+                            class="badge badge-{{ $widget['issue']->statusColor }} mb-2 p-2">{{ $widget['issue']->statusName }}</span>
                     @endif
                     @method('PUT')
                     @csrf
@@ -81,8 +82,8 @@
 
                     <div class="form-group">
                         <label for="description">Deskripsi</label>
-                        <textarea readonly type="text" class="form-control" name="description" id="description" aria-describedby="description"
-                            placeholder="">{{ $widget['issue']->description }}</textarea>
+                        <textarea readonly type="text" class="form-control" name="description" id="description"
+                            aria-describedby="description" placeholder="">{{ $widget['issue']->description }}</textarea>
                         <small id="description" class="form-text text-muted">Help text</small>
                     </div>
                     <div class="form-group">
@@ -92,39 +93,40 @@
                         <small id="author_id"
                             class="form-text text-muted">{{ $widget['issue']->created_at->toRfc850String() }}</small>
                     </div>
-                    
-                    @if ( Auth::user()->role_id  == 1 )
-                        <a href="#" data-toggle="modal"
-                        data-target="#approveModal" class="btn btn-primary">Setujui</a>
+
+                    @if (Auth::user()->role_id == 1)
+                        <a href="#" data-toggle="modal" data-target="#approveModal"
+                            class="btn btn-primary">Setujui</a>
                     @endif
-                    
-                    <a href="{{ route("issue.print", $widget['issue']->id) }}" class="btn btn-primary">
+
+                    <a href="{{ route('issue.print', $widget['issue']->id) }}" class="btn btn-primary">
                         <i class="fas fa-print"></i>
                     </a>
                 </form>
             </div>
         </div>
 
-        <!-- Logout Modal-->
-    <div class="modal fade" id="approveModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">{{ __('Yakin ingin menyetujui pengajuan ini?') }}</h5>
-                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
-            </div>
-            <div class="modal-body">Aksi ini tidak dapat diurungkan</div>
-            <div class="modal-footer">
-                <button class="btn btn-link" type="button" data-dismiss="modal">{{ __('Cancel') }}</button>
-                <a class="btn btn-success" href="{{ route('issue.approve') }}"
-                    onclick="event.preventDefault(); document.getElementById('approve-form').submit();">{{ __('Approve') }}</a>
+        <!-- Confirmation Modal-->
+        <div class="modal fade" id="approveModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">{{ __('Yakin ingin menyetujui pengajuan ini?') }}
+                        </h5>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">Aksi ini tidak dapat diurungkan</div>
+                    <div class="modal-footer">
+                        <button class="btn btn-link" type="button" data-dismiss="modal">{{ __('Cancel') }}</button>
+                        <a class="btn btn-success" href="{{ route('issue.approve') }}"
+                            onclick="event.preventDefault(); document.getElementById('approve-form').submit();">{{ __('Approve') }}</a>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
 
     </div>
 @endsection

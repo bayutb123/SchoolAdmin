@@ -58,6 +58,10 @@ Route::get('/request', 'RequestController@index')->name('request');
 Route::get('/request/add', 'RequestController@create')->name('request.create');
 Route::post('/request/add', 'RequestController@store')->name('request.store');
 
+// approve request
+Route::get('/request/{id}/detail', 'RequestController@detail')->name('request.detail');
+Route::put('/request/detail', 'RequestController@approve')->name('request.approve');
+
 Route::get('/about', function () {
     return view('about');
 })->name('about');

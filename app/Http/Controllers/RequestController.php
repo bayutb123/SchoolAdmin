@@ -99,4 +99,38 @@ class RequestController extends Controller
         return redirect()->route('request');
     }
 
+    // detail
+    public function detail($id) {
+        $request = \App\Models\InventoryRequest::where('id', $id)->first();
+        $status = \App\Models\Status::all();
+        
+        $request->statusName = $status->where('id', $request->status)->first()->name;
+        $request->statusColor = $status->where('id', $request->status)->first()->color;
+        $request->roomName = \App\Models\Room::where('id', $request->room_id)->first()->name;
+        $request->author = \App\Models\User::where('id', $request->author_id)->first()->name;
+        $inventories = \App\Models\Inventory::where('request_id', $id)->get();
+        foreach ($inventories as $it) {
+            $total_price = $it->price * $it->quantity;
+
+            $it->room_name = \App\Models\Room::where('id', $it->room_id)->first()->name;
+            $it->statusName = $status->where('id', $it->status)->first()->name;
+            // jika quantity berisi .00, maka tidak perlu menampilkan koma
+            if (strpos($it->quantity, '.00') !== false) {
+                $it->quantity = number_format($it->quantity, 0, ',', '.');
+            } else {
+                $it->quantity = number_format($it->quantity, 2, ',', '.');
+            }
+
+            $it->price = number_format($it->price, 0, ',', '.');
+            $it->total_price = number_format($total_price, 0, ',', '.');
+            $it->statusColor = $status->where('id', $it->status)->first()->color;
+        }
+        $request->total_price = number_format($request->total_price, 0, ',', '.');
+
+        $widget = [
+            'request' => $request,
+            'inventories' => $inventories,
+        ];
+        return view('request.detail', compact('widget'));
+    }
 }
