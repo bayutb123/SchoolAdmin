@@ -35,7 +35,7 @@
                                     </option>
                                 @endforeach
                             </select>
-                            <small id="room_id" class="form-text text-muted">Help text</small>
+                            <small id="room_id" class="form-text text-muted">Lokasi / Ruangan tempat fasilitas yang rusak</small>
                         </div>
                         <div class="form-group col-10">
                             <label for="category">Fasilitas</label>
@@ -49,14 +49,14 @@
                                     </option>
                                 @endforeach
                             </select>
-                            <small id="category" class="form-text text-muted">Help text</small>
+                            <small id="category" class="form-text text-muted">Dapat memilih beberapa fasilitas yang rusak<br>(Sangat disarankan untuk memilih hanya fasilitas yang ada di lokasi yang anda sudah tetapkan)</small>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="description">Deskripsi</label>
                         <textarea type="text" class="form-control" name="description" id="description" aria-describedby="description"
                             placeholder=""></textarea>
-                        <small id="description" class="form-text text-muted">Help text</small>
+                            <small id="description" class="form-text text-muted">Contoh : barang x termasuk PPN 11%</small>
                     </div>
 
                     <div class="form-group">

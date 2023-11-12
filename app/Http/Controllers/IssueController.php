@@ -32,6 +32,11 @@ class IssueController extends Controller
             $room = \App\Models\Room::where('id', $issue->room_id)->first();
             $issue->room_id = $room->name;
 
+            // add new if created today
+            if ($issue->created_at->isToday()) {
+                $issue->new = true;
+            }
+
             if ($issue->status > 6) {
                 $issue->isApproved = true;
             }
@@ -48,10 +53,14 @@ class IssueController extends Controller
 
     public function create()
     {
+        // get status id where name == 'Pengajuan Perbaikan'
+        $issuedStatus = \App\Models\Status::where('name', 'Pengajuan Perbaikan')->first();
+        // get status id where name == 'Pengadaan'
+        $requestStatus = \App\Models\Status::where('name', 'Pengadaan')->first();
         // get all inventories where issue_id is null and request_id is null
         $inventories = \App\Models\Inventory::where('issue_id', null)
-        ->where('status', '<', 10)
-        ->where('status', '!=', 1)
+        ->where('status', '<', $requestStatus)
+        ->where('status', '!=', $issuedStatus)
         ->get();
         $status = \App\Models\Status::all();
         $rooms = \App\Models\Room::all();

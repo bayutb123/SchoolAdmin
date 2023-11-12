@@ -78,7 +78,7 @@
                                 </tr>
                             @endforeach
                             <tr style="font-weight: bold">
-                                <td colspan="5" class="text-right">Total Biaya</td>
+                                <td colspan="5" class="text-right">Total Biaya (Rupiah)</td>
                                 <td>{{ $widget['request']->total_price }}</td>
                             </tr>
                         </tbody>
@@ -102,8 +102,7 @@
                         <a href="#" data-toggle="modal" data-target="#approveModal"
                             class="btn btn-primary">Setujui</a>
                     @endif
-                    {{-- {{ route('request.print', $widget['request']->id) }} --}}
-                    <a href="" class="btn btn-primary">
+                    <a href="{{ route('request.print', $widget['request']->id) }}" class="btn btn-primary">
                         <i class="fas fa-print"></i>
                     </a>
                 </form>

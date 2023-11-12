@@ -33,7 +33,7 @@
                                     </option>
                                 @endforeach
                             </select>
-                            <small id="room_id" class="form-text text-muted">Help text</small>
+                            <small id="room_id" class="form-text text-muted">Tempat fasilitas disimpan atau digunakan</small>
                         </div>
                         <div class="form-group col">
                             <label for="category">Kategori</label>
@@ -44,7 +44,7 @@
                                 <option value="Fasilitas Pendukung">Fasilitas Pendukung</option>
                                 <option value="Lainnya">Lainnya</option>
                             </select>
-                            <small id="category" class="form-text text-muted">Help text</small>
+                            <small id="category" class="form-text text-muted">Tipe fasilitas</small>
                         </div>
                     </div>
                     <div class="form-row">
@@ -53,7 +53,7 @@
                                 <label for="name">Nama</label>
                                 <input type="text" class="form-control" name="name" id="name"
                                     aria-describedby="name" placeholder="">
-                                <small id="name" class="form-text text-muted">Help text</small>
+                                <small id="name" class="form-text text-muted">Nama fasilitas</small>
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -61,7 +61,7 @@
                                 <label for="quantity">Jumlah</label>
                                 <input type="number" step="0.01" class="form-control" name="quantity" id="quantity"
                                     aria-describedby="quantity" placeholder="">
-                                <small id="quantity" class="form-text text-muted">Help text</small>
+                                <small id="quantity" class="form-text text-muted">Contoh: 100 atau 10.55 (Untuk satuan meter, kg, liter)</small>
                             </div>
                         </div>
                         <div class="col md-2">
@@ -75,7 +75,7 @@
                                     <option value="liter">liter</option>
                                     <option value="lainnya">lainnya</option>
                                 </select>
-                                <small id="quantity_unit" class="form-text text-muted">Help text</small>
+                                <small id="quantity_unit" class="form-text text-muted">Satuan jumlah fasilitas</small>
                             </div>
                         </div>
                     </div>
@@ -83,7 +83,7 @@
                         <label for="description">Deskripsi</label>
                         <textarea type="text" class="form-control" name="description" id="description" aria-describedby="description"
                             placeholder=""></textarea>
-                        <small id="description" class="form-text text-muted">Help text</small>
+                        <small id="description" class="form-text text-muted">Keterangan fasilitas, seperti fungsi, kerusakan, dll</small>
                     </div>
                     <div class="form-group">
                         <label for="status">Kondisi</label>
@@ -94,7 +94,7 @@
                                 @endif>{{ $status->name }}</option>
                             @endforeach
                         </select>
-                        <small id="status" class="form-text text-muted">Help text</small>
+                        <small id="status" class="form-text text-muted">Kondisi fasilitas saat didata</small>
                     </div>
                     <div class="form-group">
                         <label for="author">Author</label>

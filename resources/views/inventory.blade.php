@@ -24,7 +24,7 @@
         <div class="text-right">
             <div class="row-lg-6">
                 @if (Auth::user()->role_id == 1)
-                    <a href="{{ route('inventory.create') }}" class="btn btn-primary mb-2 pull-right">Tambah Fasilitas</a>
+                    <a href="{{ route('inventory.create') }}" class="btn btn-primary mb-2 pull-right">Input Pendataan Fasilitas</a>
                 @endif
                 <a href="{{ route('inventory.request') }}" class="btn btn-primary mb-2 pull-right">Tambah Permintaan
                     Fasilitas</a>
@@ -39,7 +39,7 @@
                     <th width=10%>Ruang Lingkup</th>
                     <th width=15%>Kategori</th>
                     <th width=5%>Jumlah</th>
-                    <th>Kondisi</th>
+                    <th>Status</th>
                     <th width=10%>Terakhir Diubah</th>
                     <th width=10%>Aksi</th>
                 </tr>
@@ -47,11 +47,17 @@
             <tbody id="myTable">
                 @foreach ($widget['inventory'] as $inventory)
                     <tr>
-                        <td>{{ $inventory->name }}</td>
+                        <td>{{ $inventory->name }}
+                            
+                        </td>
                         <td>{{ $inventory->room }}</td>
                         <td>{{ $inventory->category }}</td>
                         <td>{{ $inventory->quantity }} {{ $inventory->quantity_unit }}</td>
-                        <td><span
+                        <td>
+                            @if ($inventory->new)
+                                <span class="badge badge-success p-2">Baru</span>
+                            @endif
+                            <span
                                 class="badge badge-{{ $inventory->statusColor }} p-2">{{ $inventory->statusName }}</span>
                             @if ($inventory->isIssued)
                                 <span

@@ -32,7 +32,7 @@
                     <th width=15%>Penanggungjawab</th>
                     <th width=10%>Ruang Lingkup</th>
                     <th>Deskripsi</th>
-                    <th width=10%>Kondisi</th>
+                    <th width=15%>Kondisi</th>
                     <th width=10%>Terakhir Diubah</th>
                     <th width=10%>Aksi</th>
                 </tr>
@@ -44,22 +44,26 @@
                         <td>{{ $issue->room_id }}</td>
                         <td>{{ $issue->description }}</td>
                         <td>
-                                <span class="badge badge-{{ $issue->statusColor }} p-2">{{
-                                    $issue->statusName
-                                }}</span>
-                            </td>
-                        <td>{{ $issue->updated_at }}</td>
-                        <td>
-                            @if ($issue->isApproved || Auth::user()->role_id == 1)
-                            {{-- {{ route('issue.show', $issue->id) }} --}}
-                                <a href=" {{ route('issue.detail', $issue->id) }} "
-                                    class="btn btn-primary btn-sm w-100">Lihat laporan</a>
-                            @else
-                                <a href="{{ route('issue.edit', $issue->id) }}"
-                                    class="btn btn-primary btn-sm w-100">Edit</a>
-                            @endif
+
+                            <span class="badge badge-{{ $issue->statusColor }} p-2">{{ $issue->statusName }}</span>
                         </td>
-                    </tr>
+                        <td>
+                            @if ($issue->new)
+                                <span class="badge badge-success p-2">Hari ini</span>
+                            @else
+                                {{ $issue->updated_at }}
+                        </td>
+                @endif
+                <td>
+                    @if ($issue->isApproved || Auth::user()->role_id == 1)
+                        {{-- {{ route('issue.show', $issue->id) }} --}}
+                        <a href=" {{ route('issue.detail', $issue->id) }} " class="btn btn-primary btn-sm w-100">Lihat
+                            laporan</a>
+                    @else
+                        <a href="{{ route('issue.edit', $issue->id) }}" class="btn btn-primary btn-sm w-100">Edit</a>
+                    @endif
+                </td>
+                </tr>
                 @endforeach
             </tbody>
         </table>

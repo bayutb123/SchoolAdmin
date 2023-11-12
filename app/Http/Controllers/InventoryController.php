@@ -20,7 +20,11 @@ class InventoryController extends Controller
         $status = \App\Models\Status::all();
         foreach ($inventory as $it) {
             $room = \App\Models\Room::where('id', $it->room_id)->first();
-            
+
+            if ($it->created_at->isToday()) {
+                $it->new = true;
+            }
+
             $it->room = $room->name;
             $it->statusName = $status->where('id', $it->status)->first()->name;
             $it->statusColor = $status->where('id', $it->status)->first()->color;

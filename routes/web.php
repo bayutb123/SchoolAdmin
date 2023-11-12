@@ -57,10 +57,14 @@ Route::put('/issue/detail', 'IssueController@approve')->name('issue.approve');
 Route::get('/request', 'RequestController@index')->name('request');
 Route::get('/request/add', 'RequestController@create')->name('request.create');
 Route::post('/request/add', 'RequestController@store')->name('request.store');
+// Route::get('/request/{id}/edit', 'RequestController@edit')->name('request.edit');
+// Route::put('/request/edit', 'RequestController@update')->name('request.update');
+Route::get('/request/{id}/print', 'RequestController@print')->name('request.print');
 
 // approve request
 Route::get('/request/{id}/detail', 'RequestController@detail')->name('request.detail');
 Route::put('/request/detail', 'RequestController@approve')->name('request.approve');
+
 
 Route::get('/about', function () {
     return view('about');
