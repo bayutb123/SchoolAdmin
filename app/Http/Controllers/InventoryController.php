@@ -25,12 +25,14 @@ class InventoryController extends Controller
             $it->statusName = $status->where('id', $it->status)->first()->name;
             $it->statusColor = $status->where('id', $it->status)->first()->color;
 
-            if ($it->issue_id != null) {
+            if ($it->issue_status != null) {
                 $it->isIssued = true;
                 $it->issueStatusName = $status->where('id', $it->issue_status)->first()->name;
                 $it->issueStatusColor = $status->where('id', $it->issue_status)->first()->color;
-            } else if ($it->request_id != null) {
+            } else if ($it->request_status != null) {
                 $it->isRequested = true;
+                $it->requestStatusName = $status->where('id', $it->request_status)->first()->name;
+                $it->requestStatusColor = $status->where('id', $it->request_status)->first()->color;
             } 
             
             $user = \App\Models\User::where('id', $it->last_author_id)->first();
@@ -48,7 +50,9 @@ class InventoryController extends Controller
     {
         $rooms = \App\Models\Room::all();
         $category = Inventory::select('category')->distinct()->get();
-        $status = \App\Models\Status ::where('type', 'inventory')->get();
+        $status = \App\Models\Status ::where('type', 'inventory')
+            ->where('id', '<', 5) // filter status where id < 5
+            ->get();
         $widget = [
             'rooms' => $rooms,
             'status' => $status,
@@ -82,7 +86,10 @@ class InventoryController extends Controller
         $inventory = Inventory::where('id', $id)->first();
         // get all category from all inventory
         $category = Inventory::select('category')->distinct()->get();
-        $status = \App\Models\Status::where('type', 'inventory')->get();
+        $status = \App\Models\Status::where('type', 'inventory')
+            ->where('id', '<', 5) // filter status where id < 5
+            ->get();
+        
         $rooms = \App\Models\Room::all();
         $widget = [
             'inventory' => $inventory,
@@ -124,7 +131,7 @@ class InventoryController extends Controller
 
     public function request() {
         $rooms = \App\Models\Room::all();
-        $status = \App\Models\Status::where('name', 'Rencana Pembelian')->get();
+        $status = \App\Models\Status::where('name', 'Pengadaan')->get();
 
         $widget = [
             'rooms' => $rooms,
@@ -137,9 +144,13 @@ class InventoryController extends Controller
     public function requestStore(InventoryRequestRequest $request) {
         $validated = $request->validated();
 
+        // get status where it name == 'Rencana Pembelian'
+        $status = \App\Models\Status::where('name', 'Rencana Pembelian')->first();
+
         if ($validated) {
             $inventory = Inventory::create(
                 [
+                    'request_status' => $status->id, // status 'Rencana Pembelian
                     'room_id' => $request->room_id,
                     'category' => $request->category,
                     'name' => $request->name,

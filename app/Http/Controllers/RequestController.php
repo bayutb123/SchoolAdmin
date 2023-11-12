@@ -40,10 +40,10 @@ class RequestController extends Controller
     public function create() {
         // rooms
         $rooms = \App\Models\Room::all();
-        // status 
-        $status = \App\Models\Status::all();
-        // inventory where status == 10
-        $inventory = \App\Models\Inventory::where('status', 10)->get();
+        // get status id where name == 'Pengajuan Pembelian'
+        $status = \App\Models\Status::where('name', 'Pengajuan Pembelian')->first();
+        // get all inventories where request_id is null
+        $inventory = \App\Models\Inventory::where('request_id', null)->get();
 
         // change each inventory to include room name
         foreach ($inventory as $it) {
@@ -71,6 +71,7 @@ class RequestController extends Controller
         if ($validated) {
             // get status where it name == 'Pengajuan Pembelian'
             $status = \App\Models\Status::where('name', 'Pengajuan Pembelian')->first();
+            // get status where it name == 'Menunggu Persetujuan'
 
             $request = new \App\Models\InventoryRequest;
             $request->author_id = $validated['author_id'];
@@ -89,7 +90,7 @@ class RequestController extends Controller
             foreach ($validated['inventories'] as $it) {
                 $inventory = \App\Models\Inventory::where('id', $it)->first();
                 $inventory->request_id = $request->id;
-                $inventory->status = $status->id;
+                $inventory->request_status = $status->id;
                 $inventory->save();
             }
         }
@@ -132,5 +133,29 @@ class RequestController extends Controller
             'inventories' => $inventories,
         ];
         return view('request.detail', compact('widget'));
+    }
+
+    // approve
+    public function approve(Request $request) {
+        $validated = $request->validate([
+            'request_id' => 'required|integer',
+        ]);
+
+        // get status id where name == 'Disetujui'
+        $status = \App\Models\Status::where('name', 'Disetujui')->first();
+
+        if ($validated) {
+            $request = \App\Models\InventoryRequest::where('id', $validated['request_id'])->first();
+            $request->status = 12;
+            $request->save();
+
+            $inventories = \App\Models\Inventory::where('request_id', $validated['request_id'])->get();
+            foreach ($inventories as $it) {
+                $it->request_status = $status->id;
+                $it->save();
+            }
+        }
+    
+        return redirect()->route('request')->withSuccess('Request approved successfully.');
     }
 }

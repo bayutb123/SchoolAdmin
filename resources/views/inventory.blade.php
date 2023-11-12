@@ -56,6 +56,9 @@
                             @if ($inventory->isIssued)
                                 <span
                                     class="badge badge-{{ $inventory->issueStatusColor }} p-2">{{ $inventory->issueStatusName }}</span>
+                            @elseif ($inventory->isRequested)
+                                <span
+                                    class="badge badge-{{ $inventory->requestStatusColor }} p-2">{{ $inventory->requestStatusName }}</span>
                             @endif
                         </td>
                         <td>{{ $inventory->updated_at }}</td>

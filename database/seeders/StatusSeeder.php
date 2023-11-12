@@ -45,6 +45,11 @@ class StatusSeeder extends Seeder
                 'color' => 'secondary',
             ],
             [
+                'type' => 'inventory',
+                'name' => 'Pengadaan',
+                'color' => 'secondary',
+            ],
+            [
                 'type' => 'issue',
                 'name' => 'Pengajuan Perbaikan',
                 'color' => 'secondary',
