@@ -19,7 +19,7 @@
             <div class="card shadow mb-4">
                 
 
-                <form class="m-4" action="{{ route('issue.approve') }}" method="post">
+                <form class="m-4" id="approve-form" action="{{ route('issue.approve') }}" method="post">
                     @if ( $widget['issue']->status > 5 && Auth::user()->role_id  == 2 )
                         <span class="badge badge-{{ $widget['issue']->statusColor }} mb-2 p-2">{{ $widget['issue']->statusName }}</span>    
                     @endif
@@ -94,7 +94,8 @@
                     </div>
                     
                     @if ( Auth::user()->role_id  == 1 )
-                        <button type="submit" class="btn btn-primary">Setujui</button>
+                        <a href="#" data-toggle="modal"
+                        data-target="#approveModal" class="btn btn-primary">Setujui</a>
                     @endif
                     
                     <a href="{{ route("issue.print", $widget['issue']->id) }}" class="btn btn-primary">
@@ -103,6 +104,27 @@
                 </form>
             </div>
         </div>
+
+        <!-- Logout Modal-->
+    <div class="modal fade" id="approveModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">{{ __('Yakin ingin menyetujui pengajuan ini?') }}</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">Aksi ini tidak dapat diurungkan</div>
+            <div class="modal-footer">
+                <button class="btn btn-link" type="button" data-dismiss="modal">{{ __('Cancel') }}</button>
+                <a class="btn btn-success" href="{{ route('issue.approve') }}"
+                    onclick="event.preventDefault(); document.getElementById('approve-form').submit();">{{ __('Approve') }}</a>
+            </div>
+        </div>
+    </div>
+</div>
 
     </div>
 @endsection
