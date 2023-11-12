@@ -2,7 +2,7 @@
 
 @section('main-content')
     <!-- Page Heading -->
-    <h1 class="h3 text-gray-800">{{ __('Daftar Laporan') }} <span
+    <h1 class="h3 text-gray-800">{{ __('Daftar Permintaan Perbaikan') }} <span
             class="badge badge-secondary">{{ $widget['issues']->count() }}</span></h1>
 
     @if (session('success'))

@@ -25,7 +25,7 @@ class InventoryController extends Controller
             $it->statusName = $status->where('id', $it->status)->first()->name;
             $it->statusColor = $status->where('id', $it->status)->first()->color;
 
-            if ($it->issue_status == 5 || $it->issue_status == 6) {
+            if ($it->issue_id != null) {
                 $it->isIssued = true;
                 $it->issueStatusName = $status->where('id', $it->issue_status)->first()->name;
                 $it->issueStatusColor = $status->where('id', $it->issue_status)->first()->color;

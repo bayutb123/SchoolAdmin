@@ -44,7 +44,10 @@ class IssueController extends Controller
     public function create()
     {
         // get all inventories where issue_id is null and request_id is null
-        $inventories = \App\Models\Inventory::where('issue_id', null)->where('status', '<', 10)->get();
+        $inventories = \App\Models\Inventory::where('issue_id', null)
+        ->where('status', '<', 10)
+        ->where('status', '!=', 1)
+        ->get();
         $status = \App\Models\Status::all();
         $rooms = \App\Models\Room::all();
         foreach ($inventories as $inventory) {
@@ -198,6 +201,12 @@ class IssueController extends Controller
             $issue = \App\Models\InventoryIssue::where('id', $validated['issue_id'])->first();
             $issue->status = 7; // status disetujui
             $issue->save();
+
+            $inventories = \App\Models\Inventory::where('issue_id', $validated['issue_id'])->get();
+            foreach ($inventories as $inventory) {
+                $inventory->issue_status = 7;
+                $inventory->save();
+            }
         }
         return redirect()->route('issue')->withSuccess('Issue approved successfully.');
     }

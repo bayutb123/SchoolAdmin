@@ -23,7 +23,9 @@
     <div class="col-lg-12 mb-4">
         <div class="text-right">
             <div class="row-lg-6">
-                <a href="{{ route('inventory.create') }}" class="btn btn-primary mb-2 pull-right">Tambah Fasilitas</a>
+                @if (Auth::user()->role_id == 1)
+                    <a href="{{ route('inventory.create') }}" class="btn btn-primary mb-2 pull-right">Tambah Fasilitas</a>
+                @endif
                 <a href="{{ route('inventory.request') }}" class="btn btn-primary mb-2 pull-right">Tambah Permintaan
                     Fasilitas</a>
             </div>

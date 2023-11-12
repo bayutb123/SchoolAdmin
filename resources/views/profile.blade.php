@@ -37,7 +37,7 @@
                         <div class="col-lg-12">
                             <div class="text-center">
                                 <h5 class="font-weight-bold">{{  Auth::user()->fullName }}</h5>
-                                <p>Administrator</p>
+                                <p>{{ $role }}</p>
                             </div>
                         </div>
                     </div>
