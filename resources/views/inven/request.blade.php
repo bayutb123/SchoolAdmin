@@ -24,7 +24,7 @@
                         id="last_author_id" aria-describedby="last_author_id" placeholder="">
                     <div class="form-row">
                         <div class="form-group col">
-                            <label for="room_id">Lokasi</label>
+                            <label for="room_id">Ruang Lingkup</label>
                             <select class="selectpicker w-100" data-live-search="true" name="room_id" id="room">
                                 <option selected value="null">Choose...</option>
                                 @foreach ($widget['rooms'] as $room)

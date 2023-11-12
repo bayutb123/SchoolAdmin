@@ -33,12 +33,12 @@
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th>Nama</th>
-                    <th>Lokasi</th>
-                    <th>Kategori</th>
-                    <th>Jumlah</th>
+                    <th width=15%>Nama</th>
+                    <th width=10%>Ruang Lingkup</th>
+                    <th width=15%>Kategori</th>
+                    <th width=5%>Jumlah</th>
                     <th>Kondisi</th>
-                    <th>Terakhir Diubah</th>
+                    <th width=10%>Terakhir Diubah</th>
                     <th width=10%>Aksi</th>
                 </tr>
             </thead>
@@ -56,7 +56,7 @@
                                     class="badge badge-{{ $inventory->issueStatusColor }} p-2">{{ $inventory->issueStatusName }}</span>
                             @endif
                         </td>
-                        <td>{{ $inventory->last_author_id }}</td>
+                        <td>{{ $inventory->updated_at }}</td>
                         <td>
                             @if ($inventory->isIssued)
                                 <a href="{{ route('issue.detail', ['id' => $inventory->issue_id]) }}"

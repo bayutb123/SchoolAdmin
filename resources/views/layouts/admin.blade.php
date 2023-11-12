@@ -87,6 +87,14 @@
                 </a>
             </li>
 
+            <!-- Nav Item - Daftar Pengadaan -->
+            <li class="nav-item {{ Nav::isRoute('request') }}">
+                <a class="nav-link" href="{{ route('request') }}">
+                    <i class="fas fa-fw fa-list-ul"></i>
+                    <span>{{ __('Daftar Pengadaan') }}</span>
+                </a>
+            </li>
+
             <!-- Divider -->
             <hr class="sidebar-divider">
 

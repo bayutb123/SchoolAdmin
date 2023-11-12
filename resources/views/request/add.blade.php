@@ -18,7 +18,8 @@
             @endif
             <div class="card shadow mb-4">
 
-                <form class="m-4" action="" method="post">
+                <form class="m-4" action="
+                {{ route('request.store') }}" method="post">
                     @csrf
                     <input type="hidden" class="form-control" name="author_id" value="{{ Auth::user()->id }}"
                         id="author_id" aria-describedby="author_id" placeholder="">
@@ -43,7 +44,8 @@
                                 @foreach ($widget['inventories'] as $inventory)
                                     <option data-tokens="{{ $inventory->name }}" value="{{ $inventory->id }}">
                                         [{{ $inventory->room_id }}] - {{ $inventory->name }}
-                                            ({{ $inventory->statusName }})
+                                        ({{ $inventory->quantity }} {{ $inventory->quantity_unit }})
+                                        <span style="font-weight: bold">Rp. {{ $inventory->price }}</span>
                                     </option>
                                 @endforeach
                             </select>
@@ -56,6 +58,7 @@
                             placeholder=""></textarea>
                         <small id="description" class="form-text text-muted">Help text</small>
                     </div>
+
                     <div class="form-group">
                         <label for="author">Author</label>
                         <input type="text" class="form-control" name="author" value="{{ Auth::user()->fullName }}"
@@ -70,4 +73,6 @@
         </div>
 
     </div>
+    @push('scripts')
+    @endpush
 @endsection

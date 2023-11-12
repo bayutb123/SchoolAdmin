@@ -35,6 +35,7 @@ Route::put('/inventory/request/edit', 'InventoryController@requestUpdate')->name
 
 // room
 Route::get('/room', 'RoomController@index')->name('room');
+
 Route::get('/room/add', 'RoomController@create')->name('room.create');
 Route::post('/room/add', 'RoomController@store')->name('room.store');
 Route::get('/room/{id}/edit', 'RoomController@edit')->name('room.edit');
@@ -52,6 +53,10 @@ Route::get('/issue/{id}/print', 'IssueController@print')->name('issue.print');
 Route::get('/issue/{id}/detail', 'IssueController@detail')->name('issue.detail');
 Route::put('/issue/detail', 'IssueController@approve')->name('issue.approve');
 
+// request
+Route::get('/request', 'RequestController@index')->name('request');
+Route::get('/request/add', 'RequestController@create')->name('request.create');
+Route::post('/request/add', 'RequestController@store')->name('request.store');
 
 Route::get('/about', function () {
     return view('about');
