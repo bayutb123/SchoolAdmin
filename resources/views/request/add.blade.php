@@ -45,7 +45,7 @@
                                     <option data-tokens="{{ $inventory->name }}" value="{{ $inventory->id }}">
                                         [{{ $inventory->room_id }}] - {{ $inventory->name }}
                                         ({{ $inventory->quantity }} {{ $inventory->quantity_unit }})
-                                        <span style="font-weight: bold">Rp. {{ $inventory->price }}</span>
+                                        <span style="font-weight: bold">@ Rp. {{ $inventory->price }}</span>
                                     </option>
                                 @endforeach
                             </select>
