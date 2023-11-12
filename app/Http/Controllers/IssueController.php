@@ -18,7 +18,12 @@ class IssueController extends Controller
 
     public function index()
     {
-        $issues = \App\Models\InventoryIssue::all()->reverse();
+        // if user is admin, show all issues
+        if (Auth::user()->role_id == 1) {
+            $issues = \App\Models\InventoryIssue::all()->reverse();
+        } else {
+            $issues = \App\Models\InventoryIssue::where('author_id', Auth::user()->id)->get()->reverse();
+        }
         $status = \App\Models\Status::where('type', 'issue')->get();
 
         foreach ($issues as $issue) {

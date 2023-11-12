@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class RequestController extends Controller
 {
@@ -12,7 +13,12 @@ class RequestController extends Controller
     }
 
     public function index() {
-        $request = \App\Models\InventoryRequest::all()->reverse();
+        // if user is admin, show all requests
+        if (Auth::user()->role_id == 1) {
+            $request = \App\Models\InventoryRequest::all()->reverse();
+        } else {
+            $request = \App\Models\InventoryRequest::where('author_id', Auth::user()->id)->get()->reverse();
+        }
         $status = \App\Models\Status::all();
         foreach ($request as $it) {
             $room = \App\Models\Room::where('id', $it->room_id)->first();
