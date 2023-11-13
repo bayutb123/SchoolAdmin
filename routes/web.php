@@ -65,6 +65,10 @@ Route::get('/request/{id}/print', 'RequestController@print')->name('request.prin
 Route::get('/request/{id}/detail', 'RequestController@detail')->name('request.detail');
 Route::put('/request/detail', 'RequestController@approve')->name('request.approve');
 
+// update status
+Route::get('/request/update/each', 'RequestController@updateStatus')->name('inventory.request.updateStatus');
+// Route::get('/issue/{invenId}/{statusId}', 'IssueController@updateStatus')->name('inventory.issue.updateStatus');
+
 
 Route::get('/about', function () {
     return view('about');

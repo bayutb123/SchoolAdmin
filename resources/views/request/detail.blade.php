@@ -20,7 +20,7 @@
 
 
                 <form class="m-4" id="approve-form" action="{{ route('request.approve') }}" method="post">
-                    @if ($widget['request']->status > 10 && Auth::user()->role_id == 2)
+                    @if ($widget['request']->status && Auth::user()->role_id == 2)
                         <span
                             class="badge badge-{{ $widget['request']->statusColor }} mb-2 p-2">{{ $widget['request']->statusName }}</span>
                     @endif
@@ -34,7 +34,8 @@
                         <div class="form-group col-2">
                             <label for="room_id">Lokasi</label>
                             <select class="selectpicker w-100" data-live-search="true" name="room_id" id="room">
-                                <option selected value="{{ $widget['request']->roomName }}">{{ $widget['request']->roomName }}
+                                <option selected value="{{ $widget['request']->roomName }}">
+                                    {{ $widget['request']->roomName }}
                                 </option>
                             </select>
                             <small id="room_id" class="form-text text-muted">Help text</small>
@@ -49,6 +50,7 @@
                                 <th>Nama</th>
                                 <th>Lokasi</th>
                                 <th>Kategori</th>
+                                <th>Status</th>
                                 <th width=5%>Jumlah</th>
                                 <th width=10%>Harga Satuan</th>
                                 <th width=10%>Total Biaya</th>
@@ -67,6 +69,9 @@
                                         {{ $inventory->category }}
                                     </td>
                                     <td>
+                                        {{ $inventory->condition }}
+                                    </td>
+                                    <td>
                                         {{ $inventory->quantity }} {{ $inventory->quantity_unit }}
                                     </td>
                                     <td>
@@ -78,7 +83,7 @@
                                 </tr>
                             @endforeach
                             <tr style="font-weight: bold">
-                                <td colspan="5" class="text-right">Total Biaya (Rupiah)</td>
+                                <td colspan="6" class="text-right">Total Biaya (Rupiah)</td>
                                 <td>{{ $widget['request']->total_price }}</td>
                             </tr>
                         </tbody>

@@ -129,6 +129,7 @@ class IssueController extends Controller
         }
 
         $status = \App\Models\Status::all();
+        $issue->statusColor = $status->where('id', $issue->status)->first()->color;
         $issue->statusName = $status->where('id', $issue->status)->first()->name;
         
         $widget = [

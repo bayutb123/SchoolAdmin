@@ -229,7 +229,8 @@ class RequestController extends Controller
         if ($request->status == $approvedStatus->id) {
             $request->isApproved = true;
         }
-        
+
+        $applicableStatus = \App\Models\Status::where('type', 'request')->get();
         $request->statusName = $status->where('id', $request->status)->first()->name;
         $request->statusColor = $status->where('id', $request->status)->first()->color;
         $request->roomName = \App\Models\Room::where('id', $request->room_id)->first()->name;
@@ -237,6 +238,8 @@ class RequestController extends Controller
         $inventories = \App\Models\Inventory::where('request_id', $id)->get();
         foreach ($inventories as $it) {
             $total_price = $it->price * $it->quantity;
+
+            $it->condition = $status->where('id', $it->status)->first()->name;
 
             $it->room_name = \App\Models\Room::where('id', $it->room_id)->first()->name;
             $it->statusName = $status->where('id', $it->status)->first()->name;
@@ -256,6 +259,7 @@ class RequestController extends Controller
         $widget = [
             'request' => $request,
             'inventories' => $inventories,
+            'applicableStatus' => $applicableStatus,
         ];
         return view('request.detail', compact('widget'));
     }
@@ -322,4 +326,5 @@ class RequestController extends Controller
         $pdf = \PDF::loadView('request.pdf', compact('widget'));
         return $pdf->download($fileName);
     }
+
 }

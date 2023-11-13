@@ -20,7 +20,7 @@
 
 
                 <form class="m-4" id="approve-form" action="{{ route('issue.approve') }}" method="post">
-                    @if ($widget['issue']->status > 5 && Auth::user()->role_id == 2)
+                    @if ($widget['issue']->status && Auth::user()->role_id == 2)
                         <span
                             class="badge badge-{{ $widget['issue']->statusColor }} mb-2 p-2">{{ $widget['issue']->statusName }}</span>
                     @endif
@@ -50,7 +50,7 @@
                                 <th>Lokasi</th>
                                 <th>Kategori</th>
                                 <th>Jumlah</th>
-                                <th>Kondisi</th>
+                                <th>Status</th>
                                 <th>Terakhir Diubah</th>
                             </tr>
                         </thead>
