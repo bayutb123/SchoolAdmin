@@ -60,11 +60,13 @@ class IssueController extends Controller
         $issuedStatus = \App\Models\Status::where('name', 'Pengajuan Perbaikan')->first();
         // get status id where name == 'Pengadaan'
         $requestStatus = \App\Models\Status::where('name', 'Pengadaan')->first();
+        // get status id where name == 'Baik'
+        $goodStatus = \App\Models\Status::where('name', 'Baik')->first();
         // get all inventories where issue_id is null and request_id is null
         $inventories = \App\Models\Inventory::where('issue_id', null)
-        ->where('status', '<', $requestStatus)
-        ->where('status', '!=', $issuedStatus)
-        ->get();
+            ->where('status', '<', $requestStatus->id)
+            ->where('status', '!=', $goodStatus->id)
+            ->get()->reverse();
         $status = \App\Models\Status::all();
         $rooms = \App\Models\Room::all();
         foreach ($inventories as $inventory) {
@@ -214,14 +216,17 @@ class IssueController extends Controller
             'issue_id' => 'required',
         ]);
 
+        // get status id where name == 'Disetujui'
+        $approvedStatus = \App\Models\Status::where('type', 'issue')->where('name', 'Disetujui')->first();
+
         if ($validated) {
             $issue = \App\Models\InventoryIssue::where('id', $validated['issue_id'])->first();
-            $issue->status = 7; // status disetujui
+            $issue->status = $approvedStatus->id; // status disetujui
             $issue->save();
 
             $inventories = \App\Models\Inventory::where('issue_id', $validated['issue_id'])->get();
             foreach ($inventories as $inventory) {
-                $inventory->issue_status = 7;
+                $inventory->issue_status = $approvedStatus->id;
                 $inventory->save();
             }
         }

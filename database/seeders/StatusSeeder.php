@@ -56,7 +56,7 @@ class StatusSeeder extends Seeder
             ],
             [
                 'type' => 'issue',
-                'name' => 'Disetuji',
+                'name' => 'Disetujui',
                 'color' => 'primary',
             ],
             [

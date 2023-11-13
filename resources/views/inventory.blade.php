@@ -74,7 +74,7 @@
                                     class="btn btn-primary btn-sm w-100">Lihat laporan</a>
                             @elseif ($inventory->isRequested)
                                 {{-- {{ route('inventory.request.detail', ['id' => $inventory->request_id]) }} --}}
-                                <a href="" class="btn btn-primary btn-sm w-100">Lihat permintaan</a>
+                                <a href=" {{ route('request.detail', ['id' => $inventory->request_id]) }} " class="btn btn-primary btn-sm w-100">Lihat permintaan</a>
                             @elseif ($inventory->status == 10)
                                 <a href="{{ route('inventory.request.edit', ['id' => $inventory->id]) }} "
                                     class="btn btn-primary btn-sm w-100">Edit</a>
