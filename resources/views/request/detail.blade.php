@@ -98,7 +98,7 @@
                             class="form-text text-muted">{{ $widget['request']->created_at->toRfc850String() }}</small>
                     </div>
 
-                    @if (Auth::user()->role_id == 1)
+                    @if (Auth::user()->role_id == 1 && $widget['request']->isApproved == false)
                         <a href="#" data-toggle="modal" data-target="#approveModal"
                             class="btn btn-primary">Setujui</a>
                     @endif

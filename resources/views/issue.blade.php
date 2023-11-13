@@ -44,7 +44,6 @@
                         <td>{{ $issue->room_id }}</td>
                         <td>{{ $issue->description }}</td>
                         <td>
-
                             <span class="badge badge-{{ $issue->statusColor }} p-2">{{ $issue->statusName }}</span>
                         </td>
                         <td>

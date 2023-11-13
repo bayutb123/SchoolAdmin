@@ -18,29 +18,34 @@ class InventoryController extends Controller
     {
         $inventory = \App\Models\Inventory::all()->reverse();
         $status = \App\Models\Status::all();
-        foreach ($inventory as $it) {
-            $room = \App\Models\Room::where('id', $it->room_id)->first();
 
-            if ($it->created_at->isToday()) {
-                $it->new = true;
+        foreach ($inventory as $item) {
+            $item->statusName = $status->where('id', $item->status)->first()->name;
+            $item->statusColor = $status->where('id', $item->status)->first()->color;
+
+            if ($item->created_at->isToday()) {
+                $item->isNew = true;
             }
 
-            $it->room = $room->name;
-            $it->statusName = $status->where('id', $it->status)->first()->name;
-            $it->statusColor = $status->where('id', $it->status)->first()->color;
+            if ($item->issue_status) {
+                if ($item->issue_id) {
+                    $item->isIssued = true;
+                }
+                $item->issueStatusName = $status->where('id', $item->issue_status)->first()->name;
+                $item->issueStatusColor = $status->where('id', $item->issue_status)->first()->color;
+            }
 
-            if ($it->issue_status != null) {
-                $it->isIssued = true;
-                $it->issueStatusName = $status->where('id', $it->issue_status)->first()->name;
-                $it->issueStatusColor = $status->where('id', $it->issue_status)->first()->color;
-            } else if ($it->request_status != null) {
-                $it->isRequested = true;
-                $it->requestStatusName = $status->where('id', $it->request_status)->first()->name;
-                $it->requestStatusColor = $status->where('id', $it->request_status)->first()->color;
-            } 
-            
-            $user = \App\Models\User::where('id', $it->last_author_id)->first();
-            $it->last_author_id = $user->name;
+            if ($item->request_status) {
+                if ($item->request_id) {
+                    $item->isRequested = true;
+                }
+                $item->requestStatusName = $status->where('id', $item->request_status)->first()->name;
+                $item->requestStatusColor = $status->where('id', $item->request_status)->first()->color;
+            }
+
+            if ($item->room_id) {
+                $item->roomName = \App\Models\Room::where('id', $item->room_id)->first()->name;
+            }
         }
 
         $widget = [

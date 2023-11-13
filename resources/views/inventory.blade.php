@@ -24,7 +24,8 @@
         <div class="text-right">
             <div class="row-lg-6">
                 @if (Auth::user()->role_id == 1)
-                    <a href="{{ route('inventory.create') }}" class="btn btn-primary mb-2 pull-right">Input Pendataan Fasilitas</a>
+                    <a href="{{ route('inventory.create') }}" class="btn btn-primary mb-2 pull-right">Input Pendataan
+                        Fasilitas</a>
                 @endif
                 <a href="{{ route('inventory.request') }}" class="btn btn-primary mb-2 pull-right">Tambah Permintaan
                     Fasilitas</a>
@@ -48,23 +49,29 @@
                 @foreach ($widget['inventory'] as $inventory)
                     <tr>
                         <td>{{ $inventory->name }}
-                            
+
                         </td>
-                        <td>{{ $inventory->room }}</td>
+                        <td>{{ $inventory->roomName }}</td>
                         <td>{{ $inventory->category }}</td>
                         <td>{{ $inventory->quantity }} {{ $inventory->quantity_unit }}</td>
                         <td>
-                            @if ($inventory->new)
+                            @if ($inventory->isNew)
                                 <span class="badge badge-success p-2">Baru</span>
                             @endif
                             <span
                                 class="badge badge-{{ $inventory->statusColor }} p-2">{{ $inventory->statusName }}</span>
-                            @if ($inventory->isIssued)
+                            @if ($inventory->issueStatusName)
                                 <span
                                     class="badge badge-{{ $inventory->issueStatusColor }} p-2">{{ $inventory->issueStatusName }}</span>
-                            @elseif ($inventory->isRequested)
+                            @elseif ($inventory->requestStatusName)
                                 <span
                                     class="badge badge-{{ $inventory->requestStatusColor }} p-2">{{ $inventory->requestStatusName }}</span>
+                            @elseif ($inventory->isPlanned)
+                                <span
+                                    class="badge badge-{{ $inventory->planStatusColor }} p-2">{{ $inventory->planStatusName }}</span>
+                            @elseif ($inventory->isApproved)
+                                <span
+                                    class="badge badge-{{ $inventory->approveStatusColor }} p-2">{{ $inventory->approveStatusName }}</span>
                             @endif
                         </td>
                         <td>{{ $inventory->updated_at }}</td>
@@ -72,12 +79,12 @@
                             @if ($inventory->isIssued)
                                 <a href="{{ route('issue.detail', ['id' => $inventory->issue_id]) }}"
                                     class="btn btn-primary btn-sm w-100">Lihat laporan</a>
-                            @elseif ($inventory->isRequested)
-                                {{-- {{ route('inventory.request.detail', ['id' => $inventory->request_id]) }} --}}
-                                <a href=" {{ route('request.detail', ['id' => $inventory->request_id]) }} " class="btn btn-primary btn-sm w-100">Lihat permintaan</a>
-                            @elseif ($inventory->status == 10)
-                                <a href="{{ route('inventory.request.edit', ['id' => $inventory->id]) }} "
+                            @elseif ($inventory->isPlanned)
+                                <a href="{{ route('inventory.request.edit', ['id' => $inventory->id]) }}"
                                     class="btn btn-primary btn-sm w-100">Edit</a>
+                            @elseif ($inventory->isRequested)
+                                <a href=" {{ route('request.detail', ['id' => $inventory->request_id]) }}"
+                                    class="btn btn-primary btn-sm w-100">Lihat permintaan</a>
                             @else
                                 <a href="{{ route('inventory.edit', ['id' => $inventory->id]) }}"
                                     class="btn btn-primary btn-sm w-100">Edit</a>

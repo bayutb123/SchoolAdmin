@@ -20,13 +20,25 @@ class RequestController extends Controller
             $request = \App\Models\InventoryRequest::where('author_id', Auth::user()->id)->get()->reverse();
         }
         $status = \App\Models\Status::all();
+        $statusProcessed = \App\Models\Status::where('type', 'issue')->get();
         foreach ($request as $it) {
             $room = \App\Models\Room::where('id', $it->room_id)->first();
             $it->room = $room->name;
+            $it->statusName = $status->where('id', $it->status)->first()->name;
             $it->statusColor = $status->where('id', $it->status)->first()->color;
             $user = \App\Models\User::where('id', $it->author_id)->first();
             $it->author_id = $user->name;
+
+            // if request updated today then add isNew true
+            if ($it->updated_at->isToday()) {
+                $it->isNew = true;
+            }
             
+            // if request is in $statusProcessed status, then add isProcessed true
+            if ($statusProcessed->contains('id', $it->status)) {
+                $it->isProcessed = true;
+            }
+
             // add total price and format it to IDR
             $it->total_price = number_format($it->total_price, 0, ',', '.');
         }
@@ -43,7 +55,9 @@ class RequestController extends Controller
         // get status id where name == 'Pengajuan Pembelian'
         $status = \App\Models\Status::where('name', 'Pengajuan Pembelian')->first();
         // get all inventories where request_id is null
-        $inventory = \App\Models\Inventory::where('request_id', null)->get()->reverse();
+        $inventory = \App\Models\Inventory::where('request_status','!=', null)
+        ->where('request_id', null)
+        ->get()->reverse();
 
         // change each inventory to include room name
         foreach ($inventory as $it) {
@@ -210,6 +224,11 @@ class RequestController extends Controller
     public function detail($id) {
         $request = \App\Models\InventoryRequest::where('id', $id)->first();
         $status = \App\Models\Status::all();
+
+        $approvedStatus = \App\Models\Status::where('name', 'Disetujui')->first();
+        if ($request->status == $approvedStatus->id) {
+            $request->isApproved = true;
+        }
         
         $request->statusName = $status->where('id', $request->status)->first()->name;
         $request->statusColor = $status->where('id', $request->status)->first()->color;
@@ -252,7 +271,7 @@ class RequestController extends Controller
 
         if ($validated) {
             $request = \App\Models\InventoryRequest::where('id', $validated['request_id'])->first();
-            $request->status = 12;
+            $request->status = $status->id;
             $request->save();
 
             $inventories = \App\Models\Inventory::where('request_id', $validated['request_id'])->get();

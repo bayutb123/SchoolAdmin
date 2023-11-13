@@ -33,6 +33,7 @@
                     <th width=10%>Ruang Lingkup</th>
                     <th>Deskripsi</th>
                     <th width=10%>Total Biaya</th>
+                    <th width=15%>Status</th>
                     <th width=10%>Terakhir Diubah</th>
                     <th width=10%>Aksi</th>
                 </tr>
@@ -43,12 +44,21 @@
                         <td>{{ $request->author_id }}</td>
                         <td>{{ $request->room }}</td>
                         <td>{{ $request->description }}</td>
-                        <td style="font-weight: bold">Rp. {{ $request->total_price }}
-                            </td>
-                        <td>{{ $request->updated_at }}</td>
+                        <td style="font-weight: bold">
+                            Rp. {{ $request->total_price }}
+                        </td>
                         <td>
-                            @if ($request->isApproved || Auth::user()->role_id == 1)
-                            {{-- {{ route('request.show', $request->id) }} --}}
+                            <span class="badge badge-{{ $request->statusColor }} p-2">{{ $request->statusName }}</span>
+                        <td>
+                            @if ($request->isNew)
+                                <span class="badge badge-success p-2">Hari ini</span>
+                            @else
+                                {{ $request->updated_at }}
+                            @endif
+                        </td>
+                        <td>
+                            @if ($request->isProcessed || Auth::user()->role_id == 1)
+                                {{-- {{ route('request.show', $request->id) }} --}}
                                 <a href="{{ route('request.detail', $request->id) }}"
                                     class="btn btn-primary btn-sm w-100">Lihat laporan</a>
                             @else

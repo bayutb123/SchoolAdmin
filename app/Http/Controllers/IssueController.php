@@ -24,7 +24,8 @@ class IssueController extends Controller
         } else {
             $issues = \App\Models\InventoryIssue::where('author_id', Auth::user()->id)->get()->reverse();
         }
-        $status = \App\Models\Status::where('type', 'issue')->get();
+        $status = \App\Models\Status::all();
+        $issuedStatus = \App\Models\Status::where('type', 'issue')->get();
 
         foreach ($issues as $issue) {
             $author = \App\Models\User::where('id', $issue->author_id)->first();
@@ -33,14 +34,14 @@ class IssueController extends Controller
             $issue->room_id = $room->name;
 
             // get status id where it name  == 'Pengajuan Perbaikan'
-            $issuedStatus = \App\Models\Status::where('name', 'Pengajuan Perbaikan')->first();
 
             // add new if created today
             if ($issue->created_at->isToday()) {
                 $issue->new = true;
             }
 
-            if ($issue->status > $issuedStatus->id) {
+            // if status is in issuedStatus, add isIssued
+            if ($issuedStatus->contains('id', $issue->status)) {
                 $issue->isProcessed = true;
             }
 
@@ -83,9 +84,7 @@ class IssueController extends Controller
     public function store(InventoryIssueRequest $request) {
         $validated = $request->validated();
         $inventories = $validated['inventories'];
-        $status  = \App\Models\Status::where('type', 'issue')->get();
-        
-        
+        $status  = \App\Models\Status::where('type', 'inventory')->get();
 
         $issue = \App\Models\InventoryIssue::create(
             [
@@ -114,6 +113,10 @@ class IssueController extends Controller
         $issue = \App\Models\InventoryIssue::where('id', $id)->first();
         $rooms = \App\Models\Room::all();
         $status = \App\Models\Status::all();
+        $approvedStatus = \App\Models\Status::where('name', 'Disetujui')->first();
+        if ($issue->status == $approvedStatus->id) {
+            $issue->isApproved = true;
+        }
         $issue->room_name = $rooms->where('id', $issue->room_id)->first()->name;
         // author
         $issue->author = \App\Models\User::where('id', $issue->author_id)->first()->name;
@@ -125,9 +128,8 @@ class IssueController extends Controller
             $inventory->condition = $status->where('id', $inventory->status)->first()->name;
         }
 
-        $status = \App\Models\Status::where('type', 'issue')->get();
+        $status = \App\Models\Status::all();
         $issue->statusName = $status->where('id', $issue->status)->first()->name;
-        $issue->statusColor = $status->where('id', $issue->status)->first()->color;
         
         $widget = [
             'issue' => $issue,
