@@ -33,6 +33,11 @@ Route::post('/inventory/request/add', 'InventoryController@requestStore')->name(
 Route::get('/inventory/request/{id}/edit', 'InventoryController@requestEdit')->name('inventory.request.edit');
 Route::put('/inventory/request/edit', 'InventoryController@requestUpdate')->name('inventory.request.update');
 
+// update status inven
+Route::get('/inventory/{id}/request/status', 'InventoryController@updateRequestStatus')->name('inventory.request.status');
+// apply update status inven 
+Route::put('/inventory/request/status', 'InventoryController@updateRequestStatusStore')->name('inventory.request.applyUpdateStatus');
+
 // room
 Route::get('/room', 'RoomController@index')->name('room');
 
@@ -64,11 +69,6 @@ Route::get('/request/{id}/print', 'RequestController@print')->name('request.prin
 // approve request
 Route::get('/request/{id}/detail', 'RequestController@detail')->name('request.detail');
 Route::put('/request/detail', 'RequestController@approve')->name('request.approve');
-
-// update status
-Route::get('/request/update/each', 'RequestController@updateStatus')->name('inventory.request.updateStatus');
-// Route::get('/issue/{invenId}/{statusId}', 'IssueController@updateStatus')->name('inventory.issue.updateStatus');
-
 
 Route::get('/about', function () {
     return view('about');

@@ -19,6 +19,14 @@ class InventoryController extends Controller
         $inventory = \App\Models\Inventory::all()->reverse();
         $status = \App\Models\Status::all();
 
+        $statusApproved = $status->where('name', 'Disetujui')->first()->id;
+        $statusInProcess = $status->where('name', 'Dalam Proses')->first()->id;
+        $statusInExpedition = $status->where('name', 'Dalam Pengiriman')->first()->id;
+        
+        $requestStatus = collect([$statusApproved, $statusInProcess, $statusInExpedition]);
+
+        $statusPlanned = $status->where('name', 'Rencana Pembelian')->first()->id;
+
         foreach ($inventory as $item) {
             $item->statusName = $status->where('id', $item->status)->first()->name;
             $item->statusColor = $status->where('id', $item->status)->first()->color;
@@ -31,6 +39,9 @@ class InventoryController extends Controller
                 if ($item->issue_id) {
                     $item->isIssued = true;
                 }
+                if ($item->issue_status == $statusApproved) {
+                    $item->isApproved = true;
+                }
                 $item->issueStatusName = $status->where('id', $item->issue_status)->first()->name;
                 $item->issueStatusColor = $status->where('id', $item->issue_status)->first()->color;
             }
@@ -39,6 +50,11 @@ class InventoryController extends Controller
                 if ($item->request_id) {
                     $item->isRequested = true;
                 }
+                if ($requestStatus->contains($item->request_status)) {
+                    $item->isApproved = true;
+                } else if ($item->request_status == $statusPlanned) {
+                    $item->isPlanned = true;
+                } 
                 $item->requestStatusName = $status->where('id', $item->request_status)->first()->name;
                 $item->requestStatusColor = $status->where('id', $item->request_status)->first()->color;
             }
@@ -214,6 +230,52 @@ class InventoryController extends Controller
                     'last_author_id' => $request->last_author_id,
                 ]
             );
+        }
+        return redirect()->route('inventory')->withSuccess('Inventory updated successfully.');
+    }
+
+    public function updateRequestStatus($id) {
+        $inventory = Inventory::where('id', $id)->first();
+        $applicableStatus = \App\Models\Status::where('type', 'request')
+            ->get();
+        $approvedStatus = \App\Models\Status::where('name', 'Disetujui')->first();
+
+        // add approved status to applicable status but approvedstatus first
+        $applicableStatus->prepend($approvedStatus);
+
+        $widget = [
+            'inventory' => $inventory,
+            'applicableStatus' => $applicableStatus,
+        ];
+        return view('inven.updaterequest', compact('widget'));
+    }
+
+    public function updateRequestStatusStore(Request $request) {
+        $validated = $request->validate([
+            'inventory_id' => 'required',
+            'status' => 'required',
+        ]);
+
+        // get status id where name is Diterima
+        $finalStatus = \App\Models\Status::where('name', 'Diterima')->first();
+        // get status id where name is Baik
+        $goodStatus = \App\Models\Status::where('name', 'Baik')->first();
+
+        if ($validated) {
+            if ($validated['status'] == $finalStatus->id) {
+                $inventory = Inventory::where('id', $validated['inventory_id'])->update(
+                    [
+                        'request_status' => null,
+                        'status' => $goodStatus->id,
+                    ]
+                );
+            } else {
+                $inventory = Inventory::where('id', $validated['inventory_id'])->update(
+                    [
+                        'request_status' => $validated['status'],
+                    ]
+                );
+            }
         }
         return redirect()->route('inventory')->withSuccess('Inventory updated successfully.');
     }

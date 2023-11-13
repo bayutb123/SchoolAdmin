@@ -76,19 +76,25 @@
                         </td>
                         <td>{{ $inventory->updated_at }}</td>
                         <td>
-                            @if ($inventory->isIssued)
+                            <div class="row mx-2">
+                                @if ($inventory->isIssued)
                                 <a href="{{ route('issue.detail', ['id' => $inventory->issue_id]) }}"
                                     class="btn btn-primary btn-sm w-100">Lihat laporan</a>
                             @elseif ($inventory->isPlanned)
                                 <a href="{{ route('inventory.request.edit', ['id' => $inventory->id]) }}"
-                                    class="btn btn-primary btn-sm w-100">Edit</a>
+                                    class="btn btn-primary btn-sm w-100">Edit Permintaan</a>
                             @elseif ($inventory->isRequested)
                                 <a href=" {{ route('request.detail', ['id' => $inventory->request_id]) }}"
                                     class="btn btn-primary btn-sm w-100">Lihat permintaan</a>
                             @else
                                 <a href="{{ route('inventory.edit', ['id' => $inventory->id]) }}"
-                                    class="btn btn-primary btn-sm w-100">Edit</a>
+                                    class="btn btn-primary btn-sm w-100">Edit Fasilitas</a>
                             @endif
+                            @if ($inventory->isApproved) 
+                                <a href="{{ route('inventory.request.status', ['id' => $inventory->id]) }}"
+                                    class="btn btn-primary btn-sm w-100 mt-2">Update Status</a>
+                            @endif
+                            </div>
                         </td>
                     </tr>
                 @endforeach
