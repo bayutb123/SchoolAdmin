@@ -18,18 +18,18 @@
             @endif
             <div class="card shadow mb-4">
 
-                <form class="m-4" action="{{ route('issue.update') }}" method="post">
+                <form class="m-4" action="{{ route('request.update') }}" method="post">
                     @csrf
                     @method('PUT')
-                    <input type="hidden" class="form-control" name="author_id" value="{{ Auth::user()->id }}"
+                    <input type="hidden" class="form-control" name="author_id" value={{ Auth::user()->id }}
                         id="author_id" aria-describedby="author_id" placeholder="">
-                    <input type="hidden" name="issue_id" value="{{ $widget['issue']->id }}">
+                    <input type="hidden" name="request_id" value="{{ $widget['request']->id }}">
 
                     <div class="form-row">
                         <div class="form-group col-2">
                             <label for="room_id">Lokasi</label>
                             <select class="selectpicker w-100" data-live-search="true" name="room_id" id="room">
-                                <option selected value="{{ $widget['issue']->room_id }}">{{ $widget['issue']->room_name }}
+                                <option selected value="{{ $widget['request']->room_id }}">{{ $widget['request']->room_name }}
                                 </option>
                             </select>
                             <small id="room_id" class="form-text text-muted">Help text</small>
@@ -43,7 +43,7 @@
                                         selected
                                     @endif data-tokens="{{ $inventory->name }}" value="{{ $inventory->id }}">
                                     [{{ $inventory->roomName }}] - {{ $inventory->name }}
-                                            ({{ $inventory->statusName }})
+                                    @ {{ $inventory->price }}
                                     </option>
                                 @endforeach
                             </select>
@@ -56,15 +56,15 @@
                     <div class="form-group">
                         <label for="description">Deskripsi</label>
                         <textarea type="text" class="form-control" name="description" id="description" aria-describedby="description"
-                            placeholder="">{{ $widget['issue']->description }}</textarea>
+                            placeholder="">{{ $widget['request']->description }}</textarea>
                         <small id="description" class="form-text text-muted">Help text</small>
                     </div>
                     <div class="form-group">
                         <label for="author">Author</label>
-                        <input type="text" class="form-control" name="author" value="{{ $widget['issue']->author }}"
+                        <input type="text" class="form-control" name="author" value="{{ $widget['request']->author }}"
                             id="author" disabled aria-describedby="author" placeholder="">
                         <small id="author_id"
-                            class="form-text text-muted">{{ $widget['issue']->created_at->toRfc850String() }}</small>
+                            class="form-text text-muted">{{ $widget['request']->created_at->toRfc850String() }}</small>
                     </div>
                     <button type="submit" class="btn btn-primary">Submit</button>
 

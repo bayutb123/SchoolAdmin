@@ -55,7 +55,7 @@
                         </td>
                 @endif
                 <td>
-                    @if ($issue->isApproved || Auth::user()->role_id == 1)
+                    @if ($issue->isProcessed || Auth::user()->role_id == 1)
                         {{-- {{ route('issue.show', $issue->id) }} --}}
                         <a href=" {{ route('issue.detail', $issue->id) }} " class="btn btn-primary btn-sm w-100">Lihat
                             laporan</a>

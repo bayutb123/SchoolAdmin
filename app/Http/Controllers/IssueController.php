@@ -32,13 +32,16 @@ class IssueController extends Controller
             $room = \App\Models\Room::where('id', $issue->room_id)->first();
             $issue->room_id = $room->name;
 
+            // get status id where it name  == 'Pengajuan Perbaikan'
+            $issuedStatus = \App\Models\Status::where('name', 'Pengajuan Perbaikan')->first();
+
             // add new if created today
             if ($issue->created_at->isToday()) {
                 $issue->new = true;
             }
 
-            if ($issue->status > 6) {
-                $issue->isApproved = true;
+            if ($issue->status > $issuedStatus->id) {
+                $issue->isProcessed = true;
             }
 
             $issue->statusName = $status->where('id', $issue->status)->first()->name;

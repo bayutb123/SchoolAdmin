@@ -43,7 +43,7 @@ class RequestController extends Controller
         // get status id where name == 'Pengajuan Pembelian'
         $status = \App\Models\Status::where('name', 'Pengajuan Pembelian')->first();
         // get all inventories where request_id is null
-        $inventory = \App\Models\Inventory::where('request_id', null)->get();
+        $inventory = \App\Models\Inventory::where('request_id', null)->get()->reverse();
 
         // change each inventory to include room name
         foreach ($inventory as $it) {
@@ -98,6 +98,112 @@ class RequestController extends Controller
         
 
         return redirect()->route('request');
+    }
+
+    // edit
+    public function edit($id) {
+        $request = \App\Models\InventoryRequest::where('id', $id)->first();
+        $rooms = \App\Models\Room::all();
+        $status = \App\Models\Status::all();
+        $request->room_name = $rooms->where('id', $request->room_id)->first()->name;
+        // author
+        $request->author = \App\Models\User::where('id', $request->author_id)->first()->name;
+
+        // get status id where name == 'Pengajuan Pembelian'
+        $requestStatus = \App\Models\Status::where('name', 'Pengajuan Pembelian')->first();
+
+        $allInventories = \App\Models\Inventory::where('request_id', null)->get();
+        $inventories = \App\Models\Inventory::where('request_id', $id)->get();
+
+        // add inventory to allInventories
+        $allInventories = $allInventories->merge($inventories)->reverse();
+
+        foreach ($inventories as $inventory) {
+            $inventory->room_name = $rooms->where('id', $inventory->room_id)->first()->name;
+            $inventory->condition = $status->where('id', $inventory->status)->first()->name;
+        }
+
+        foreach ($allInventories as $it) {
+            $it->roomName = $rooms->where('id', $it->room_id)->first()->name;
+            $it->statusName = $status->where('id', $it->status)->first()->name;
+            $it->statusColor = $status->where('id', $it->status)->first()->color;
+        }
+
+        $status = \App\Models\Status::where('type', 'request')->get();
+        $request->statusName = $status->where('id', $request->status)->first()->name;
+        $request->statusColor = $status->where('id', $request->status)->first()->color;
+
+        
+        $widget = [
+            'request' => $request,
+            'inventories' => $inventories,
+            'rooms' => $rooms,
+            'status' => $status,
+            'allInventories' => $allInventories,
+        ];
+        return view('request.edit', compact('widget'));
+        
+
+        $widget = [
+            'rooms' => $rooms,
+            'allInventories' => $inventory,
+            'request' => $request,
+            'inventories' => $inventories,
+        ];
+        return view('request.edit', compact('widget'));
+    }
+
+    // update
+    public function update(Request $request) {
+        $validate = [
+            'request_id' => 'required|integer',
+            'author_id' => 'required|integer',
+            'room_id' => 'required|integer',
+            'inventories' => 'required|array',
+            'description' => 'required|string',
+        ];
+
+        $validated = $request->validate($validate);
+
+        if ($validated) {
+
+            // get status id where name == 'Rencaan Pembelian'
+            $requestStatusPlanning = \App\Models\Status::where('name', 'Rencana Pembelian')->first();
+            // get status id where name == 'Pengajuan Pembelian'
+            $requestStatusProposal = \App\Models\Status::where('name', 'Pengajuan Pembelian')->first();
+
+            // get the request 
+            $request = \App\Models\InventoryRequest::where('id', $validated['request_id'])->first();
+            $request->author_id = $validated['author_id'];
+            $request->room_id = $validated['room_id'];
+            $request->description = $validated['description'];
+
+            // process inventories
+            $inventories = \App\Models\Inventory::where('request_id', $validated['request_id'])->get();
+            foreach ($inventories as $it) {
+                // change request_status to Rencana Pembelian
+                $it->request_status = $requestStatusPlanning->id;
+                $it->request_id = null;
+                $it->save();
+            }
+
+            $total_price = 0;
+
+            foreach ($validated['inventories'] as $it) {
+                $inventory = \App\Models\Inventory::where('id', $it)->first();
+                // set request status to 'Pengajuan Pembelian'
+                $inventory->request_status = $requestStatusProposal->id;
+                $inventory->request_id = $validated['request_id'];
+                $inventory->save();
+
+                $total_price += $inventory->price * $inventory->quantity;
+            }
+
+            $request->total_price = $total_price;
+            $request->save();
+        }
+
+        return redirect()->route('request')->withSuccess('Request updated successfully.');
     }
 
     // detail

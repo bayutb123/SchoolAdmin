@@ -52,7 +52,7 @@
                                 <a href="{{ route('request.detail', $request->id) }}"
                                     class="btn btn-primary btn-sm w-100">Lihat laporan</a>
                             @else
-                                <a href=""
+                                <a href=" {{ route('request.edit', $request->id) }}"
                                     class="btn btn-primary btn-sm w-100">Edit</a>
                             @endif
                         </td>

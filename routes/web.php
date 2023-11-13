@@ -57,8 +57,8 @@ Route::put('/issue/detail', 'IssueController@approve')->name('issue.approve');
 Route::get('/request', 'RequestController@index')->name('request');
 Route::get('/request/add', 'RequestController@create')->name('request.create');
 Route::post('/request/add', 'RequestController@store')->name('request.store');
-// Route::get('/request/{id}/edit', 'RequestController@edit')->name('request.edit');
-// Route::put('/request/edit', 'RequestController@update')->name('request.update');
+Route::get('/request/{id}/edit', 'RequestController@edit')->name('request.edit');
+Route::put('/request/edit', 'RequestController@update')->name('request.update');
 Route::get('/request/{id}/print', 'RequestController@print')->name('request.print');
 
 // approve request
