@@ -33,8 +33,14 @@ Route::post('/inventory/request/add', 'InventoryController@requestStore')->name(
 Route::get('/inventory/request/{id}/edit', 'InventoryController@requestEdit')->name('inventory.request.edit');
 Route::put('/inventory/request/edit', 'InventoryController@requestUpdate')->name('inventory.request.update');
 
+// update status inven
+Route::get('/inventory/{id}/request/status', 'InventoryController@updateRequestStatus')->name('inventory.request.status');
+// apply update status inven 
+Route::put('/inventory/request/status', 'InventoryController@updateRequestStatusStore')->name('inventory.request.applyUpdateStatus');
+
 // room
 Route::get('/room', 'RoomController@index')->name('room');
+
 Route::get('/room/add', 'RoomController@create')->name('room.create');
 Route::post('/room/add', 'RoomController@store')->name('room.store');
 Route::get('/room/{id}/edit', 'RoomController@edit')->name('room.edit');
@@ -52,6 +58,17 @@ Route::get('/issue/{id}/print', 'IssueController@print')->name('issue.print');
 Route::get('/issue/{id}/detail', 'IssueController@detail')->name('issue.detail');
 Route::put('/issue/detail', 'IssueController@approve')->name('issue.approve');
 
+// request
+Route::get('/request', 'RequestController@index')->name('request');
+Route::get('/request/add', 'RequestController@create')->name('request.create');
+Route::post('/request/add', 'RequestController@store')->name('request.store');
+Route::get('/request/{id}/edit', 'RequestController@edit')->name('request.edit');
+Route::put('/request/edit', 'RequestController@update')->name('request.update');
+Route::get('/request/{id}/print', 'RequestController@print')->name('request.print');
+
+// approve request
+Route::get('/request/{id}/detail', 'RequestController@detail')->name('request.detail');
+Route::put('/request/detail', 'RequestController@approve')->name('request.approve');
 
 Route::get('/about', function () {
     return view('about');

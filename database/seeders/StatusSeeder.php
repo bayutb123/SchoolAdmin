@@ -40,13 +40,18 @@ class StatusSeeder extends Seeder
                 'color' => 'secondary',
             ],
             [
-                'type' => 'issue',
+                'type' => 'inventory',
+                'name' => 'Pengadaan',
+                'color' => 'secondary',
+            ],
+            [
+                'type' => 'inventory',
                 'name' => 'Pengajuan Perbaikan',
                 'color' => 'secondary',
             ],
             [
                 'type' => 'issue',
-                'name' => 'Disetuji',
+                'name' => 'Disetujui',
                 'color' => 'primary',
             ],
             [
@@ -71,16 +76,6 @@ class StatusSeeder extends Seeder
             ],
             [
                 'type' => 'request',
-                'name' => 'Disetujui',
-                'color' => 'primary',
-            ],
-            [
-                'type' => 'request',
-                'name' => 'Ditolak',
-                'color' => 'danger',
-            ],
-            [
-                'type' => 'request',
                 'name' => 'Dalam Proses',
                 'color' => 'warning',
             ],
@@ -92,11 +87,6 @@ class StatusSeeder extends Seeder
             [
                 'type' => 'request',
                 'name' => 'Diterima',
-                'color' => 'success',
-            ],
-            [
-                'type' => 'request',
-                'name' => 'Selesai',
                 'color' => 'success',
             ],
         ];

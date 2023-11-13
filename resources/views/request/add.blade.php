@@ -18,7 +18,8 @@
             @endif
             <div class="card shadow mb-4">
 
-                <form class="m-4" action="" method="post">
+                <form class="m-4" action="
+                {{ route('request.store') }}" method="post">
                     @csrf
                     <input type="hidden" class="form-control" name="author_id" value="{{ Auth::user()->id }}"
                         id="author_id" aria-describedby="author_id" placeholder="">
@@ -34,7 +35,7 @@
                                     </option>
                                 @endforeach
                             </select>
-                            <small id="room_id" class="form-text text-muted">Help text</small>
+                            <small id="room_id" class="form-text text-muted">Lokasi / Ruangan tempat fasilitas yang rusak</small>
                         </div>
                         <div class="form-group col-10">
                             <label for="category">Fasilitas</label>
@@ -43,19 +44,21 @@
                                 @foreach ($widget['inventories'] as $inventory)
                                     <option data-tokens="{{ $inventory->name }}" value="{{ $inventory->id }}">
                                         [{{ $inventory->room_id }}] - {{ $inventory->name }}
-                                            ({{ $inventory->statusName }})
+                                        ({{ $inventory->quantity }} {{ $inventory->quantity_unit }})
+                                        <span style="font-weight: bold">@ Rp. {{ $inventory->price }}</span>
                                     </option>
                                 @endforeach
                             </select>
-                            <small id="category" class="form-text text-muted">Help text</small>
+                            <small id="category" class="form-text text-muted">Dapat memilih beberapa fasilitas yang rusak<br>(Sangat disarankan untuk memilih hanya fasilitas yang ada di lokasi yang anda sudah tetapkan)</small>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="description">Deskripsi</label>
                         <textarea type="text" class="form-control" name="description" id="description" aria-describedby="description"
                             placeholder=""></textarea>
-                        <small id="description" class="form-text text-muted">Help text</small>
+                            <small id="description" class="form-text text-muted">Contoh : barang x termasuk PPN 11%</small>
                     </div>
+
                     <div class="form-group">
                         <label for="author">Author</label>
                         <input type="text" class="form-control" name="author" value="{{ Auth::user()->fullName }}"
@@ -70,4 +73,6 @@
         </div>
 
     </div>
+    @push('scripts')
+    @endpush
 @endsection

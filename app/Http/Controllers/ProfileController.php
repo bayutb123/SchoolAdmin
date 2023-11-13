@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Models\Role;
 
 class ProfileController extends Controller
 {
@@ -16,7 +17,8 @@ class ProfileController extends Controller
 
     public function index()
     {
-        return view('profile');
+        $role = Role::where('id', Auth::user()->role_id)->first()->description;
+        return view('profile', compact('role'));
     }
 
     public function update(Request $request)

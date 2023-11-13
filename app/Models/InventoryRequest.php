@@ -15,6 +15,7 @@ class InventoryRequest extends Model
         'author_id',
         'room_id',
         'description',
+        'total_price',
         'status',
         'requested_at'
     ];

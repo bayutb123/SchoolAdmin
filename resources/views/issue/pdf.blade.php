@@ -31,17 +31,11 @@
                 </div>
             @endif
             <div class="card shadow mb-4">
-
-                <form class="m-4" action="{{ route('issue.approve') }}" method="post">
+                <form class="m-4" action="" method="">
                     @if ($widget['issue']->status > 5 && Auth::user()->role_id == 2)
                         <span
                             class="badge badge-{{ $widget['issue']->statusColor }} my-2 p-2">{{ $widget['issue']->statusName }}</span>
                     @endif
-                    @method('PUT')
-                    @csrf
-                    {{-- <input type="hidden" class="form-control" name="author_id" value="{{ Auth::user()->id }}"
-                        id="author_id" aria-describedby="author_id" placeholder=""> --}}
-
                     <input type="hidden" name="issue_id" value="{{ $widget['issue']->id }}">
 
                     <div class="form-group">
@@ -95,11 +89,6 @@
                             </div>
                         </div>
                     </div>
-
-                    @if (Auth::user()->role_id == 1)
-                        <button type="submit" class="btn btn-primary">Setujui</button>
-                    @endif
-
 
                 </form>
             </div>

@@ -38,7 +38,8 @@
                             <label for="name">Nama</label>
                             <input type="text" class="form-control" required name="name" id="name" aria-describedby="name"
                                 placeholder="">
-                            <small id="name" class="form-text text-muted">Help text</small>
+                            <small id="name" class="form-text text-muted">
+                                Contoh: X-F, Taman Belakang, Ruang Serba Guna</small>
                         </div>
                         <div class="form-group col">
                             <label for="floor">Lokasi</label>
@@ -49,7 +50,7 @@
                                 <option value=4>Lt. 4</option>
                                 <option value=5>Ruang Terbuka Sekolah</option>
                             </select>
-                            <small id="floor" class="form-text text-muted">Help text</small>
+                            <small id="floor" class="form-text text-muted">Lokasi di sekolah</small>
                         </div>
                     </div>
                     <div class="form-row">
@@ -62,7 +63,7 @@
                                     <option value="Umum">Umum</option>
                                     <option value="Lainnya">Lainnya</option>
                                 </select>
-                                <small id="type" class="form-text text-muted">Help text</small>
+                                <small id="type" class="form-text text-muted">Fungsi ruangan tersebut</small>
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -70,7 +71,7 @@
                                 <label for="size">Ukuran Ruangan</label>
                                 <input type="number" required step="0.01" class="form-control" name="size" id="size"
                                     aria-describedby="size" placeholder="">
-                                <small id="size" class="form-text text-muted">Help text</small>
+                                <small id="size" class="form-text text-muted">Contoh : 10.51</small>
                             </div>
                         </div>
                         <div class="col md-2">
@@ -80,7 +81,7 @@
                                     <option value="m">Meter</option>
                                     <option value="cm">Sentimeter</option>
                                 </select>
-                                <small id="size_unit" class="form-text text-muted">Help text</small>
+                                <small id="size_unit" class="form-text text-muted">satuan dari ukuran ruangan</small>
                             </div>
                         </div>
                     </div>

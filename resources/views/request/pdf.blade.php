@@ -18,7 +18,7 @@
 
 <body>
     <!-- Page Heading -->
-    <h1 class="h3 mb-4 text-gray-800">{{ __('Detail Permintaan Fasilitas') }}</h1>
+    <h1 class="h3 mb-4 text-gray-800">{{ __('Detail Pengadaan Fasilitas') }}</h1>
     <div class="row justify-content-center">
         <div class="col-lg-12">
             @if (session('success'))
@@ -32,22 +32,22 @@
             @endif
             <div class="card shadow mb-4">
 
-                <form class="m-4" action="{{ route('issue.approve') }}" method="post">
-                    @if ($widget['issue']->status > 5 && Auth::user()->role_id == 2)
+                <form class="m-4" action="{{ route('request.approve') }}" method="post">
+                    @if ($widget['request']->status > 5 && Auth::user()->role_id == 2)
                         <span
-                            class="badge badge-{{ $widget['issue']->statusColor }} my-2 p-2">{{ $widget['issue']->statusName }}</span>
+                            class="badge badge-{{ $widget['request']->statusColor }} my-2 p-2">{{ $widget['request']->statusName }}</span>
                     @endif
                     @method('PUT')
                     @csrf
                     {{-- <input type="hidden" class="form-control" name="author_id" value="{{ Auth::user()->id }}"
                         id="author_id" aria-describedby="author_id" placeholder=""> --}}
 
-                    <input type="hidden" name="issue_id" value="{{ $widget['issue']->id }}">
+                    <input type="hidden" name="request_id" value="{{ $widget['request']->id }}">
 
                     <div class="form-group">
-                        Ruangan <span style="font-weight: bold">{{ $widget['issue']->room_name }}</span>
+                        Ruangan <span style="font-weight: bold">{{ $widget['request']->roomName }}</span>
                         <small id="author_id"
-                            class="form-text text-muted">{{ $widget['issue']->created_at->toRfc850String() }}</small>
+                            class="form-text text-muted">{{ $widget['request']->created_at->toRfc850String() }}</small>
                     </div>
 
                     {{-- Create table with inventory inside --}}
@@ -58,7 +58,8 @@
                                 <th>Lokasi</th>
                                 <th>Kategori</th>
                                 <th>Jumlah</th>
-                                <th>Kondisi</th>
+                                <th>Harga Satuan</th>
+                                <th>Total Biaya</th>
                             </tr>
                         </thead>
                         <tbody id="myTable">
@@ -77,29 +78,31 @@
                                         {{ $inventory->quantity }}
                                     </td>
                                     <td>
-                                        {{ $inventory->condition }}
+                                        {{ $inventory->price }}
+                                    </td>
+                                    <td>
+                                        {{ $inventory->total_price }}
                                     </td>
                                 </tr>
                             @endforeach
+                            <tr style="font-weight: bold">
+                                <td colspan="5" class="text-right">Total Biaya (Rupiah)</td>
+                                <td>{{ $widget['request']->total_price }}</td>
+                            </tr>
                         </tbody>
                     </table>
 
                         <label for="description">Deskripsi</label>
-                        <textarea class="form-input" type="text" name="description" id="description" aria-describedby="description" placeholder="">{{ $widget['issue']->description }}</textarea>
+                        <textarea class="form-input" type="text" name="description" id="description" aria-describedby="description" placeholder="">{{ $widget['request']->description }}</textarea>
 
                     <div class="input-group mt-3">
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="basic-addon3">Author :
-                                    {{ $widget['issue']->author }}</span>
+                                    {{ $widget['request']->author }}</span>
                             </div>
                         </div>
                     </div>
-
-                    @if (Auth::user()->role_id == 1)
-                        <button type="submit" class="btn btn-primary">Setujui</button>
-                    @endif
-
 
                 </form>
             </div>

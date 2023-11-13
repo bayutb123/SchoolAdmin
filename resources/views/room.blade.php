@@ -30,10 +30,10 @@
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th>Nama</th>
-                    <th>Tipe</th>
-                    <th>Lokasi</th>
-                    <th>Jumlah Fasilitas</th>
+                    <th width=15%>Nama</th>
+                    <th width=10%>Tipe</th>
+                    <th width=15%>Lokasi</th>
+                    <th width=5%>Jumlah Fasilitas</th>
                     <th>Ukuran Ruangan</th>
                     <th width=10%>Aksi</th>
                 </tr>

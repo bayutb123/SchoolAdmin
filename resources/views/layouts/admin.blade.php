@@ -63,27 +63,43 @@
                 {{ __('Manajemen') }}
             </div>
 
-            <!-- Nav Item - Daftar Lingkungan -->
+            <!-- Nav Item - Lingkungan -->
             <li class="nav-item {{ Nav::isRoute('room') }}">
                 <a class="nav-link" href="{{ route('room') }}">
                     <i class="fas fa-fw fa-list-ul"></i>
-                    <span>{{ __('Daftar Lingkungan') }}</span>
+                    <span>{{ __('Lingkungan') }}</span>
                 </a>
             </li>
 
-            <!-- Nav Item - Daftar Fasilitas -->
+            <!-- Nav Item - Fasilitas -->
             <li class="nav-item {{ Nav::isRoute('inventory') }}">
                 <a class="nav-link" href="{{ route('inventory') }}">
                     <i class="fas fa-fw fa-list-ul"></i>
-                    <span>{{ __('Daftar Fasilitas') }}</span>
+                    <span>{{ __('Fasilitas') }}</span>
                 </a>
             </li>
 
-            <!-- Nav Item - Daftar Laporan -->
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                {{ __('Pengajuan') }}
+            </div>
+
+            <!-- Nav Item - Perbaikan -->
             <li class="nav-item {{ Nav::isRoute('issue') }}">
                 <a class="nav-link" href="{{ route('issue') }}">
                     <i class="fas fa-fw fa-list-ul"></i>
-                    <span>{{ __('Daftar Laporan') }}</span>
+                    <span>{{ __('Perbaikan') }}</span>
+                </a>
+            </li>
+
+            <!-- Nav Item - Pengadaan -->
+            <li class="nav-item {{ Nav::isRoute('request') }}">
+                <a class="nav-link" href="{{ route('request') }}">
+                    <i class="fas fa-fw fa-list-ul"></i>
+                    <span>{{ __('Pengadaan') }}</span>
                 </a>
             </li>
 

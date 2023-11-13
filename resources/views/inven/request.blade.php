@@ -24,7 +24,7 @@
                         id="last_author_id" aria-describedby="last_author_id" placeholder="">
                     <div class="form-row">
                         <div class="form-group col">
-                            <label for="room_id">Lokasi</label>
+                            <label for="room_id">Ruang Lingkup</label>
                             <select class="selectpicker w-100" data-live-search="true" name="room_id" id="room">
                                 <option selected value="null">Choose...</option>
                                 @foreach ($widget['rooms'] as $room)
@@ -33,7 +33,8 @@
                                     </option>
                                 @endforeach
                             </select>
-                            <small id="room_id" class="form-text text-muted">Help text</small>
+                            <small id="room_id" class="form-text text-muted">Tempat fasilitas disimpan atau
+                                digunakan</small>
                         </div>
                         <div class="form-group col">
                             <label for="category">Kategori</label>
@@ -44,7 +45,7 @@
                                 <option value="Fasilitas Pendukung">Fasilitas Pendukung</option>
                                 <option value="Lainnya">Lainnya</option>
                             </select>
-                            <small id="category" class="form-text text-muted">Help text</small>
+                            <small id="category" class="form-text text-muted">Tipe fasilitas</small>
                         </div>
                     </div>
                     <div class="form-row">
@@ -53,7 +54,7 @@
                                 <label for="name">Nama</label>
                                 <input type="text" class="form-control" name="name" id="name"
                                     aria-describedby="name" required placeholder="">
-                                <small id="name" class="form-text text-muted">Help text</small>
+                                <small id="name" class="form-text text-muted">Nama fasilitas</small>
                             </div>
                         </div>
                         <div class="col-md-2">
@@ -61,15 +62,15 @@
                                 <label for="price">Harga Satuan</label>
                                 <input type="number" required class="form-control" name="price" id="price"
                                     aria-describedby="price" placeholder="">
-                                <small id="price" class="form-text text-muted">Help text</small>
+                                <small id="price" class="form-text text-muted">Harga satuan fasilitas</small>
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label for="quantity">Jumlah</label>
-                                <input type="number" required step="0.01" class="form-control" name="quantity" id="quantity"
-                                    aria-describedby="quantity" placeholder="">
-                                <small id="quantity" class="form-text text-muted">Help text</small>
+                                <input type="number" required step="0.01" class="form-control" name="quantity"
+                                    id="quantity" aria-describedby="quantity" placeholder="">
+                                    <small id="quantity" class="form-text text-muted">Contoh: 100 atau 10.55 (Untuk satuan meter, kg, liter)</small>
                             </div>
                         </div>
                         <div class="col md-2">
@@ -83,7 +84,7 @@
                                     <option value="liter">liter</option>
                                     <option value="lainnya">lainnya</option>
                                 </select>
-                                <small id="quantity_unit" class="form-text text-muted">Help text</small>
+                                <small id="quantity_unit" class="form-text text-muted">Satuan jumlah fasilitas</small>
                             </div>
                         </div>
                     </div>
@@ -91,18 +92,17 @@
                         <label for="description">Deskripsi</label>
                         <textarea type="text" class="form-control" name="description" id="description" aria-describedby="description"
                             placeholder=""></textarea>
-                        <small id="description" class="form-text text-muted">Help text</small>
+                            <small id="description" class="form-text text-muted">Keterangan fasilitas, seperti fungsi, peruntukan, urgensi, dll</small>
                     </div>
                     <div class="form-group">
                         <label for="status">Status</label>
                         <select required class="form-control" name="status" id="inlineFormCustomSelect">
                             @foreach ($widget['status'] as $status)
-                                <option value="{{ $status->id }}" @if ($status->id == 5)
-                                    disabled
-                                @endif>{{ $status->name }}</option>
+                                <option value="{{ $status->id }}" @if ($status->id == 5) disabled @endif>
+                                    {{ $status->name }}</option>
                             @endforeach
                         </select>
-                        <small id="status" class="form-text text-muted">Help text</small>
+                        <small id="status" class="form-text text-muted">Status saat ini, tidak perlu diubah</small>
                     </div>
                     <div class="form-group">
                         <label for="author">Author</label>
@@ -113,7 +113,7 @@
                     </div>
 
                     <button type="submit" class="btn btn-primary">Submit</button>
-                    
+
                 </form>
             </div>
         </div>
