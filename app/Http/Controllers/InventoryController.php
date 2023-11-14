@@ -235,8 +235,18 @@ class InventoryController extends Controller
     }
 
     public function updateRequestStatus($id) {
+        // check if inventory is request or issue
         $inventory = Inventory::where('id', $id)->first();
-        $applicableStatus = \App\Models\Status::where('type', 'request')
+        $whiteList = [];
+        if ($inventory->request_status) {
+            $whiteList = ['Dalam Proses', 'Dalam Pengiriman', 'Diterima'];
+        } else if ($inventory->issue_status) {
+            $whiteList = ['Dalam Perbaikan', 'Selesai'];
+        }
+
+        $inventory = Inventory::where('id', $id)->first();
+        $applicableStatus = \App\Models\Status::
+            whereIn('name', $whiteList)
             ->get();
         $approvedStatus = \App\Models\Status::where('name', 'Disetujui')->first();
 
@@ -256,26 +266,49 @@ class InventoryController extends Controller
             'status' => 'required',
         ]);
 
-        // get status id where name is Diterima
-        $finalStatus = \App\Models\Status::where('name', 'Diterima')->first();
+        $inventory = Inventory::where('id', $validated['inventory_id'])->first();
+        if ($inventory->request_id) {
+            $finalStatus = \App\Models\Status::where('name', 'Diterima')->first();
+        } else if ($inventory->issue_id) {
+            $finalStatus = \App\Models\Status::where('name', 'Selesai')->first();
+        }
+
         // get status id where name is Baik
         $goodStatus = \App\Models\Status::where('name', 'Baik')->first();
 
         if ($validated) {
-            if ($validated['status'] == $finalStatus->id) {
-                $inventory = Inventory::where('id', $validated['inventory_id'])->update(
-                    [
-                        'request_status' => null,
-                        'status' => $goodStatus->id,
-                    ]
-                );
-            } else {
-                $inventory = Inventory::where('id', $validated['inventory_id'])->update(
-                    [
-                        'request_status' => $validated['status'],
-                    ]
-                );
+            if ($inventory->request_id) {
+                if ($validated['status'] == $finalStatus->id) {
+                    $inventory = Inventory::where('id', $validated['inventory_id'])->update(
+                        [
+                            'request_status' => null,
+                            'status' => $goodStatus->id,
+                        ]
+                    );
+                } else {
+                    $inventory = Inventory::where('id', $validated['inventory_id'])->update(
+                        [
+                            'request_status' => $validated['status'],
+                        ]
+                    );
+                }
+            } else if ($inventory->issue_id) {
+                if ($validated['status'] == $finalStatus->id) {
+                    $inventory = Inventory::where('id', $validated['inventory_id'])->update(
+                        [
+                            'issue_status' => null,
+                            'status' => $goodStatus->id,
+                        ]
+                    );
+                } else {
+                    $inventory = Inventory::where('id', $validated['inventory_id'])->update(
+                        [
+                            'issue_status' => $validated['status'],
+                        ]
+                    );
+                }
             }
+            
         }
         return redirect()->route('inventory')->withSuccess('Inventory updated successfully.');
     }
