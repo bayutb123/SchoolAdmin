@@ -19,12 +19,6 @@ return new class extends Migration
             $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade');
         });
 
-        $user = new App\Models\User();
-        $user->name = 'Administrator';
-        $user->email = 'admin@localhost';
-        $user->password = bcrypt('admin');
-        $user->role_id = 1;
-        $user->save();
     }
 
     /**

@@ -107,6 +107,8 @@ class InventoryController extends Controller
                     'last_author_id' => $request->last_author_id,
                 ]
             );
+        } else {
+            return redirect()->route('inventory.create')->withError('Error. Data tidak valid');
         }
         return redirect()->route('inventory.create')->withSuccess('Inventory added successfully.');
     }

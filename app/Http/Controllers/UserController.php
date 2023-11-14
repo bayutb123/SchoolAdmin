@@ -22,7 +22,7 @@ class UserController extends Controller
 
         // set role name foreach user
         foreach ($users as $user) {
-            $user->roleName = $role->where('id', $user->role_id)->first()->description;
+            $user->roleName = $role->where('id', $user->role_id)->first()->name;
         }
 
         // exclude current user

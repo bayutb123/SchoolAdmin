@@ -16,6 +16,11 @@
                     </button>
                 </div>
             @endif
+            @if (session('error'))
+                <div class="alert alert-danger border-left-danger" role="alert">
+                    {{ session('error') }}
+                </div>
+            @endif
             <div class="card shadow mb-4">
 
                 <form class="m-4" action="{{ route('inventory.store') }}" method="post">
@@ -26,7 +31,7 @@
                         <div class="form-group col">
                             <label for="room_id">Ruang Lingkup</label>
                             <select class="selectpicker w-100" data-live-search="true" name="room_id" id="room">
-                                <option selected value="null">Choose...</option>
+                                <option selected >Choose...</option>
                                 @foreach ($widget['rooms'] as $room)
                                     <option data-tokens="{{ $room->name }}" value="{{ $room->id }}">
                                         {{ $room->name }}

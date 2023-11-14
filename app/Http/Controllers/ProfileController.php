@@ -17,7 +17,7 @@ class ProfileController extends Controller
 
     public function index()
     {
-        $role = Role::where('id', Auth::user()->role_id)->first()->description;
+        $role = Role::where('id', Auth::user()->role_id)->first()->name;
         return view('profile', compact('role'));
     }
 

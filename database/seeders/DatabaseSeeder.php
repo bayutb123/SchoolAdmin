@@ -15,34 +15,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $user = [
-            [
-                'name' => 'Admin',
-                'last_name' => 'Admin',
-                'email' => 'admin@school.sch',
-                'password' => 'admin',
-                'role_id' => 1,
-            ],
-        ];
-
-        foreach ($user as $key => $value) {
-            User::create($value);
-        }
-
-        $role = [
-            [
-                'name' => 'Administrator', // 1
-                'description' => 'Admin',
-            ],
-            [
-                'name' => 'Staff',
-                'description' => 'Staff',
-            ],
-        ];
-
-        foreach ($role as $key => $value) {
-            Role::create($value);
-        }
+        
+        $this->call([
+            RoleSeeder::class,
+            UserSeeder::class,
+            StatusSeeder::class,
+        ]);
 
     }
 }
