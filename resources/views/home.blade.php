@@ -62,7 +62,7 @@
             </div>
 
             <!-- Project Card Example -->
-            <div class="card shadow mb-4">
+            {{-- <div class="card shadow mb-4">
                 <div class="card-header py-3">
                     <h6 class="m-0 font-weight-bold text-primary">Statistik</h6>
                 </div>
@@ -88,7 +88,7 @@
                         <div class="progress-bar bg-danger" role="progressbar" style="width: {{ $widget['percentageRequests'] }}%" aria-valuenow="{{ $widget['percentageRequests'] }}" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
 
             <!-- Color System -->
             <!-- <div class="row">
