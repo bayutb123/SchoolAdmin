@@ -228,7 +228,10 @@ class RequestController extends Controller
         $approvedStatus = \App\Models\Status::where('name', 'Disetujui')->first();
         if ($request->status == $approvedStatus->id) {
             $request->isApproved = true;
+        } else {
+            $request->isApproved = false;
         }
+
 
         $applicableStatus = \App\Models\Status::where('type', 'request')->get();
         $request->statusName = $status->where('id', $request->status)->first()->name;

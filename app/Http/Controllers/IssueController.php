@@ -114,9 +114,13 @@ class IssueController extends Controller
         $rooms = \App\Models\Room::all();
         $status = \App\Models\Status::all();
         $approvedStatus = \App\Models\Status::where('name', 'Disetujui')->first();
+
         if ($issue->status == $approvedStatus->id) {
             $issue->isApproved = true;
+        } else {
+            $issue->isApproved = false;
         }
+
         $issue->room_name = $rooms->where('id', $issue->room_id)->first()->name;
         // author
         $issue->author = \App\Models\User::where('id', $issue->author_id)->first()->name;
