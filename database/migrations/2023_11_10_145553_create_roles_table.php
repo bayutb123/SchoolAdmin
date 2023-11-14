@@ -18,16 +18,6 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        // prepopulate the table
-        $role = new \App\Models\Role();
-        $role->name = 'admin';
-        $role->description = 'Administrator';
-        $role->save();
-
-        $role = new \App\Models\Role();
-        $role->name = 'user';
-        $role->description = 'User';
-        $role->save();
     }
 
     /**

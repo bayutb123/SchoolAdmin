@@ -22,6 +22,11 @@ Route::get('/', 'HomeController@index')->name('home');
 Route::get('/profile', 'ProfileController@index')->name('profile');
 Route::put('/profile', 'ProfileController@update')->name('profile.update');
 
+// user
+Route::get('/users', 'UserController@index')->name('users');
+Route::get('/user/{id}/edit', 'UserController@edit')->name('user.edit');
+Route::put('/user/edit', 'UserController@update')->name('user.update');
+
 // inventory
 Route::get('/inventory', 'InventoryController@index')->name('inventory');
 Route::get('/inventory/add', 'InventoryController@create')->name('inventory.create');

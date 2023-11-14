@@ -119,6 +119,14 @@
                 </a>
             </li>
 
+            <!-- Nav Item - Users -->
+            <li class="nav-item {{ Nav::isRoute('users') }}">
+                <a class="nav-link" href="{{ route('users') }}">
+                    <i class="fas fa-fw fa-user"></i>
+                    <span>{{ __('Users') }}</span>
+                </a>
+            </li>
+
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
