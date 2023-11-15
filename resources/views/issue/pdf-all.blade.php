@@ -24,7 +24,7 @@
 
 <body>
     <!-- Page Heading -->
-    <h1 class="h3 text-gray-800">{{ __('Daftar Fasilitas') }} <span
+    <h1 class="h3 text-gray-800">{{ __('Daftar Perbaikan Kerusakan') }} <span
             class="badge badge-secondary">{{ $widget['issues']->count() }}</span></h1>
 
     <div class="col-lg-12 mb-4">
