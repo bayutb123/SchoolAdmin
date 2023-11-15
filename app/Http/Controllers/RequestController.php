@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
+use PDF;
 
 class RequestController extends Controller
 {
@@ -353,6 +355,38 @@ class RequestController extends Controller
 
         $pdf = \PDF::loadView('request.pdf', compact('widget'));
         return $pdf->download($fileName);
+    }
+
+    public function printAll() {
+        $users = \App\Models\User::all();
+        $requests = \App\Models\InventoryRequest::all();
+        $rooms = \App\Models\Room::all();
+        $status = \App\Models\Status::all();
+        $issuedStatus = \App\Models\Status::where('type', 'issue')->get();
+
+        foreach ($requests as $request) {
+            $author = $users->where('id', $request->author_id)->first();
+            $room = $rooms->where('id', $request->room_id)->first();
+            $request->authorName = $author->name;
+            $request->roomName = $room->name;
+            $request->statusName = $status->where('id', $request->status)->first()->name;
+            
+            // format total price
+            $request->totalPrice = number_format($request->total_price, 0, ',', '.');
+            $request->statusColor = $status->where('id', $request->status)->first()->color;
+        }
+
+        $widget = [
+            'requests' => $requests,
+            'date' => Carbon::now('Asia/Jakarta')->format('d F Y'),
+        ];
+
+        $fileName = 'request-all.pdf';
+
+        $pdf = PDF::loadView('request.pdf-all', compact('widget'));
+        // landscape
+        $pdf->setPaper('a4', 'landscape');
+        return $pdf->download(str_replace(' ', '', $fileName));
     }
 
 }

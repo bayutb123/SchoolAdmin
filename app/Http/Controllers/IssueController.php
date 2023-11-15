@@ -205,6 +205,35 @@ class IssueController extends Controller
         return view('issue.edit', compact('widget'));
     }
 
+    public function printAll() {
+        $users = \App\Models\User::all();
+        $issues = \App\Models\InventoryIssue::all();
+        $rooms = \App\Models\Room::all();
+        $status = \App\Models\Status::all();
+        $issuedStatus = \App\Models\Status::where('type', 'issue')->get();
+
+        foreach ($issues as $issue) {
+            $author = $users->where('id', $issue->author_id)->first();
+            $room = $rooms->where('id', $issue->room_id)->first();
+            $issue->authorName = $author->name;
+            $issue->roomName = $room->name;
+            $issue->statusName = $status->where('id', $issue->status)->first()->name;
+            $issue->statusColor = $status->where('id', $issue->status)->first()->color;
+        }
+
+        $widget = [
+            'issues' => $issues,
+            'date' => Carbon::now('Asia/Jakarta')->format('d F Y'),
+        ];
+
+        $fileName = 'issue-all.pdf'. Carbon::now('Asia/Jakarta')->format('d-m-Y');
+
+        $pdf = PDF::loadView('issue.pdf-all', compact('widget'));
+        // landscape
+        $pdf->setPaper('a4', 'landscape');
+        return $pdf->download(str_replace(' ', '', $fileName));
+    }
+
     public function update(Request $request) {
         $validated = $request->validate([
             'issue_id' => 'required',

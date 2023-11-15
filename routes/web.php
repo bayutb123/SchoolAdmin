@@ -61,6 +61,7 @@ Route::get('/issue/{id}/edit', 'IssueController@edit')->name('issue.edit');
 Route::put('/issue/edit', 'IssueController@update')->name('issue.update');
 Route::delete('/issue/delete', 'IssueController@destroy')->name('issue.destroy');
 Route::get('/issue/{id}/print', 'IssueController@print')->name('issue.print');
+Route::get('/issue/print', 'IssueController@printAll')->name('issue.printAll');
 
 // approve issue
 Route::get('/issue/{id}/detail', 'IssueController@detail')->name('issue.detail');
@@ -74,6 +75,7 @@ Route::get('/request/{id}/edit', 'RequestController@edit')->name('request.edit')
 Route::put('/request/edit', 'RequestController@update')->name('request.update');
 Route::delete('/request/delete', 'RequestController@destroy')->name('request.destroy');
 Route::get('/request/{id}/print', 'RequestController@print')->name('request.print');
+Route::get('/request/print', 'RequestController@printAll')->name('request.printAll');
 
 // approve request
 Route::get('/request/{id}/detail', 'RequestController@detail')->name('request.detail');

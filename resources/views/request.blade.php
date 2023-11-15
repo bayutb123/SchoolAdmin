@@ -21,8 +21,20 @@
     @endif
 
     <div class="col-lg-12 mb-4">
-        <div class="text-right">
-            <a href="{{ route('request.create') }}" class="btn btn-primary mb-2 pull-right">Tambah Laporan</a>
+        
+
+        <div class="row">
+            <div class="col-sm-4">
+                {{-- print button --}}
+                <a href="{{ route('request.printAll') }}" class="btn btn-primary mb-2 pull-right"><i class="fa fa-print"
+                        aria-hidden="true"></i>
+                </a>
+            </div>
+            <div class="col-sm-8">
+                <div class="text-right">
+                    <a href="{{ route('request.create') }}" class="btn btn-primary mb-2 pull-right">Tambah Laporan</a>
+                </div>
+            </div>
         </div>
         <input class="form-control" id="myInput" type="text" placeholder="Search..">
         <br>
