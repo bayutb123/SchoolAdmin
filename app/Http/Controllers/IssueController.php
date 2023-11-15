@@ -145,6 +145,27 @@ class IssueController extends Controller
         return view('issue.detail', compact('widget'));
     }
 
+    // delete issue
+    public function destroy(Request $request) {
+        $validated = $request->validate([
+            'issue_id' => 'required',
+        ]);
+
+        if ($validated) {
+            $inventories = \App\Models\Inventory::where('issue_id', $validated['issue_id'])->get();
+            foreach ($inventories as $inventory) {
+                $inventory->issue_id = null;
+                $inventory->issue_status = null;
+                $inventory->last_author_id = Auth::user()->id;
+                $inventory->save();
+            }
+
+            $issue = \App\Models\InventoryIssue::where('id', $validated['issue_id'])->first();
+            $issue->delete();
+        }
+        return redirect()->route('issue')->withSuccess('Issue deleted successfully.');
+    }
+
     public function edit($id) {
         $issue = \App\Models\InventoryIssue::where('id', $id)->first();
         $rooms = \App\Models\Room::all();
@@ -170,7 +191,6 @@ class IssueController extends Controller
             $it->statusColor = $status->where('id', $it->status)->first()->color;
         }
 
-        $status = \App\Models\Status::where('type', 'issue')->get();
         $issue->statusName = $status->where('id', $issue->status)->first()->name;
         $issue->statusColor = $status->where('id', $issue->status)->first()->color;
 

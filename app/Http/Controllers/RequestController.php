@@ -267,6 +267,31 @@ class RequestController extends Controller
         return view('request.detail', compact('widget'));
     }
 
+    // delete request
+    public function destroy(Request $request) {
+        $validated = $request->validate([
+            'request_id' => 'required|integer',
+        ]);
+
+        // get status where name = "Rencaan Pembelian"
+        $requestStatusPlanning = \App\Models\Status::where('name', 'Rencana Pembelian')->first();
+
+        if ($validated) {
+            $inventory = \App\Models\Inventory::where('request_id', $validated['request_id'])->get();
+            foreach ($inventory as $it) {
+                $it->request_id = null;
+                $it->request_status = $requestStatusPlanning->id;
+                $it->last_author_id = Auth::user()->id;
+                $it->save();
+            }
+
+            $request = \App\Models\InventoryRequest::where('id', $validated['request_id'])->first();
+            $request->delete();
+        }
+
+        return redirect()->route('request')->withSuccess('Request deleted successfully.');
+    }
+
     // approve
     public function approve(Request $request) {
         $validated = $request->validate([

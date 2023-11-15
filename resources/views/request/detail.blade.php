@@ -107,6 +107,12 @@
                         <a href="#" data-toggle="modal" data-target="#approveModal"
                             class="btn btn-primary">Setujui</a>
                     @endif
+
+                    @if ($widget['request']->isApproved == false)
+                        <a href="#" data-toggle="modal" data-target="#deleteModal"
+                            class="btn btn-danger">Hapus</a> 
+                    @endif
+
                     <a href="{{ route('request.print', $widget['request']->id) }}" class="btn btn-primary">
                         <i class="fas fa-print"></i>
                     </a>
@@ -135,6 +141,33 @@
                 </div>
             </div>
         </div>
+
+        <!-- Confirmation Modal-->
+        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">{{ __('Yakin ingin menyetujui pengajuan ini?') }}
+                        </h5>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">Aksi ini tidak dapat diurungkan</div>
+                    <div class="modal-footer">
+                        <button class="btn btn-link" type="button" data-dismiss="modal">{{ __('Cancel') }}</button>
+                        <form id="delete-form" action="{{ route('request.destroy') }}" method="post">
+                            @csrf
+                            @method('DELETE')
+                            <input type="hidden" name="request_id" value="{{ $widget['request']->id }}">
+                        </form>
+                        <a class="btn btn-success" href="{{ route('request.destroy') }}"
+                            onclick="event.preventDefault(); document.getElementById('delete-form').submit();">{{ __('Delete') }}</a>
+                    </div>
+                </div>
+            </div>
+        </div>  
 
     </div>
 @endsection

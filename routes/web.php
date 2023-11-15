@@ -37,6 +37,7 @@ Route::get('/inventory/request/add', 'InventoryController@request')->name('inven
 Route::post('/inventory/request/add', 'InventoryController@requestStore')->name('inventory.request.store');
 Route::get('/inventory/request/{id}/edit', 'InventoryController@requestEdit')->name('inventory.request.edit');
 Route::put('/inventory/request/edit', 'InventoryController@requestUpdate')->name('inventory.request.update');
+Route::delete('/inventory/item/delete', 'InventoryController@destroyItem')->name('inventory.item.destroy');
 Route::get('/inventory/print', 'InventoryController@print')->name('inventory.print');
 
 // update status inven
@@ -58,6 +59,7 @@ Route::get('/issue/add', 'IssueController@create')->name('issue.create');
 Route::post('/issue/add', 'IssueController@store')->name('issue.store');
 Route::get('/issue/{id}/edit', 'IssueController@edit')->name('issue.edit');
 Route::put('/issue/edit', 'IssueController@update')->name('issue.update');
+Route::delete('/issue/delete', 'IssueController@destroy')->name('issue.destroy');
 Route::get('/issue/{id}/print', 'IssueController@print')->name('issue.print');
 
 // approve issue
@@ -70,6 +72,7 @@ Route::get('/request/add', 'RequestController@create')->name('request.create');
 Route::post('/request/add', 'RequestController@store')->name('request.store');
 Route::get('/request/{id}/edit', 'RequestController@edit')->name('request.edit');
 Route::put('/request/edit', 'RequestController@update')->name('request.update');
+Route::delete('/request/delete', 'RequestController@destroy')->name('request.destroy');
 Route::get('/request/{id}/print', 'RequestController@print')->name('request.print');
 
 // approve request

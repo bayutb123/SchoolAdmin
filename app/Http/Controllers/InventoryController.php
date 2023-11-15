@@ -65,6 +65,13 @@ class InventoryController extends Controller
                 $item->requestStatusColor = $status->where('id', $item->request_status)->first()->color;
             }
 
+            // jika quantity berisi .00, maka tidak perlu menampilkan koma
+            if (strpos($item->quantity, '.00') !== false) {
+                $item->quantity = number_format($item->quantity, 0, ',', '.');
+            } else {
+                $item->quantity = number_format($item->quantity, 2, ',', '.');
+            }
+
             if ($item->room_id) {
                 $item->roomName = \App\Models\Room::where('id', $item->room_id)->first()->name;
             }
@@ -131,6 +138,26 @@ class InventoryController extends Controller
             'status' => $status,
         ];
         return view('inven.edit', compact('widget'));
+    }
+
+    // destroyItem
+    public function destroyItem(Request $request) {
+        $validated = $request->validate([
+            'id' => 'required',
+        ]);
+
+        if ($validated) {
+            // check if inventory is request or issue
+            $inventory = Inventory::where('id', $validated['id'])->first();
+            if ($inventory->request_id) {
+                return redirect()->route('inventory')->withError('Error. Inventory is requested.');
+            } else if ($inventory->issue_id) {
+                return redirect()->route('inventory')->withError('Error. Inventory is issued.');
+            } else {
+                $inventory = Inventory::where('id', $validated['id'])->delete();
+            }
+        }
+        return redirect()->route('inventory')->withSuccess('Inventory deleted successfully.');
     }
 
     public function update(Request $request)
@@ -311,6 +338,7 @@ class InventoryController extends Controller
                     $request_id = \App\Models\InventoryRequest::where('id', $inventory->request_id)->first()->id;
                     $inventory = Inventory::where('id', $validated['inventory_id'])->update(
                         [
+                            'request_id' => null, // remove request_id
                             'request_status' => null,
                             'status' => $goodStatus->id,
                         ]
@@ -335,6 +363,7 @@ class InventoryController extends Controller
                     $issue_id = \App\Models\InventoryIssue::where('id', $inventory->issue_id)->first()->id;
                     $inventory = Inventory::where('id', $validated['inventory_id'])->update(
                         [
+                            'issue_id' => null, // remove issue_id
                             'issue_status' => null,
                             'status' => $goodStatus->id,
                         ]

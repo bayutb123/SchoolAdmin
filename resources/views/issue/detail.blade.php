@@ -99,6 +99,11 @@
                             class="btn btn-primary">Setujui</a>
                     @endif
 
+                    @if ($widget['issue']->isApproved == false)
+                        <a href="#" data-toggle="modal" data-target="#deleteModal"
+                            class="btn btn-danger">Hapus</a>
+                    @endif
+
                     <a href="{{ route('issue.print', $widget['issue']->id) }}" class="btn btn-primary">
                         <i class="fas fa-print"></i>
                     </a>
@@ -123,6 +128,33 @@
                         <button class="btn btn-link" type="button" data-dismiss="modal">{{ __('Cancel') }}</button>
                         <a class="btn btn-success" href="{{ route('issue.approve') }}"
                             onclick="event.preventDefault(); document.getElementById('approve-form').submit();">{{ __('Approve') }}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Confirmation Modal-->
+        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">{{ __('Yakin ingin menyetujui pengajuan ini?') }}
+                        </h5>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">Aksi ini tidak dapat diurungkan</div>
+                    <div class="modal-footer">
+                        <button class="btn btn-link" type="button" data-dismiss="modal">{{ __('Cancel') }}</button>
+                        <form id="delete-form" action="{{ route('issue.destroy') }}" method="post">
+                            @csrf
+                            @method('DELETE')
+                            <input type="hidden" name="issue_id" value="{{ $widget['issue']->id }}">
+                        </form>
+                        <a class="btn btn-success" href="{{ route('issue.destroy') }}"
+                            onclick="event.preventDefault(); document.getElementById('delete-form').submit();">{{ __('Delete') }}</a>
                     </div>
                 </div>
             </div>
