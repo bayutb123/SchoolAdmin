@@ -23,6 +23,13 @@
     <div class="col-lg-12 mb-4">
         <div class="text-right">
             <div class="row-lg-6">
+                {{-- print button --}}
+                <a href="{{ route('inventory.print') }}" class="btn btn-primary mb-2 pull-right"><i class="fa fa-print" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+        <div class="text-right">
+            <div class="row-lg-6">
                 @if (Auth::user()->role_id == 1)
                     <a href="{{ route('inventory.create') }}" class="btn btn-primary mb-2 pull-right">Input Pendataan
                         Fasilitas</a>

@@ -37,6 +37,7 @@ Route::get('/inventory/request/add', 'InventoryController@request')->name('inven
 Route::post('/inventory/request/add', 'InventoryController@requestStore')->name('inventory.request.store');
 Route::get('/inventory/request/{id}/edit', 'InventoryController@requestEdit')->name('inventory.request.edit');
 Route::put('/inventory/request/edit', 'InventoryController@requestUpdate')->name('inventory.request.update');
+Route::get('/inventory/print', 'InventoryController@print')->name('inventory.print');
 
 // update status inven
 Route::get('/inventory/{id}/request/status', 'InventoryController@updateRequestStatus')->name('inventory.request.status');

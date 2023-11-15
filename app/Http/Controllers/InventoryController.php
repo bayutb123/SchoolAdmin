@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Inventory;
 use App\Models\InventoryRequest;
 use App\Http\Requests\AddInitialInventoryRequest;
+use Carbon\Carbon;
 
 use App\Http\Requests\InventoryRequestRequest;
 
@@ -359,5 +360,75 @@ class InventoryController extends Controller
         return redirect()->route('inventory')->withSuccess('Inventory updated successfully.');
     }
 
-    
+    // export to pdf
+    public function print() {
+
+        $inventories = Inventory::all();
+        $status = \App\Models\Status::all();
+        $room = \App\Models\Room::all();    
+
+        $statusApproved = $status->where('name', 'Disetujui')->first()->id;
+        $statusInProcess = $status->where('name', 'Dalam Proses')->first()->id;
+        $statusInExpedition = $status->where('name', 'Dalam Pengiriman')->first()->id;
+        $statusInRepair = $status->where('name', 'Dalam Perbaikan')->first()->id;
+        
+        $requestStatus = collect([$statusApproved, $statusInProcess, $statusInExpedition]);
+
+        $statusPlanned = $status->where('name', 'Rencana Pembelian')->first()->id;
+
+        foreach ($inventories as $item) {
+            $item->statusName = $status->where('id', $item->status)->first()->name;
+            $item->statusColor = $status->where('id', $item->status)->first()->color;
+            $item->roomName = $room->where('id', $item->room_id)->first()->name;
+
+            if ($item->issue_status) {
+                if ($item->issue_id) {
+                    $item->isIssued = true;
+                }
+                if ($item->issue_status == $statusApproved) {
+                    $item->isApproved = true;
+                } else if ($item->issue_status == $statusInRepair) {
+                    $item->isApproved = true;
+                }
+                $item->issueStatusName = $status->where('id', $item->issue_status)->first()->name;
+                $item->issueStatusColor = $status->where('id', $item->issue_status)->first()->color;
+            }
+
+            if ($item->request_status) {
+                if ($item->request_id) {
+                    $item->isRequested = true;
+                }
+                if ($requestStatus->contains($item->request_status)) {
+                    $item->isApproved = true;
+                } else if ($item->request_status == $statusPlanned) {
+                    $item->isPlanned = true;
+                } 
+                $item->requestStatusName = $status->where('id', $item->request_status)->first()->name;
+                $item->requestStatusColor = $status->where('id', $item->request_status)->first()->color;
+            }
+
+            // jika quantity berisi .00, maka tidak perlu menampilkan koma
+            if (strpos($item->quantity, '.00') !== false) {
+                $item->quantity = number_format($item->quantity, 0, ',', '.');
+            } else {
+                $item->quantity = number_format($item->quantity, 2, ',', '.');
+            }
+        }
+        $date = Carbon::now()->format('d F Y');
+
+        $widget = [
+            'inventories' => $inventories,
+            'date' => $date,
+        ];
+
+        $fileName = 'inventory' . time() . '.pdf';
+
+
+
+        // dompdf
+        $pdf = \PDF::loadView('inven.pdf', compact('widget'));
+        // landscape
+        $pdf->setPaper('A4', 'landscape');
+        return $pdf->download('inventory.pdf');
+    }
 }
