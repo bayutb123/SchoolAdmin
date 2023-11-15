@@ -54,11 +54,6 @@
                                     </div>
                                 </form>
 
-                                <hr>
-
-                                    <a class="btn btn-primary btn-user btn-block" href="{{ route('home') }}">
-                                        {{ __('Back to Dashboard') }}
-                                    </a>
                             </div>
                         </div>
                     </div>
