@@ -296,22 +296,20 @@ class InventoryController extends Controller
     }
 
     public function checkIsFinished($id) {
-        $inventory = Inventory::where('id', $id)->first();
-        if ($inventory->request_id) {
-            $request = \App\Models\InventoryRequest::where('id', $inventory->request_id)->first()->id;
-            $inventories = Inventory::where('request_id', $request)->get();
-        } else if ($inventory->issue_id) {
-            $issue = \App\Models\InventoryIssue::where('id', $inventory->issue_id)->first()->id;
-            $inventories = Inventory::where('issue_id', $issue)->get();
-        }
-
-        $notFinished = [];
-        foreach ($inventories as $item) {
-            if ($item->request_status || $item->issue_status) {
-                array_push($notFinished, $item);
+        $inventory = Inventory::where('request_id', $id)->orWhere('issue_id', $id)->get();
+        $isFinished = true;
+        foreach ($inventory as $item) {
+            if ($item->request_id) {
+                if (!$item->request_status) {
+                    $isFinished = false;
+                }
+            } else if ($item->issue_id) {
+                if (!$item->issue_status) {
+                    $isFinished = false;
+                }
             }
-        }   
-        return count($notFinished) == 0;
+        }
+        return $isFinished;
     }
 
     public function updateRequestStatusStore(Request $request) {
@@ -336,6 +334,7 @@ class InventoryController extends Controller
             if ($inventory->request_id) {
                 if ($validated['status'] == $finalStatus->id) {
                     $request_id = \App\Models\InventoryRequest::where('id', $inventory->request_id)->first()->id;
+                    
                     $inventory = Inventory::where('id', $validated['inventory_id'])->update(
                         [
                             'request_id' => null, // remove request_id
@@ -343,13 +342,15 @@ class InventoryController extends Controller
                             'status' => $goodStatus->id,
                         ]
                     );
-                    if ($this->checkIsFinished($validated['inventory_id'])) {
+
+                    if ($this->checkIsFinished($request_id)) {
                         $request = \App\Models\InventoryRequest::where('id', $request_id)->update(
                             [
                                 'status' => $validated['status'],
                             ]
                         );
                     }
+                    
                 } else {
                     $inventory = Inventory::where('id', $validated['inventory_id'])->update(
                         [
@@ -361,6 +362,7 @@ class InventoryController extends Controller
             } else if ($inventory->issue_id) {
                 if ($validated['status'] == $finalStatus->id) {
                     $issue_id = \App\Models\InventoryIssue::where('id', $inventory->issue_id)->first()->id;
+                    
                     $inventory = Inventory::where('id', $validated['inventory_id'])->update(
                         [
                             'issue_id' => null, // remove issue_id
@@ -368,14 +370,14 @@ class InventoryController extends Controller
                             'status' => $goodStatus->id,
                         ]
                     );
-
-                    if ($this->checkIsFinished($validated['inventory_id'])) {
+                    if ($this->checkIsFinished($issue_id)) {
                         $issue = \App\Models\InventoryIssue::where('id', $issue_id)->update(
                             [
                                 'status' => $validated['status'],
                             ]
                         );
                     }
+                    
                 } else {
                     $inventory = Inventory::where('id', $validated['inventory_id'])->update(
                         [
